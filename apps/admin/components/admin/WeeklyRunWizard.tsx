@@ -23,6 +23,7 @@ import OverridesCsvDropzone, {
   type OverridesUpload,
 } from "@/components/admin/OverridesCsvDropzone";
 import ProjectionsGrid from "@/components/admin/ProjectionsGrid";
+import { BrandLogo } from "@/components/ui/brand-logo";
 import { DEFAULT_SEASON, SEASONS, seasonLabel } from "@/lib/seasons";
 import type {
   CsvRowError,
@@ -281,7 +282,10 @@ export default function WeeklyRunWizard({
       {/* ---------------------------------------------------- header/stepper */}
       <header className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold tracking-tight">Weekly projection run</h1>
+          <div className="flex items-center gap-2">
+            <BrandLogo size="md" className="text-[#FF5F1F]" />
+            <h1 className="text-xl font-semibold tracking-tight">Weekly projection run</h1>
+          </div>
           <p className="text-sm text-muted-foreground">
             Season {seasonLabel(season)} · upload → review → run → publish
           </p>

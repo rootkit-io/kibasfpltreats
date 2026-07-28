@@ -12,9 +12,10 @@
 
 import { auth } from "@clerk/nextjs/server";
 import { UserButton } from "@clerk/nextjs";
-import { CalendarRange, Clock3, Cpu, Sparkles } from "lucide-react";
+import { CalendarRange, Clock3, Cpu } from "lucide-react";
 
 import PublicProjectionsGrid from "@/components/dashboard/PublicProjectionsGrid";
+import { BrandLogo } from "@/components/ui/brand-logo";
 import { BACKEND_URL } from "@/lib/api/bff";
 import {
   parseLatestProjections,
@@ -76,7 +77,7 @@ export default async function DashboardPage() {
       <header className="flex items-start justify-between gap-4 pt-4">
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-muted-foreground" aria-hidden />
+            <BrandLogo size="md" className="text-[#FF5F1F]" />
             <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
               Kiba&apos;s FPL Treats — Projections Dashboard
             </h1>

@@ -12,7 +12,18 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        variables: {
+          colorPrimary: '#FF5F1F',
+          colorBackground: '#0A0E15',
+          colorText: '#F2F5F7',
+          colorInputBackground: '#05070B',
+          colorInputText: '#F2F5F7',
+          borderRadius: '0.5rem',
+        },
+      }}
+    >
       <html lang="en">
         <body className="min-h-screen bg-background text-foreground antialiased">
           {children}
