@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kiba's FPL Treats — See the game before it's played</title>
+<meta name="description" content="Fantasy Premier League analytics reimagined. Projected xGI, 6-gameweek xPts forecasts, Monte-Carlo points ranges and a fixture difficulty ticker — one immersive workspace for the weekly FPL read.">
+<meta property="og:title" content="Kiba's FPL Treats — FPL Analytics, Reimagined">
+<meta property="og:description" content="xGI Radar · xPts Projections · Points Range Forecast · Fixture Ticker">
+<meta name="theme-color" content="#05070B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ══════════ PRELOADER ══════════ -->
+<div class="preloader" id="preloader" aria-hidden="true">
+  <div class="preloader__inner">
+    <div class="preloader__logo">
+      <span class="preloader__k">K</span><span class="preloader__f">F</span><span class="preloader__t">T</span>
+    </div>
+    <div class="preloader__bar"><span class="preloader__fill" id="preFill"></span></div>
+    <div class="preloader__pct" id="prePct">0</div>
+    <div class="preloader__tag">loading the weekly read…</div>
+  </div>
+  <div class="preloader__curtain preloader__curtain--a"></div>
+  <div class="preloader__curtain preloader__curtain--b"></div>
+</div>
+
+<!-- ══════════ CURSOR ══════════ -->
+<div class="cursor" id="cursor" aria-hidden="true">
+  <div class="cursor__dot" id="cursorDot"></div>
+  <div class="cursor__ring" id="cursorRing"><span class="cursor__label" id="cursorLabel"></span></div>
+</div>
+
+<!-- ══════════ SCROLL PROGRESS ══════════ -->
+<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+<!-- ══════════ NAV ══════════ -->
+<header class="nav" id="nav">
+  <a class="nav__brand" href="#hero" data-scroll data-magnetic>
+    <span class="nav__mark">K<em>FT</em></span>
+    <span class="nav__name">Kiba's FPL Treats</span>
+  </a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="#toolkit"     data-scroll class="nav__link"><span>Toolkit</span></a>
+    <a href="#radar"       data-scroll class="nav__link"><span>xGI Radar</span></a>
+    <a href="#projections" data-scroll class="nav__link"><span>xPts</span></a>
+    <a href="#range"       data-scroll class="nav__link"><span>Range</span></a>
+    <a href="#ticker"      data-scroll class="nav__link"><span>Ticker</span></a>
+    <a href="#newsletter"  data-scroll class="nav__cta" data-magnetic><span>Newsletter</span><i>→</i></a>
+  </nav>
+  <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span>
+  </button>
+</header>
+
+<!-- ══════════ MOBILE MENU ══════════ -->
+<div class="menu" id="menu" aria-hidden="true">
+  <nav class="menu__links">
+    <a href="#toolkit"     data-scroll>Toolkit</a>
+    <a href="#radar"       data-scroll>xGI Radar</a>
+    <a href="#projections" data-scroll>xPts Projections</a>
+    <a href="#range"       data-scroll>Points Range</a>
+    <a href="#ticker"      data-scroll>Fixture Ticker</a>
+    <a href="#newsletter"  data-scroll>Newsletter</a>
+  </nav>
+  <div class="menu__foot">
+    <a href="https://instagram.com/kibasfpltreats" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://substack.com/@kibasfpltreats" target="_blank" rel="noopener">Substack</a>
+  </div>
+</div>
+
+<div id="smooth-wrapper">
+<div id="smooth-content">
+<main>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero" id="hero">
+  <div class="hero__canvas" id="heroCanvas" aria-hidden="true"></div>
+  <div class="hero__grid" aria-hidden="true"></div>
+  <div class="hero__inner">
+    <p class="hero__eyebrow" data-reveal><span class="dot-live"></span> FPL analytics · updated every gameweek</p>
+    <h1 class="hero__title" aria-label="See the game before it's played.">
+      <span class="hero__line" data-split>SEE THE GAME</span>
+      <span class="hero__line hero__line--outline" data-split>BEFORE IT'S</span>
+      <span class="hero__line"><em class="hero__accent" data-split>PLAYED.</em></span>
+    </h1>
+    <p class="hero__sub" data-reveal>Kiba's FPL Treats turns raw weekly data into projected <b>xGI</b>, six-gameweek <b>xPts</b> forecasts, Monte-Carlo <b>points ranges</b> and a color-coded <b>fixture ticker</b> — so your transfer, captaincy and bench calls take minutes, not hours.</p>
+    <div class="hero__ctas" data-reveal>
+      <a href="#toolkit" data-scroll class="btn btn--fill" data-magnetic data-cursor="explore"><span>Explore the toolkit</span><i class="btn__orb"></i></a>
+      <a href="#newsletter" data-scroll class="btn btn--ghost" data-magnetic><span>Get the newsletter</span></a>
+    </div>
+    <ul class="hero__chips" data-reveal>
+      <li><b data-count="600">0</b><span>+ players modelled</span></li>
+      <li><b data-count="10000">0</b><span> MC simulations / player</span></li>
+      <li><b data-count="6">0</b><span>-GW forecast horizon</span></li>
+    </ul>
+  </div>
+  <a class="hero__scrollcue" href="#toolkit" data-scroll aria-label="Scroll to toolkit">
+    <span class="hero__mouse"><span></span></span>
+    <span class="hero__cue-txt">scroll</span>
+  </a>
+</section>
+
+<!-- ══════════ MARQUEE ══════════ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track" id="marqueeTrack">
+    <div class="marquee__set">
+      <span>xGI Radar</span><i>✦</i><span>xPts Projections</span><i>✦</i><span>Haul %</span><i>✦</i><span>Fixture Difficulty</span><i>✦</i><span>Captaincy</span><i>✦</i><span>Differentials</span><i>✦</i><span>Floor · Median · Ceiling</span><i>✦</i><span>Monte-Carlo</span><i>✦</i>
+    </div>
+    <div class="marquee__set">
+      <span>xGI Radar</span><i>✦</i><span>xPts Projections</span><i>✦</i><span>Haul %</span><i>✦</i><span>Fixture Difficulty</span><i>✦</i><span>Captaincy</span><i>✦</i><span>Differentials</span><i>✦</i><span>Floor · Median · Ceiling</span><i>✦</i><span>Monte-Carlo</span><i>✦</i>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ TOOLKIT — PINNED HORIZONTAL ══════════ -->
+<section class="toolkit" id="toolkit">
+  <div class="toolkit__pin" id="toolkitPin">
+    <header class="toolkit__head">
+      <p class="kicker" data-reveal>01 — The toolkit</p>
+      <h2 class="h2" data-split>One workspace for the <em>weekly read</em></h2>
+      <p class="lead" data-reveal>Four instruments. Zero tab-hopping. Drag through the deck →</p>
+    </header>
+    <div class="toolkit__track" id="toolkitTrack">
+      <article class="tool-card" data-tilt data-cursor="open" data-goto="#radar">
+        <span class="tool-card__num">01</span>
+        <div class="tool-card__icon icon-radar"><span></span><span></span><span></span></div>
+        <h3>xGI Radar</h3>
+        <p>Every player ranked by projected goal involvement. Stack xG on xA, filter by role, club and price — spot who's genuinely in the goals.</p>
+        <span class="tool-card__go">Open the radar <i>→</i></span>
+        <div class="tool-card__glow"></div>
+      </article>
+      <article class="tool-card" data-tilt data-cursor="open" data-goto="#projections">
+        <span class="tool-card__num">02</span>
+        <div class="tool-card__icon icon-table"><span></span><span></span><span></span><span></span></div>
+        <h3>xPts Projections</h3>
+        <p>A six-gameweek expected-points grid. Sort any column, read the run, and find the players whose minutes and fixtures line up.</p>
+        <span class="tool-card__go">See projections <i>→</i></span>
+        <div class="tool-card__glow"></div>
+      </article>
+      <article class="tool-card" data-tilt data-cursor="open" data-goto="#range">
+        <span class="tool-card__num">03</span>
+        <div class="tool-card__icon icon-range"><span></span><span></span><span></span><span></span><span></span></div>
+        <h3>Points Range</h3>
+        <p>10,000 Monte-Carlo sims per player, bucketed into haul and blank probabilities. Volatility made visible before you commit.</p>
+        <span class="tool-card__go">Read the range <i>→</i></span>
+        <div class="tool-card__glow"></div>
+      </article>
+      <article class="tool-card" data-tilt data-cursor="open" data-goto="#ticker">
+        <span class="tool-card__num">04</span>
+        <div class="tool-card__icon icon-ticker"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <h3>Fixture Ticker</h3>
+        <p>All twenty clubs, six weeks ahead, colour-coded by difficulty. Fixture swings, traps and runs at a single glance.</p>
+        <span class="tool-card__go">Scan fixtures <i>→</i></span>
+        <div class="tool-card__glow"></div>
+      </article>
+      <article class="tool-card tool-card--end" data-cursor="go" data-goto="#newsletter">
+        <h3 class="tool-card__endtitle">All of it,<br>every week,<br><em>in your inbox.</em></h3>
+        <span class="tool-card__go">Subscribe free <i>→</i></span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ xGI RADAR ══════════ -->
+<section class="panel" id="radar">
+  <header class="panel__head">
+    <p class="kicker" data-reveal>02 — Goal Involvement Radar</p>
+    <h2 class="h2" data-split>Who's actually <em>in the goals?</em></h2>
+    <p class="lead" data-reveal>Projected xG + xA for the selected gameweek. Hover a bar for the split; use the deck to slice the pool.</p>
+  </header>
+  <div class="glass radar" data-reveal>
+    <div class="radar__controls">
+      <div class="gw-pager" role="group" aria-label="Gameweek">
+        <button class="gw-pager__btn" id="gwPrev" aria-label="Previous gameweek">←</button>
+        <span class="gw-pager__label" id="gwLabel">GW 22</span>
+        <button class="gw-pager__btn" id="gwNext" aria-label="Next gameweek">→</button>
+      </div>
+      <div class="chipset" id="radarMetric" role="group" aria-label="Sort metric">
+        <button class="chip is-active" data-metric="xgi">xGI</button>
+        <button class="chip" data-metric="xg">xG</button>
+        <button class="chip" data-metric="xa">xA</button>
+      </div>
+      <div class="chipset" id="radarPos" role="group" aria-label="Position filter">
+        <button class="chip is-active" data-pos="ALL">All</button>
+        <button class="chip" data-pos="DEF">DEF</button>
+        <button class="chip" data-pos="MID">MID</button>
+        <button class="chip" data-pos="FWD">FWD</button>
+      </div>
+    </div>
+    <div class="radar__legend">
+      <span><i class="swatch swatch--xg"></i> xG — goal probability</span>
+      <span><i class="swatch swatch--xa"></i> xA — assist probability</span>
+    </div>
+    <div class="radar__chart" id="radarChart" role="img" aria-label="Bar chart of projected goal involvement"></div>
+    <div class="tooltip" id="radarTip" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- ══════════ xPTS PROJECTIONS ══════════ -->
+<section class="panel" id="projections">
+  <header class="panel__head">
+    <p class="kicker" data-reveal>03 — xPts Projections</p>
+    <h2 class="h2" data-split>Six weeks, <em>one grid.</em></h2>
+    <p class="lead" data-reveal>Expected points across the run ahead. Click any header to re-sort — the grid answers instantly.</p>
+  </header>
+  <div class="glass xtable-wrap" data-reveal>
+    <div class="xtable-scroll">
+      <table class="xtable" id="xtable">
+        <thead id="xtableHead"></thead>
+        <tbody id="xtableBody"></tbody>
+      </table>
+    </div>
+    <p class="xtable__hint">↕ sortable columns · <span class="hi-cell-demo"></span> = best week of the run</p>
+  </div>
+</section>
+
+<!-- ══════════ POINTS RANGE ══════════ -->
+<section class="panel" id="range">
+  <header class="panel__head">
+    <p class="kicker" data-reveal>04 — Points Range Forecast</p>
+    <h2 class="h2" data-split>Volatility, <em>visualised.</em></h2>
+    <p class="lead" data-reveal>10,000 simulated gameweeks per player, bucketed into brackets. Pick a player, read the shape.</p>
+  </header>
+  <div class="glass range-tool" data-reveal>
+    <div class="chipset chipset--wrap" id="rangePicker" role="group" aria-label="Choose player"></div>
+    <div class="range-tool__grid">
+      <div class="range-tool__chart">
+        <div class="range-bars" id="rangeBars"></div>
+        <div class="range-markers" id="rangeMarkers">
+          <span class="rmark rmark--floor"><b id="mFloor">–</b><i>floor</i></span>
+          <span class="rmark rmark--med"><b id="mMed">–</b><i>median</i></span>
+          <span class="rmark rmark--ceil"><b id="mCeil">–</b><i>ceiling</i></span>
+        </div>
+      </div>
+      <div class="range-tool__side">
+        <div class="dial" data-dial="haul">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="dial__track" cx="60" cy="60" r="52"/>
+            <circle class="dial__fill dial__fill--haul" id="dialHaul" cx="60" cy="60" r="52"/>
+          </svg>
+          <div class="dial__txt"><b id="haulPct">0<i>%</i></b><span>haul odds<br>(10+ pts)</span></div>
+        </div>
+        <div class="dial" data-dial="blank">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="dial__track" cx="60" cy="60" r="52"/>
+            <circle class="dial__fill dial__fill--blank" id="dialBlank" cx="60" cy="60" r="52"/>
+          </svg>
+          <div class="dial__txt"><b id="blankPct">0<i>%</i></b><span>blank odds<br>(≤2 pts)</span></div>
+        </div>
+        <div class="range-mean"><span>mean xPts</span><b id="meanPts">0.0</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FIXTURE TICKER ══════════ -->
+<section class="panel" id="ticker">
+  <header class="panel__head">
+    <p class="kicker" data-reveal>05 — Fixture Difficulty Ticker</p>
+    <h2 class="h2" data-split>Find the <em>fixture swings.</em></h2>
+    <p class="lead" data-reveal>Twenty clubs, six gameweeks, colour-coded. Sort by the easiest run or scan alphabetically — click a row to spotlight a club.</p>
+  </header>
+  <div class="glass ticker-tool" data-reveal>
+    <div class="ticker-tool__controls">
+      <div class="chipset" id="tickerSort" role="group" aria-label="Sort teams">
+        <button class="chip is-active" data-tsort="az">A–Z</button>
+        <button class="chip" data-tsort="easy">Easiest run</button>
+        <button class="chip" data-tsort="hard">Hardest run</button>
+      </div>
+      <div class="fdr-legend" aria-hidden="true">
+        <span class="fdr fdr--1">1</span><span class="fdr fdr--2">2</span><span class="fdr fdr--3">3</span><span class="fdr fdr--4">4</span><span class="fdr fdr--5">5</span>
+        <em>easy → hard</em>
+      </div>
+    </div>
+    <div class="ticker-grid" id="tickerGrid"></div>
+  </div>
+</section>
+
+<!-- ══════════ STATS BAND ══════════ -->
+<section class="band">
+  <div class="band__item" data-reveal><b><span data-count="38">0</span></b><span>gameweeks tracked<br>per season</span></div>
+  <div class="band__item" data-reveal><b><span data-count="20">0</span></b><span>clubs on the<br>ticker board</span></div>
+  <div class="band__item" data-reveal><b><span data-count="5">0</span></b><span>probability brackets<br>per forecast</span></div>
+  <div class="band__item" data-reveal><b><span data-count="100">0</span>%</b><span>free, every<br>single week</span></div>
+</section>
+
+<!-- ══════════ ALSO ON KFT ══════════ -->
+<section class="panel panel--more" id="more">
+  <header class="panel__head">
+    <p class="kicker" data-reveal>06 — Also on KFT</p>
+    <h2 class="h2" data-split>Beyond the <em>homepage.</em></h2>
+  </header>
+  <div class="more-grid">
+    <a class="more-card" href="live.html" data-tilt data-cursor="visit" data-reveal>
+      <span class="dot-live"></span><h3>KFT Live</h3>
+      <p>Live rank, bonus and price-change pulse while the gameweek plays out.</p>
+      <span class="more-card__go">kft / live →</span>
+    </a>
+    <a class="more-card" href="profile.html" data-tilt data-cursor="visit" data-reveal>
+      <h3>KFT Profile</h3>
+      <p>Deep-dive any manager ID — history, chips, hits and season arcs.</p>
+      <span class="more-card__go">kft / profile →</span>
+    </a>
+    <a class="more-card" href="planner.html" data-tilt data-cursor="visit" data-reveal>
+      <h3>KFT Planner</h3>
+      <p>Draft transfers over the horizon and stress-test them against the model.</p>
+      <span class="more-card__go">kft / planner →</span>
+    </a>
+  </div>
+</section>
+
+<!-- ══════════ NEWSLETTER ══════════ -->
+<section class="news" id="newsletter">
+  <div class="news__blob" aria-hidden="true"></div>
+  <p class="kicker kicker--center" data-reveal>07 — The weekly treat</p>
+  <h2 class="news__title" data-split>Your gameweek,<br><em>pre-digested.</em></h2>
+  <p class="lead lead--center" data-reveal>xG + xA rankings, fixture notes and transfer targets — one email before every deadline. No spam, ever.</p>
+  <form class="news__form" id="newsForm" data-reveal novalidate>
+    <div class="news__field">
+      <input type="email" id="newsEmail" placeholder="you@fpl.club" aria-label="Email address" required>
+      <button type="submit" class="btn btn--fill" data-magnetic data-cursor="send"><span>Subscribe</span><i class="btn__orb"></i></button>
+    </div>
+    <p class="news__ok" id="newsOk" aria-live="polite"></p>
+  </form>
+  <p class="news__alt" data-reveal>Prefer reading in the app? <a href="https://substack.com/@kibasfpltreats" target="_blank" rel="noopener">Find KFT on Substack ↗</a></p>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="footer">
+  <div class="footer__giant" aria-hidden="true"><span>K</span><span>F</span><span>T</span></div>
+  <div class="footer__cols">
+    <div class="footer__col">
+      <h4>Kiba's FPL Treats</h4>
+      <p>Readable FPL analytics for faster transfer, captaincy and bench decisions. Built by one nerd, for every manager.</p>
+    </div>
+    <div class="footer__col">
+      <h4>Tools</h4>
+      <a href="#radar" data-scroll>xGI Radar</a>
+      <a href="#projections" data-scroll>xPts Projections</a>
+      <a href="#range" data-scroll>Points Range</a>
+      <a href="#ticker" data-scroll>Fixture Ticker</a>
+    </div>
+    <div class="footer__col">
+      <h4>Connect</h4>
+      <a href="https://instagram.com/kibasfpltreats" target="_blank" rel="noopener">Instagram ↗</a>
+      <a href="https://substack.com/@kibasfpltreats" target="_blank" rel="noopener">Substack ↗</a>
+      <a href="mailto:gautamdivyansh.work@gmail.com">Email ↗</a>
+    </div>
+    <div class="footer__col">
+      <h4>Legal</h4>
+      <a href="#">Methodology</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">Disclaimer</a>
+    </div>
+  </div>
+  <div class="footer__base">
+    <span>© <span id="year"></span> Kiba's FPL Treats. All rights reserved.</span>
+    <button class="footer__top" id="toTop" data-magnetic data-cursor="up">Back to top ↑</button>
+  </div>
+</footer>
+
+</main>
+</div><!-- /smooth-content -->
+</div><!-- /smooth-wrapper -->
+
+<div class="grain" aria-hidden="true"></div>
+
+<noscript><style>.preloader{display:none}[data-reveal],[data-split],.hero__line{opacity:1!important;transform:none!important}</style></noscript>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollSmoother.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollToPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

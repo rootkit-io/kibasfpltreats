@@ -1,0 +1,12 @@
+{
+  "source": "https://understat.com",
+  "league": "EPL",
+  "seasons_requested": [
+    2025
+  ],
+  "league_files": 1,
+  "player_season_rows": 530,
+  "match_files": 0,
+  "player_match_rows": 0,
+  "errors": []
+}

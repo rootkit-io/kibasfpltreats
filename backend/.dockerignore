@@ -1,0 +1,17 @@
+.venv
+__pycache__
+**/__pycache__
+*.pyc
+.pytest_cache
+.serena
+.claude
+.git
+outputs/
+audit/
+docs/
+*.zip
+*.ipynb
+Modelyansh-Explainer.txt
+Modelyansh2.0/
+Dockerfile
+.dockerignore

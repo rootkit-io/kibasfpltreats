@@ -1,0 +1,1677 @@
+GW,player_id,player_key,player,team,Pos,start,mins,api_start,api_mins,appearances,total_minutes,chance_of_playing
+37,11,benjamin white|arsenal,Benjamin White,Arsenal,DEF,0,0,0.375,28,12,699,0
+37,13,brayden clarke|arsenal,Brayden Clarke,Arsenal,DEF,0,0,0,0,0,0,
+37,662,cristhian mosquera|arsenal,Cristhian Mosquera,Arsenal,DEF,0.8,75,0.389,40.7,18,806,100
+37,5,gabriel dos santos magalh es|arsenal,Gabriel dos Santos Magalhães,Arsenal,DEF,1,90,0.967,86.7,30,2615,100
+37,9,jakub kiwior|arsenal,Jakub Kiwior,Arsenal,DEF,0,0,0,0,,0,0
+37,15,josh nichols|arsenal,Josh Nichols,Arsenal,DEF,0,0,0,0,0,0,
+37,8,jurri n timber|arsenal,Jurriën Timber,Arsenal,DEF,0,0,0,0,30,2452,0
+37,14,maldini kacurri|arsenal,Maldini Kacurri,Arsenal,DEF,0,0,0,0,0,0,0
+37,759,marli salmon|arsenal,Marli Salmon,Arsenal,DEF,0,0,0,0,,0,
+37,10,myles lewis skelly|arsenal,Myles Lewis-Skelly,Arsenal,DEF,0.8,75,0.222,29,18,590,100
+37,725,piero hincapi|arsenal,Piero Hincapié,Arsenal,DEF,0.2,15,0.826,71.1,23,1679,75
+37,7,riccardo calafiori|arsenal,Riccardo Calafiori,Arsenal,DEF,0.8,75,0.625,48.2,24,1581,100
+37,6,william saliba|arsenal,William Saliba,Arsenal,DEF,0.98,88,0.967,83.7,30,2524,100
+37,31,gabriel fernando de jesus|arsenal,Gabriel Fernando de Jesus,Arsenal,FWD,0,10,0.154,23.1,13,344,20
+37,30,kai havertz|arsenal,Kai Havertz,Arsenal,FWD,0.2,15,0.6,43.2,10,460,100
+37,666,viktor gy keres|arsenal,Viktor Gyökeres,Arsenal,FWD,0.8,75,0.765,62.2,34,2193,100
+37,1,david raya mart n|arsenal,David Raya Martín,Arsenal,GK,1,90,1,90,36,3240,100
+37,3,karl hein|arsenal,Karl Hein,Arsenal,GK,0,0,0,0,0,0,0
+37,2,kepa arrizabalaga revuelta|arsenal,Kepa Arrizabalaga Revuelta,Arsenal,GK,0,0,0,0,0,0,
+37,4,tommy setford|arsenal,Tommy Setford,Arsenal,GK,0,0,0,0,0,0,
+37,29,albert sambi lokonga|arsenal,Albert Sambi Lokonga,Arsenal,MID,0,0,0,0,,0,0
+37,711,andre harriman annous|arsenal,Andre Harriman-Annous,Arsenal,MID,0,0,0,0,,0,
+37,16,bukayo saka|arsenal,Bukayo Saka,Arsenal,MID,0.98,75,0.8,68.8,30,2128,100
+37,24,christian n rgaard|arsenal,Christian Nørgaard,Arsenal,MID,0,7.9,0,7.9,6,56,5
+37,21,declan rice|arsenal,Declan Rice,Arsenal,MID,1,88,0.971,85.4,35,3003,100
+37,266,eberechi eze|arsenal,Eberechi Eze,Arsenal,MID,0.65,65,0.677,55.2,31,1798,100
+37,25,ethan nwaneri|arsenal,Ethan Nwaneri,Arsenal,MID,0,0,0,0,6,165,0
+37,23,f bio ferreira vieira|arsenal,Fábio Ferreira Vieira,Arsenal,MID,0,0,0,0,,0,0
+37,19,gabriel martinelli silva|arsenal,Gabriel Martinelli Silva,Arsenal,MID,0.35,30,0.357,31.4,28,974,75
+37,28,ismeal kabia|arsenal,Ismeal Kabia,Arsenal,MID,0,0,0,0,0,0,0
+37,20,leandro trossard|arsenal,Leandro Trossard,Arsenal,MID,0.65,60.4,0.667,60.4,30,1907,100
+37,17,martin degaard|arsenal,Martin Ødegaard,Arsenal,MID,0.35,25,0.652,52.5,23,1273,100
+37,26,mart n zubimendi ib ez|arsenal,Martín Zubimendi Ibáñez,Arsenal,MID,0.2,15,0.917,79.5,36,2900,100
+37,700,max dowman|arsenal,Max Dowman,Arsenal,MID,0,15.5,0,15.5,5,91,15
+37,22,mikel merino zaz n|arsenal,Mikel Merino Zazón,Arsenal,MID,0,0,0,0,21,996,0
+37,18,noni madueke|arsenal,Noni Madueke,Arsenal,MID,0.02,15,0.6,42.2,25,1122,75
+37,42,andr s garc a|aston villa,Andrés García,Aston Villa,DEF,0,6.5,0,6.5,5,38,10
+37,38,ezri konsa ngoyo|aston villa,Ezri Konsa Ngoyo,Aston Villa,DEF,1,89.2,1,89.2,33,2945,100
+37,39,ian maatsen|aston villa,Ian Maatsen,Aston Villa,DEF,0.5,60,0.571,50,28,1495,100
+37,44,lamare bogarde|aston villa,Lamare Bogarde,Aston Villa,DEF,0.5,32.5,0.37,32.5,27,970,100
+37,768,leon routh|aston villa,Leon Routh,Aston Villa,DEF,0,0,0,0,,0,
+37,45,lino da cruz sousa|aston villa,Lino da Cruz Sousa,Aston Villa,DEF,0,0,0,0,0,0,0
+37,37,lucas digne|aston villa,Lucas Digne,Aston Villa,DEF,0.5,30,0.667,55.5,30,1752,100
+37,36,matty cash|aston villa,Matty Cash,Aston Villa,DEF,0.98,85,1,87.3,33,2881,100
+37,41,pau torres|aston villa,Pau Torres,Aston Villa,DEF,0.8,85,0.895,81.1,19,1566,100
+37,781,tj carroll|aston villa,TJ Carroll,Aston Villa,DEF,0,0,0,0,,0,
+37,710,travis patterson|aston villa,Travis Patterson,Aston Villa,DEF,0,0,0,0,0,0,
+37,701,triston rowe|aston villa,Triston Rowe,Aston Villa,DEF,0,0,0,0,0,0,0
+37,40,tyrone mings|aston villa,Tyrone Mings,Aston Villa,DEF,0.875,75.6,0.875,75.6,16,1232,100
+37,719,victor lindel f|aston villa,Victor Lindelöf,Aston Villa,DEF,0.2,15,0.6,51.7,15,825,100
+37,46,yasin zcan|aston villa,Yasin Özcan,Aston Villa,DEF,0,0,0,0,0,0,0
+37,43,lex moreno lopera|aston villa,Álex Moreno Lopera,Aston Villa,DEF,0,0,0,0,0,0,0
+37,64,ollie watkins|aston villa,Ollie Watkins,Aston Villa,FWD,0.8,75,0.886,74.5,35,2653,100
+37,808,tammy abraham|aston villa,Tammy Abraham,Aston Villa,FWD,0.2,15,0.167,20.3,12,278,100
+37,65,z piqueno redmond|aston villa,Zépiqueno Redmond,Aston Villa,FWD,0,0,0,0,0,0,0
+37,32,emiliano mart nez romero|aston villa,Emiliano Martínez Romero,Aston Villa,GK,1,88.5,1,88.5,31,2745,100
+37,35,filip marschall|aston villa,Filip Marschall,Aston Villa,GK,0,0,0,0,,0,0
+37,688,james wright|aston villa,James Wright,Aston Villa,GK,0,0,0,0,0,0,
+37,34,joe gauci|aston villa,Joe Gauci,Aston Villa,GK,0,0,0,0,0,0,0
+37,33,marco bizot|aston villa,Marco Bizot,Aston Villa,GK,0,0,0.833,80.4,6,495,0
+37,757,ronnie hollingshead|aston villa,Ronnie Hollingshead,Aston Villa,GK,0,0,0,0,,0,
+37,703,sam proctor|aston villa,Sam Proctor,Aston Villa,GK,0,0,0,0,0,0,
+37,792,alysson edward franco da rocha dos santos|aston villa,Alysson Edward Franco da Rocha dos Santos,Aston Villa,MID,0,13.3,0,13.3,3,47,5
+37,59,amadou onana|aston villa,Amadou Onana,Aston Villa,MID,0.219,17.8,0.219,17.8,24,1738,25
+37,60,ben broggio|aston villa,Ben Broggio,Aston Villa,MID,0,0,0,0,0,0,0
+37,58,boubacar kamara|aston villa,Boubacar Kamara,Aston Villa,MID,0,0,0,0,18,1410,0
+37,702,bradley burrowes|aston villa,Bradley Burrowes,Aston Villa,MID,0,13.6,0,13.6,1,16,0
+37,53,donyell malen|aston villa,Donyell Malen,Aston Villa,MID,0,0,0,0,21,640,0
+37,699,douglas luiz soares de paulo|aston villa,Douglas Luiz Soares de Paulo,Aston Villa,MID,0.3,25,0.579,41.4,19,840,100
+37,50,emiliano buend a stati|aston villa,Emiliano Buendía Stati,Aston Villa,MID,0.6,60,0.559,43.4,34,1579,100
+37,56,enzo barrenechea|aston villa,Enzo Barrenechea,Aston Villa,MID,0,0,0,0,,0,0
+37,754,george hemmings|aston villa,George Hemmings,Aston Villa,MID,0,10.6,0,10.6,2,25,
+37,389,harvey elliott|aston villa,Harvey Elliott,Aston Villa,MID,0,0,0,0,5,110,0
+37,456,jadon sancho|aston villa,Jadon Sancho,Aston Villa,MID,0.409,35.7,0.409,35.7,22,862,100
+37,62,jamaldeen jimoh aloba|aston villa,Jamaldeen Jimoh-Aloba,Aston Villa,MID,0,0,0,0,1,8,0
+37,54,john mcginn|aston villa,John McGinn,Aston Villa,MID,0.964,72.6,0.964,72.6,28,2043,100
+37,63,kadan young|aston villa,Kadan Young,Aston Villa,MID,0,0,0,0,0,0,0
+37,61,leander dendoncker|aston villa,Leander Dendoncker,Aston Villa,MID,0,0,0,0,0,0,0
+37,49,leon bailey|aston villa,Leon Bailey,Aston Villa,MID,0.167,15,0.167,26.2,12,360,100
+37,57,lewis dobbin|aston villa,Lewis Dobbin,Aston Villa,MID,0,0,0,0,,0,0
+37,47,morgan rogers|aston villa,Morgan Rogers,Aston Villa,MID,1,88,1,88.6,36,3190,100
+37,55,ross barkley|aston villa,Ross Barkley,Aston Villa,MID,0.15,15,0.316,33.7,19,714,50
+37,51,samuel iling junior|aston villa,Samuel Iling-Junior,Aston Villa,MID,0,0,0,0,,0,0
+37,48,youri tielemans|aston villa,Youri Tielemans,Aston Villa,MID,0.87,74.6,0.87,74.6,23,1751,100
+37,73,adam smith|bournemouth,Adam Smith,Bournemouth,DEF,0.6,42.1,0.6,42.1,20,895,100
+37,74,adrien truffert|bournemouth,Adrien Truffert,Bournemouth,DEF,1,88.8,1,88.8,36,3198,
+37,685,bafod diakit|bournemouth,Bafodé Diakité,Bournemouth,DEF,0,0,0.833,69.1,18,1275,0
+37,79,chris mepham|bournemouth,Chris Mepham,Bournemouth,DEF,0,0,0,0,0,0,0
+37,71,illia zabarnyi|bournemouth,Illia Zabarnyi,Bournemouth,DEF,0,0,0,0,,0,0
+37,77,james hill|bournemouth,James Hill,Bournemouth,DEF,0.98,88,0.741,68.4,27,1922,100
+37,80,julio soler barreto|bournemouth,Julio Soler Barreto,Bournemouth,DEF,0,9.6,0,9.6,3,34,100
+37,78,juli n araujo z iga|bournemouth,Julián Araujo Zúñiga,Bournemouth,DEF,0,0,0,0,0,0,0
+37,72,marcos senesi bar n|bournemouth,Marcos Senesi Barón,Bournemouth,DEF,1,90,1,88.8,35,3108,100
+37,75,matai akinmboni|bournemouth,Matai Akinmboni,Bournemouth,DEF,0,0,0,0,0,0,100
+37,76,owen bevan|bournemouth,Owen Bevan,Bournemouth,DEF,0,0,0,0,0,0,
+37,721,veljko milosavljevic|bournemouth,Veljko Milosavljevic,Bournemouth,DEF,0,0,0.571,49.1,7,367,0
+37,713,lex jim nez s nchez|bournemouth,Álex Jiménez Sánchez,Bournemouth,DEF,0,0,0,0,31,2315,0
+37,99,daniel adu adjei|bournemouth,Daniel Adu-Adjei,Bournemouth,FWD,0,0,0,0,0,0,0
+37,98,enes nal|bournemouth,Enes Ünal,Bournemouth,FWD,0,7.9,0,7.9,21,196,20
+37,97,francisco evanilson de lima barbosa|bournemouth,Francisco Evanilson de Lima Barbosa,Bournemouth,FWD,0.98,75,0.882,74.6,34,2581,100
+37,100,junior kroupi|bournemouth,Junior Kroupi,Bournemouth,FWD,0.98,65,0.613,46.1,31,1516,100
+37,70,alex paulsen|bournemouth,Alex Paulsen,Bournemouth,GK,0,0,0,0,0,0,0
+37,69,callan mckenna|bournemouth,Callan McKenna,Bournemouth,GK,0,0,0,0,0,0,
+37,806,christos mandas|bournemouth,Christos Mandas,Bournemouth,GK,0,0,0,0,,0,
+37,782,fraser forster|bournemouth,Fraser Forster,Bournemouth,GK,0,0,0,0,,0,
+37,66,norberto murara neto|bournemouth,Norberto Murara Neto,Bournemouth,GK,0,0,0,0,0,0,0
+37,68,will dennis|bournemouth,Will Dennis,Bournemouth,GK,0,0,0,0,0,0,0
+37,67,or e petrovi|bournemouth,Đorđe Petrović,Bournemouth,GK,1,90,1,90,36,3240,100
+37,90,alex scott|bournemouth,Alex Scott,Bournemouth,MID,0.9,88,0.917,75.7,36,2758,100
+37,801,alex t th|bournemouth,Alex Tóth,Bournemouth,MID,0,0,0.125,8.6,8,79,20
+37,697,amine adli|bournemouth,Amine Adli,Bournemouth,MID,0.15,10,0.333,31.7,30,1057,20
+37,391,ben gannon doak|bournemouth,Ben Gannon-Doak,Bournemouth,MID,0,8.7,0,8.7,7,72,0
+37,96,ben winterburn|bournemouth,Ben Winterburn,Bournemouth,MID,0,0,0,0,1,6,0
+37,799,charlie stevens|bournemouth,Charlie Stevens,Bournemouth,MID,0,0,0,0,,0,
+37,86,david brooks|bournemouth,David Brooks,Bournemouth,MID,0.35,25,0.433,36.1,30,1182,100
+37,94,dominic sadi|bournemouth,Dominic Sadi,Bournemouth,MID,0,0,0,0,,0,0
+37,93,hamed traor|bournemouth,Hamed Traorè,Bournemouth,MID,0,0,0,0,1,16,0
+37,81,justin kluivert|bournemouth,Justin Kluivert,Bournemouth,MID,0,0,0.556,47.4,18,914,0
+37,88,lewis cook|bournemouth,Lewis Cook,Bournemouth,MID,0.25,25.1,0.25,25.1,16,870,50
+37,91,luis sinisterra lucum|bournemouth,Luis Sinisterra Lucumí,Bournemouth,MID,0,0,0,0,,0,0
+37,756,malcom dacosta|bournemouth,Malcom DaCosta,Bournemouth,MID,0,0,0,0,,0,
+37,84,marcus tavernier|bournemouth,Marcus Tavernier,Bournemouth,MID,0.98,88,0.906,78.6,32,2552,100
+37,89,philip billing|bournemouth,Philip Billing,Bournemouth,MID,0,0,0,0,,0,0
+37,807,rayan vitor simpl cio rocha|bournemouth,Rayan Vitor Simplício Rocha,Bournemouth,MID,0.98,75,0.846,71.8,13,955,100
+37,687,remy rees dottin|bournemouth,Remy Rees-Dottin,Bournemouth,MID,0,0,0,0,0,0,
+37,92,romain faivre|bournemouth,Romain Faivre,Bournemouth,MID,0,0,0,0,0,0,0
+37,87,ryan christie|bournemouth,Ryan Christie,Bournemouth,MID,0.15,15,0,0,26,978,75
+37,85,tyler adams|bournemouth,Tyler Adams,Bournemouth,MID,0.826,75,0.826,67.3,23,1589,100
+37,95,zain silcott duberry|bournemouth,Zain Silcott-Duberry,Bournemouth,MID,0,0,0,0,0,0,0
+37,116,aaron hickey|brentford,Aaron Hickey,Brentford,DEF,0.4,30,0.4,29.5,20,649,100
+37,114,benjamin arthur|brentford,Benjamin Arthur,Brentford,DEF,0,0,0,0,0,0,0
+37,115,benjamin fredrick|brentford,Benjamin Fredrick,Brentford,DEF,0,0,0,0,0,0,0
+37,824,conor mcmanus|brentford,Conor McManus,Brentford,DEF,0,0,0,0,,0,
+37,111,ethan pinnock|brentford,Ethan Pinnock,Brentford,DEF,0.05,10,1,79.5,4,318,10
+37,118,jayden meghoma|brentford,Jayden Meghoma,Brentford,DEF,0,0,0,0,,0,0
+37,823,joshua stephenson|brentford,Joshua Stephenson,Brentford,DEF,0,0,0,0,,0,
+37,107,keane lewis potter|brentford,Keane Lewis-Potter,Brentford,DEF,0.2,15,0.588,49.2,34,1782,50
+37,117,kim ji soo|brentford,Kim Ji-soo,Brentford,DEF,0,0,0,0,0,0,0
+37,108,kristoffer ajer|brentford,Kristoffer Ajer,Brentford,DEF,0.65,65,0.731,63.6,26,1724,100
+37,112,mads roerslev rasmussen|brentford,Mads Roerslev Rasmussen,Brentford,DEF,0,0,0,0,,0,0
+37,110,michael kayode|brentford,Michael Kayode,Brentford,DEF,1,88,1,87.9,35,3078,100
+37,106,nathan collins|brentford,Nathan Collins,Brentford,DEF,0.9,85,0.909,83.4,33,2791,90
+37,819,ollie shield|brentford,Ollie Shield,Brentford,DEF,0,0,0,0,,0,
+37,109,rico henry|brentford,Rico Henry,Brentford,DEF,0,0,0,0,25,1322,0
+37,113,sepp van den berg|brentford,Sepp van den Berg,Brentford,DEF,0.98,88.3,0.967,88.3,30,2663,100
+37,136,igor thiago nascimento rodrigues|brentford,Igor Thiago Nascimento Rodrigues,Brentford,FWD,1,88,0.972,85.8,36,3102,100
+37,137,iwan morgan|brentford,Iwan Morgan,Brentford,FWD,0,0,0,0,0,0,0
+37,797,kaye furo|brentford,Kaye Furo,Brentford,FWD,0,0.8,0,0.8,1,1,100
+37,101,caoimh n kelleher|brentford,Caoimhín Kelleher,Brentford,GK,1,90,1,90,35,3150,100
+37,102,ellery balcombe|brentford,Ellery Balcombe,Brentford,GK,0,0,0,0,0,0,
+37,105,h kon rafn valdimarsson|brentford,Hákon Rafn Valdimarsson,Brentford,GK,0,90,1,90,1,90,0
+37,104,julian eyestone|brentford,Julian Eyestone,Brentford,GK,0,0,0,0,0,0,
+37,103,matthew cox|brentford,Matthew Cox,Brentford,GK,0,0,0,0,0,0,0
+37,122,antoni milambo|brentford,Antoni Milambo,Brentford,MID,0,0,0,0,1,45,0
+37,83,dango ouattara|brentford,Dango Ouattara,Brentford,MID,0.9,75,0.767,67.3,30,2091,100
+37,128,frank onyeka|brentford,Frank Onyeka,Brentford,MID,0,0,0,0,6,88,0
+37,123,f bio freitas gouveia carvalho|brentford,Fábio Freitas Gouveia Carvalho,Brentford,MID,0,0,0,0,6,100,0
+37,127,gustavo nunes fernandes gomes|brentford,Gustavo Nunes Fernandes Gomes,Brentford,MID,0,0,0,0,,0,0
+37,124,jordan henderson|brentford,Jordan Henderson,Brentford,MID,0.7,60,0.7,58.1,30,1825,90
+37,748,josh dasilva|brentford,Josh Dasilva,Brentford,MID,0,0.8,0,0.8,1,1,0
+37,120,kevin schade|brentford,Kevin Schade,Brentford,MID,0.98,82,0.939,78.9,33,2627,100
+37,810,luka bentt|brentford,Luka Bentt,Brentford,MID,0,0,0,0,,0,
+37,126,mathias jensen|brentford,Mathias Jensen,Brentford,MID,0.8,65,0.706,58.9,34,2095,
+37,121,mikkel damsgaard|brentford,Mikkel Damsgaard,Brentford,MID,0.75,65,0.742,60.4,31,1949,100
+37,133,myles peart harris|brentford,Myles Peart-Harris,Brentford,MID,0,0,0,0,1,1,0
+37,132,paris maghoma|brentford,Paris Maghoma,Brentford,MID,0,0,0,0,,0,0
+37,27,reiss nelson|brentford,Reiss Nelson,Brentford,MID,0,15,0,11,9,117,20
+37,826,riley owen|brentford,Riley Owen,Brentford,MID,0,0,0,0,,0,
+37,130,romelle donovan|brentford,Romelle Donovan,Brentford,MID,0,8.1,0,8.1,4,38,
+37,134,ryan trevitt|brentford,Ryan Trevitt,Brentford,MID,0,0,0,0,,0,0
+37,125,vitaly janelt|brentford,Vitaly Janelt,Brentford,MID,0.75,60,0.565,52.1,23,1282,100
+37,129,yehor yarmoliuk|brentford,Yehor Yarmoliuk,Brentford,MID,0.65,65,0.806,69.1,36,2564,100
+37,131,yunus emre konak|brentford,Yunus Emre Konak,Brentford,MID,0,0,0,0,0,0,0
+37,153,adam webster|brighton,Adam Webster,Brighton,DEF,0,0,0,0,,0,0
+37,156,charlie tasker|brighton,Charlie Tasker,Brighton,DEF,0,0,0,0,0,0,
+37,144,diego coppola|brighton,Diego Coppola,Brighton,DEF,0,0,0,0,5,193,0
+37,154,eiran cashin|brighton,Eiran Cashin,Brighton,DEF,0,0,0,0,,0,0
+37,148,ferdi kad o lu|brighton,Ferdi Kadıoğlu,Brighton,DEF,0.914,83.2,0.914,83.2,35,2950,100
+37,761,freddie simmonds|brighton,Freddie Simmonds,Brighton,DEF,0,0,0,0,,0,
+37,149,igor julio dos santos de paulo|brighton,Igor Julio dos Santos de Paulo,Brighton,DEF,0,0,0.25,22.9,4,103,0
+37,155,jacob slater|brighton,Jacob Slater,Brighton,DEF,0,0,0,0,0,0,0
+37,151,jan paul van hecke|brighton,Jan Paul van Hecke,Brighton,DEF,1,88,1,89.1,34,3030,100
+37,152,jo l veltman|brighton,Joël Veltman,Brighton,DEF,0.25,15,0.348,38.6,23,983,50
+37,146,lewis dunk|brighton,Lewis Dunk,Brighton,DEF,0.8,84.9,0.935,84.9,31,2657,90
+37,145,maxim de cuyper|brighton,Maxim De Cuyper,Brighton,DEF,0.8,75,0.536,42.2,28,1269,90
+37,143,olivier boscagli|brighton,Olivier Boscagli,Brighton,DEF,0.2,75,0.75,64.1,12,799,10
+37,147,pervis estupi n tenorio|brighton,Pervis Estupiñán Tenorio,Brighton,DEF,0,0,0,0,,0,0
+37,150,tariq lamptey|brighton,Tariq Lamptey,Brighton,DEF,0,0,0,0,0,0,0
+37,181,charalampos kostoulas|brighton,Charalampos Kostoulas,Brighton,FWD,0.105,14.2,0.105,14.2,19,312,10
+37,178,danny welbeck|brighton,Danny Welbeck,Brighton,FWD,0.8,65,0.686,57.9,35,2127,80
+37,179,evan ferguson|brighton,Evan Ferguson,Brighton,FWD,0,0,0,0,,0,0
+37,180,stefanos tzimas|brighton,Stefanos Tzimas,Brighton,FWD,0,0,0,0,9,132,0
+37,139,bart verbruggen|brighton,Bart Verbruggen,Brighton,GK,1,90,1,90,36,3240,100
+37,141,carl rushworth|brighton,Carl Rushworth,Brighton,GK,0,0,0,0,,0,0
+37,138,jason steele|brighton,Jason Steele,Brighton,GK,0,0,0,0,0,0,
+37,142,kjell scherpen|brighton,Kjell Scherpen,Brighton,GK,0,0,0,0,,0,0
+37,140,tom mcgill|brighton,Tom McGill,Brighton,GK,0,0,0,0,0,0,
+37,165,abdallah sima|brighton,Abdallah Sima,Brighton,MID,0,0,0,0,,0,0
+37,176,adrian mazilu|brighton,Adrian Mazilu,Brighton,MID,0,0,0,0,,0,0
+37,177,andrew moran|brighton,Andrew Moran,Brighton,MID,0,0,0,0,,0,0
+37,162,brajan gruda|brighton,Brajan Gruda,Brighton,MID,0,0,0,0,18,708,0
+37,167,carlos baleba|brighton,Carlos Baleba,Brighton,MID,0.759,60,0.759,51,29,1534,100
+37,169,diego g mez amarilla|brighton,Diego Gómez Amarilla,Brighton,MID,0.75,60,0.417,33.1,30,2034,75
+37,158,georginio rutter|brighton,Georginio Rutter,Brighton,MID,0.2,15,0.667,54.9,30,1735,50
+37,795,harry howell|brighton,Harry Howell,Brighton,MID,0,0,0.333,27.6,3,92,0
+37,163,jack hinshelwood|brighton,Jack Hinshelwood,Brighton,MID,0.9,80,0.72,60.6,25,1582,100
+37,170,james milner|brighton,James Milner,Brighton,MID,0.05,33.7,0.316,33.7,19,714,100
+37,171,jeremy sarmiento morante|brighton,Jeremy Sarmiento Morante,Brighton,MID,0,0,0,0,,0,0
+37,175,joe knight|brighton,Joe Knight,Brighton,MID,0,0,0,0,1,1,0
+37,161,julio enciso esp nola|brighton,Julio Enciso Espínola,Brighton,MID,0,0,0,0,,0,0
+37,174,malick yalcouy|brighton,Malick Yalcouyé,Brighton,MID,0,0,0,0,,0,0
+37,173,mats wieffer|brighton,Mats Wieffer,Brighton,MID,0.25,15,0.44,35.6,25,1811,20
+37,164,matt o riley|brighton,Matt O'Riley,Brighton,MID,0,0,0.333,30.3,6,202,0
+37,157,mitoma kaoru|brighton,Mitoma Kaoru,Brighton,MID,0.8,75,0.57,49.6,25,1714,80
+37,744,nehemiah oriola|brighton,Nehemiah Oriola,Brighton,MID,0,0.8,0,0.8,1,1,
+37,783,pascal gro|brighton,Pascal Groß,Brighton,MID,0.98,84.9,0.941,84.9,17,1456,100
+37,159,solly march|brighton,Solly March,Brighton,MID,0,2.6,0,2.6,2,6,0
+37,172,tom watson|brighton,Tom Watson,Brighton,MID,0,0,0,0,6,57,0
+37,160,yankuba minteh|brighton,Yankuba Minteh,Brighton,MID,0.75,60,0.781,68.1,32,2254,80
+37,166,yasin ayari|brighton,Yasin Ayari,Brighton,MID,0.1,15,0.714,65.4,28,1913,20
+37,198,axel tuanzebe|burnley,Axel Tuanzebe,Burnley,DEF,1,85.1,1,85.1,12,1021,100
+37,193,bashir humphreys|burnley,Bashir Humphreys,Burnley,DEF,0,10,0.889,80.6,18,1476,20
+37,186,connor roberts|burnley,Connor Roberts,Burnley,DEF,0,0,0,0,,0,0
+37,188,hannes delcroix|burnley,Hannes Delcroix,Burnley,DEF,0,0,0,0,0,0,0
+37,190,hjalmar ekdal|burnley,Hjalmar Ekdal,Burnley,DEF,0,15,0.895,79.7,19,1539,0
+37,199,joe worrall|burnley,Joe Worrall,Burnley,DEF,0.1,10,0.455,41.4,11,496,20
+37,194,jordan beyer|burnley,Jordan Beyer,Burnley,DEF,0,0,0,0,0,0,0
+37,187,kyle walker|burnley,Kyle Walker,Burnley,DEF,0.98,85.4,0.971,85.4,34,2915,100
+37,195,lucas pires silva|burnley,Lucas Pires Silva,Burnley,DEF,0.722,65.2,0.722,65.2,18,1225,100
+37,191,maxime est ve|burnley,Maxime Estève,Burnley,DEF,1,86.4,1,86.4,33,2852,100
+37,197,oliver sonne|burnley,Oliver Sonne,Burnley,DEF,0,0,0,0,7,164,0
+37,189,owen dodgson|burnley,Owen Dodgson,Burnley,DEF,0,0,0,0,,0,0
+37,192,quilindschy hartman|burnley,Quilindschy Hartman,Burnley,DEF,1,86.9,1,86.9,21,1825,
+37,196,shurandy sambo|burnley,Shurandy Sambo,Burnley,DEF,0,0,0,0,,0,0
+37,680,armando broja|burnley,Armando Broja,Burnley,FWD,0.1,15,0.333,31.6,24,843,100
+37,218,ashley barnes|burnley,Ashley Barnes,Burnley,FWD,0,5,0,5,6,35,10
+37,217,lyle foster|burnley,Lyle Foster,Burnley,FWD,0.2,20,0.577,49,26,1361,50
+37,219,michael obafemi|burnley,Michael Obafemi,Burnley,FWD,0,0,0,0,0,0,0
+37,216,zeki amdouni|burnley,Zeki Amdouni,Burnley,FWD,0,0,0,10.6,2,25,0
+37,215,zian flemming|burnley,Zian Flemming,Burnley,FWD,0.8,60,0.704,56.3,27,1590,100
+37,184,etienne green|burnley,Etienne Green,Burnley,GK,0,0,0,0,0,0,0
+37,470,martin d bravka|burnley,Martin Dúbravka,Burnley,GK,1,90,1,90,35,3150,100
+37,183,max wei|burnley,Max Weiß,Burnley,GK,0,0,1,90,1,90,0
+37,185,v clav hladk|burnley,Václav Hladký,Burnley,GK,0,0,0,0,0,0,
+37,211,aaron ramsey|burnley,Aaron Ramsey,Burnley,MID,0,0,0,0,0,0,0
+37,204,darko churlinov|burnley,Darko Churlinov,Burnley,MID,0,0,0,0,,0,0
+37,203,enock agyei|burnley,Enock Agyei,Burnley,MID,0,0,0,0,,0,
+37,722,florentino ibrain morris lu s|burnley,Florentino Ibrain Morris Luís,Burnley,MID,0.793,65,0.793,64.6,29,1933,80
+37,784,george brierley|burnley,George Brierley,Burnley,MID,0,0,0,0,,0,
+37,207,hannibal mejbri|burnley,Hannibal Mejbri,Burnley,MID,0.8,65,0.52,40.3,25,1085,100
+37,202,jacob bruun larsen|burnley,Jacob Bruun Larsen,Burnley,MID,0.65,75,0.385,34.9,26,1001,100
+37,200,jaidon anthony|burnley,Jaidon Anthony,Burnley,MID,0.98,75,0.857,71.1,35,2543,100
+37,614,james ward prowse|burnley,James Ward-Prowse,Burnley,MID,0.35,25,0.75,64.1,16,1065,75
+37,213,jaydon banel|burnley,Jaydon Banel,Burnley,MID,0,0,0,0,1,9,0
+37,205,josh cullen|burnley,Josh Cullen,Burnley,MID,0,0,0,0,18,1513,0
+37,209,josh laurent|burnley,Josh Laurent,Burnley,MID,0.35,10,0.562,50.6,32,1733,20
+37,820,kian mcmahon brown|burnley,Kian McMahon-Brown,Burnley,MID,0,0,0,0,,0,
+37,676,lesley ugochukwu|burnley,Lesley Ugochukwu,Burnley,MID,0.8,75,0.758,63.8,33,2186,100
+37,210,loum tchaouna|burnley,Loum Tchaouna,Burnley,MID,0.2,15,0.444,37.5,27,1104,30
+37,208,luca koleosho|burnley,Luca Koleosho,Burnley,MID,0,0,0,0,,0,0
+37,201,manuel benson hedilazio|burnley,Manuel Benson Hedilazio,Burnley,MID,0,0,0,0,,0,0
+37,206,marcus edwards|burnley,Marcus Edwards,Burnley,MID,0.2,10,0.5,43.9,22,1043,20
+37,214,mike tr sor ndayishimiye|burnley,Mike Trésor Ndayishimiye,Burnley,MID,0,5.2,0,5.2,6,37,0
+37,776,oliver pimlott|burnley,Oliver Pimlott,Burnley,MID,0,0,0,0,,0,
+37,212,oluwaseun adewumi|burnley,Oluwaseun Adewumi,Burnley,MID,0,0,0,0,,0,0
+37,234,aar n anselmino|chelsea,Aarón Anselmino,Chelsea,DEF,0,0,0,0,0,0,0
+37,229,beno t badiashile mukinayi|chelsea,Benoît Badiashile Mukinayi,Chelsea,DEF,0,0,0.75,56.5,8,470,0
+37,672,jorrel hato|chelsea,Jorrel Hato,Chelsea,DEF,0.75,65,0.5,46.2,20,998,100
+37,233,josh acheampong|chelsea,Josh Acheampong,Chelsea,DEF,0.25,35.5,0.467,35.5,15,579,100
+37,227,levi samuels colwill|chelsea,Levi Samuels Colwill,Chelsea,DEF,1,88,0.5,62.4,2,135,100
+37,228,malo gusto|chelsea,Malo Gusto,Chelsea,DEF,0.9,85,0.758,63.4,33,2171,100
+37,231,mamadou sarr|chelsea,Mamadou Sarr,Chelsea,DEF,0,0,0.5,42.1,2,91,0
+37,224,marc cucurella saseta|chelsea,Marc Cucurella Saseta,Chelsea,DEF,0.906,85,0.906,77.8,32,2526,100
+37,225,reece james|chelsea,Reece James,Chelsea,DEF,0.75,65.6,0.714,65.6,28,1919,100
+37,232,tosin adarabioyo|chelsea,Tosin Adarabioyo,Chelsea,DEF,0,0,0.5,45.6,16,788,0
+37,226,trevoh chalobah|chelsea,Trevoh Chalobah,Chelsea,DEF,0.5,85,0.969,85.2,32,2739,75
+37,230,wesley fofana|chelsea,Wesley Fofana,Chelsea,DEF,0.75,85,0.783,66.3,23,1577,100
+37,249,jo o pedro junqueira de jesus|chelsea,João Pedro Junqueira de Jesus,Chelsea,FWD,0.98,88,0.882,74.2,34,2568,100
+37,250,liam delap|chelsea,Liam Delap,Chelsea,FWD,0.1,15,0.423,35.1,26,999,50
+37,252,marc guiu paz|chelsea,Marc Guiu Paz,Chelsea,FWD,0,0,0.1,22.9,10,265,0
+37,251,nicolas jackson|chelsea,Nicolas Jackson,Chelsea,FWD,0,0,0,0,0,0,0
+37,221,filip j rgensen|chelsea,Filip Jörgensen,Chelsea,GK,0,0,0.6,71.1,5,378,0
+37,223,gabriel s onina|chelsea,Gabriel Słonina,Chelsea,GK,0,0,0,0,0,0,
+37,789,max merrick|chelsea,Max Merrick,Chelsea,GK,0,0,0,0,,0,
+37,222,mike penders|chelsea,Mike Penders,Chelsea,GK,0,0,0,0,,0,0
+37,220,robert lynch s nchez|chelsea,Robert Lynch Sánchez,Chelsea,GK,1,90,0.5,43.3,33,2860,100
+37,803,teddy sharman lowe|chelsea,Teddy Sharman-Lowe,Chelsea,GK,0,0,0,0,,0,
+37,453,alejandro garnacho ferreyra|chelsea,Alejandro Garnacho Ferreyra,Chelsea,MID,0.2,15,0.304,25.8,23,1260,30
+37,246,andrey nascimento dos santos|chelsea,Andrey Nascimento dos Santos,Chelsea,MID,0.75,65,0.462,40.9,26,1157,80
+37,240,christopher nkunku|chelsea,Christopher Nkunku,Chelsea,MID,0,0,0,0,0,0,0
+37,235,cole palmer|chelsea,Cole Palmer,Chelsea,MID,0.98,88,0.917,73.1,24,1776,100
+37,247,d rio lu s essugo|chelsea,Dário Luís Essugo,Chelsea,MID,0,10.6,0,10.6,2,25,100
+37,237,enzo fern ndez|chelsea,Enzo Fernández,Chelsea,MID,0.98,88,0.971,85.9,34,2934,100
+37,238,est v o almeida de oliveira gon alves|chelsea,Estêvão Almeida de Oliveira Gonçalves,Chelsea,MID,0.2,15,0,0,22,839,30
+37,239,jamie bynoe gittens|chelsea,Jamie Bynoe-Gittens,Chelsea,MID,0,0,0.078,6.8,16,486,0
+37,829,jesse derry|chelsea,Jesse Derry,Chelsea,MID,0,0,0,0,1,45,0
+37,248,kendry p ez andrade|chelsea,Kendry Páez Andrade,Chelsea,MID,0,0,0,0,,0,0
+37,743,landon emenalo|chelsea,Landon Emenalo,Chelsea,MID,0,0,0,0,,0,
+37,833,mathis ebou|chelsea,Mathis Eboué,Chelsea,MID,0,0,0,0,,0,
+37,241,mois s caicedo corozo|chelsea,Moisés Caicedo Corozo,Chelsea,MID,0.98,85,0.968,84.2,31,2622,100
+37,245,mykhailo mudryk|chelsea,Mykhailo Mudryk,Chelsea,MID,0,0,0,0,,0,0
+37,236,pedro lomba neto|chelsea,Pedro Lomba Neto,Chelsea,MID,0.75,75,0.438,38,32,2477,90
+37,244,rom o lavia|chelsea,Roméo Lavia,Chelsea,MID,0.333,25,0.333,28,12,374,75
+37,834,ryan kavuma mcqueen|chelsea,Ryan Kavuma-McQueen,Chelsea,MID,0,0,0,0,,0,
+37,259,borna sosa|crystal palace,Borna Sosa,Crystal Palace,DEF,0,15,0,6,7,99,10
+37,265,caleb kporha|crystal palace,Caleb Kporha,Crystal Palace,DEF,0,0,0,0,,0,0
+37,262,chadi riad dnanou|crystal palace,Chadi Riad Dnanou,Crystal Palace,DEF,0,0,0.571,51.7,7,387,0
+37,261,chris richards|crystal palace,Chris Richards,Crystal Palace,DEF,0.968,86.9,0.968,86.9,31,2706,100
+37,256,daniel mu oz mej a|crystal palace,Daniel Muñoz Mejía,Crystal Palace,DEF,1,84,1,84,26,2184,100
+37,798,danny imray|crystal palace,Danny Imray,Crystal Palace,DEF,0,0,0,0,,0,0
+37,773,dean benamar|crystal palace,Dean Benamar,Crystal Palace,DEF,0,0,0,0,,0,
+37,793,george king|crystal palace,George King,Crystal Palace,DEF,0,0,0,0,,0,
+37,723,jaydee canvot|crystal palace,Jaydee Canvot,Crystal Palace,DEF,0.8,85,0.667,60.7,18,1151,100
+37,257,maxence lacroix|crystal palace,Maxence Lacroix,Crystal Palace,DEF,1,88.9,1,88.9,33,2935,100
+37,263,nathaniel clyne|crystal palace,Nathaniel Clyne,Crystal Palace,DEF,0,0,0.75,59.4,8,494,0
+37,264,rob holding|crystal palace,Rob Holding,Crystal Palace,DEF,0,0,0,0,,0,0
+37,258,tyrick mitchell|crystal palace,Tyrick Mitchell,Crystal Palace,DEF,0.971,86.1,0.971,86.1,35,3028,100
+37,780,ben casey|crystal palace,Ben Casey,Crystal Palace,FWD,0,0,0,0,,0,
+37,732,christantus uche|crystal palace,Christantus Uche,Crystal Palace,FWD,0,9.7,0,9.7,14,159,
+37,284,eddie nketiah|crystal palace,Eddie Nketiah,Crystal Palace,FWD,0,0,0,0,12,414,0
+37,283,jean philippe mateta|crystal palace,Jean-Philippe Mateta,Crystal Palace,FWD,0.8,60,0.828,70.8,29,2109,100
+37,654,j rgen strand larsen|crystal palace,Jørgen Strand Larsen,Crystal Palace,FWD,0.2,30,0.727,62.1,33,2135,100
+37,285,odsonne douard|crystal palace,Odsonne Édouard,Crystal Palace,FWD,0,0,0,0,1,2,0
+37,286,zach marsh|crystal palace,Zach Marsh,Crystal Palace,FWD,0,0,0,0,0,0,
+37,253,dean henderson|crystal palace,Dean Henderson,Crystal Palace,GK,1,90,1,90,34,3060,100
+37,255,remi matthews|crystal palace,Remi Matthews,Crystal Palace,GK,0,0,0,0,0,0,
+37,254,walter ben tez|crystal palace,Walter Benítez,Crystal Palace,GK,1,90,1,90,1,90,100
+37,273,adam wharton|crystal palace,Adam Wharton,Crystal Palace,MID,0.903,76.8,0.903,76.8,31,2416,100
+37,274,asher agbinone|crystal palace,Asher Agbinone,Crystal Palace,MID,0,0,0,0,0,0,
+37,580,brennan johnson|crystal palace,Brennan Johnson,Crystal Palace,MID,0.562,60,0.562,46.5,32,1591,100
+37,268,cheick doucour|crystal palace,Cheick Doucouré,Crystal Palace,MID,0,0,0,0,,0,0
+37,271,daichi kamada|crystal palace,Daichi Kamada,Crystal Palace,MID,0.8,67.9,0.8,67.9,25,1749,100
+37,280,david ozoh|crystal palace,David Ozoh,Crystal Palace,MID,0,0,0,0,,0,0
+37,677,evann guessand|crystal palace,Evann Guessand,Crystal Palace,MID,0.237,21.3,0.237,21.3,19,880,50
+37,282,franco umeh chibueze|crystal palace,Franco Umeh-Chibueze,Crystal Palace,MID,0,0,0,0,,0,0
+37,267,isma la sarr|crystal palace,Ismaïla Sarr,Crystal Palace,MID,0.88,78.9,0.88,78.9,25,2008,100
+37,272,jefferson lerma sol s|crystal palace,Jefferson Lerma Solís,Crystal Palace,MID,0.571,51,0.571,51,28,1526,100
+37,278,jesurun rak sakyi|crystal palace,Jesurun Rak-Sakyi,Crystal Palace,MID,0,0,0,0,,0,0
+37,762,jo l drakes thomas|crystal palace,Joél Drakes-Thomas,Crystal Palace,MID,0,3,0,3,2,7,
+37,276,justin devenny|crystal palace,Justin Devenny,Crystal Palace,MID,0.3,31.1,0.3,31.1,20,695,65
+37,281,kaden rodney|crystal palace,Kaden Rodney,Crystal Palace,MID,0,2.6,0,2.6,1,3,
+37,277,malcolm ebiowei|crystal palace,Malcolm Ebiowei,Crystal Palace,MID,0,0,0,0,,0,0
+37,279,matheus fran a de oliveira|crystal palace,Matheus França de Oliveira,Crystal Palace,MID,0,0,0,0,,0,0
+37,275,naouirou ahamada|crystal palace,Naouirou Ahamada,Crystal Palace,MID,0,0,0,0,,0,0
+37,690,rio cardines|crystal palace,Rio Cardines,Crystal Palace,MID,0,0,0,0,0,0,0
+37,269,romain esse|crystal palace,Romain Esse,Crystal Palace,MID,0,0,0,0,4,40,0
+37,270,will hughes|crystal palace,Will Hughes,Crystal Palace,MID,0.8,75,0.586,45.6,29,1411,100
+37,712,y remy pino santos|crystal palace,Yéremy Pino Santos,Crystal Palace,MID,0.774,60,0.774,60,31,1925,100
+37,667,adam aznou|everton,Adam Aznou,Everton,DEF,0,0,0,0,0,0,100
+37,705,elijah campbell|everton,Elijah Campbell,Everton,DEF,0,0,0,0,0,0,0
+37,293,jake o brien|everton,Jake O'Brien,Everton,DEF,0.943,85,0.943,84.1,35,2970,100
+37,291,james tarkowski|everton,James Tarkowski,Everton,DEF,1,90,1,90,35,3150,100
+37,290,jarrad branthwaite|everton,Jarrad Branthwaite,Everton,DEF,0,0,0,0,10,678,0
+37,295,michael keane|everton,Michael Keane,Everton,DEF,0.98,88,0.871,76.2,31,2408,100
+37,296,nathan patterson|everton,Nathan Patterson,Everton,DEF,0.05,5,0.429,31.1,7,238,10
+37,298,reece welch|everton,Reece Welch,Everton,DEF,0,0,0,0,0,0,
+37,297,roman dixon|everton,Roman Dixon,Everton,DEF,0,0,0,0,0,0,0
+37,294,s amus coleman|everton,Séamus Coleman,Everton,DEF,0,0,0.333,3.3,3,11,0
+37,292,vitalii mykolenko|everton,Vitalii Mykolenko,Everton,DEF,1,89.6,1,89.6,31,2779,100
+37,779,braiden graham|everton,Braiden Graham,Everton,FWD,0,0,0,0,,0,
+37,313,martin sherif|everton,Martin Sherif,Everton,FWD,0,0,0,0,0,0,0
+37,311,norberto bercique gomes betuncal|everton,Norberto Bercique Gomes Betuncal,Everton,FWD,0.65,60,0.457,38.7,35,1473,100
+37,310,thierno barry|everton,Thierno Barry,Everton,FWD,0.35,30,0.556,46.6,36,1798,100
+37,312,youssef ramalho chermiti|everton,Youssef Ramalho Chermiti,Everton,FWD,0,0,0,0,0,0,0
+37,289,harry tyrer|everton,Harry Tyrer,Everton,GK,0,0,0,0,0,0,0
+37,287,jordan pickford|everton,Jordan Pickford,Everton,GK,1,90,1,90,36,3240,100
+37,288,mark travers|everton,Mark Travers,Everton,GK,0,0,0,0,0,0,100
+37,630,tom king|everton,Tom King,Everton,GK,0,0,0,0,0,0,
+37,306,callum bates|everton,Callum Bates,Everton,MID,0,0,0,0,0,0,
+37,301,carlos alcaraz dur n|everton,Carlos Alcaraz Durán,Everton,MID,0.316,31.8,0.316,31.8,19,673,65
+37,307,coby ebere|everton,Coby Ebere,Everton,MID,0,0,0,0,,0,
+37,300,dwight mcneil|everton,Dwight McNeil,Everton,MID,0.05,5,0.667,52.4,21,1159,10
+37,305,harrison armstrong|everton,Harrison Armstrong,Everton,MID,0,0,0.5,38.2,12,496,0
+37,302,idrissa gana gueye|everton,Idrissa Gana Gueye,Everton,MID,0,0,0.5,41.9,25,2094,0
+37,299,iliman ndiaye|everton,Iliman Ndiaye,Everton,MID,1,86.7,1,86.7,30,2601,100
+37,308,isaac heath|everton,Isaac Heath,Everton,MID,0,0,0,0,,0,0
+37,419,jack grealish|everton,Jack Grealish,Everton,MID,0,0,0,0,20,1627,0
+37,303,james garner|everton,James Garner,Everton,MID,1,89.8,1,89.8,36,3233,100
+37,309,jenson metcalfe|everton,Jenson Metcalfe,Everton,MID,0,0,0,0,,0,0
+37,242,kiernan dewsbury hall|everton,Kiernan Dewsbury-Hall,Everton,MID,0.966,84.3,0.966,84.3,29,2456,100
+37,728,merlin r hl|everton,Merlin Röhl,Everton,MID,0.05,10,0.286,33.6,14,527,20
+37,304,tim iroegbunam|everton,Tim Iroegbunam,Everton,MID,0.8,60,0.556,45.7,27,1322,100
+37,707,tyler dibling|everton,Tyler Dibling,Everton,MID,0,22.3,0.286,22.3,14,349,0
+37,704,tyler onyango|everton,Tyler Onyango,Everton,MID,0,0,0,0,,0,0
+37,243,tyrique george|everton,Tyrique George,Everton,MID,0.077,20.3,0.077,20.3,13,306,100
+37,316,antonee robinson|fulham,Antonee Robinson,Fulham,DEF,0.8,85,0.75,62.9,20,1307,90
+37,318,calvin bassey|fulham,Calvin Bassey,Fulham,DEF,0.929,83.1,0.929,83.1,28,2352,100
+37,320,issa diop|fulham,Issa Diop,Fulham,DEF,0.8,54,0.545,54,11,637,20
+37,317,joachim andersen|fulham,Joachim Andersen,Fulham,DEF,0,0,0,0,33,2882,0
+37,321,jorge cuenca barreno|fulham,Jorge Cuenca Barreno,Fulham,DEF,0,0,0.786,64.4,14,931,0
+37,322,kenny tete|fulham,Kenny Tete,Fulham,DEF,0.2,10,0.955,80.9,22,1791,100
+37,323,samuel amissah|fulham,Samuel Amissah,Fulham,DEF,0,0,0,0,0,0,
+37,319,timothy castagne|fulham,Timothy Castagne,Fulham,DEF,0.98,85,0.643,56,28,1658,100
+37,737,jonah kusi asare|fulham,Jonah Kusi-Asare,Fulham,FWD,0,6,0,6,7,49,
+37,337,ra l jim nez rodr guez|fulham,Raúl Jiménez Rodríguez,Fulham,FWD,0.8,61.1,0.794,61.1,34,2142,100
+37,338,rodrigo muniz carvalho|fulham,Rodrigo Muniz Carvalho,Fulham,FWD,0.2,30,0.421,40.9,19,850,100
+37,786,alfie mcnally|fulham,Alfie McNally,Fulham,GK,0,0,0,0,,0,
+37,664,benjamin lecomte|fulham,Benjamin Lecomte,Fulham,GK,0,0,0,0,0,0,
+37,314,bernd leno|fulham,Bernd Leno,Fulham,GK,1,90,1,90,36,3240,100
+37,315,steven benda|fulham,Steven Benda,Fulham,GK,0,0,0,0,,0,0
+37,324,alex iwobi|fulham,Alex Iwobi,Fulham,MID,1,88,0,0,27,2264,100
+37,327,andreas hoelgebaum pereira|fulham,Andreas Hoelgebaum Pereira,Fulham,MID,0,0,0,0,0,0,0
+37,325,emile smith rowe|fulham,Emile Smith Rowe,Fulham,MID,0.75,60,0.571,47.1,35,1760,100
+37,336,harrison reed|fulham,Harrison Reed,Fulham,MID,0.143,11.1,0.143,11.1,7,89,100
+37,329,harry wilson|fulham,Harry Wilson,Fulham,MID,0.98,65,0.941,77.1,34,2645,100
+37,335,josh king|fulham,Josh King,Fulham,MID,0.05,10,0.5,38.5,30,1249,50
+37,731,kevin santos lopes de macedo|fulham,Kevin Santos Lopes de Macedo,Fulham,MID,0,0,0.333,34.7,24,926,0
+37,334,luke harris|fulham,Luke Harris,Fulham,MID,0,0,0,0,,0,0
+37,333,martial godo|fulham,Martial Godo,Fulham,MID,0,0,0,0,,0,0
+37,424,oscar bobb|fulham,Oscar Bobb,Fulham,MID,0.25,25,0.429,38.4,21,881,80
+37,328,ryan sessegnon|fulham,Ryan Sessegnon,Fulham,MID,0.05,5,0.37,32.3,27,1816,10
+37,727,samuel chukwueze|fulham,Samuel Chukwueze,Fulham,MID,0.455,60,0.455,44.1,22,1056,100
+37,330,sander berge|fulham,Sander Berge,Fulham,MID,0,83.5,0.97,83.5,33,2769,0
+37,332,sa a luki|fulham,Saša Lukić,Fulham,MID,0.76,63.2,0.76,63.2,25,1640,100
+37,770,seth ridgeon|fulham,Seth Ridgeon,Fulham,MID,0,0,0,0,,0,
+37,331,tom cairney|fulham,Tom Cairney,Fulham,MID,0.261,28.1,0.261,28.1,23,726,100
+37,347,gabriel gudmundsson|leeds,Gabriel Gudmundsson,Leeds,DEF,0,0,0.484,41,32,2637,0
+37,349,isaac schmidt|leeds,Isaac Schmidt,Leeds,DEF,0,0,0,0,0,0,0
+37,344,jaka bijol|leeds,Jaka Bijol,Leeds,DEF,0.826,75,0.826,73.2,23,1729,100
+37,706,james justin|leeds,James Justin,Leeds,DEF,0.98,85,0.704,60.6,27,1713,100
+37,342,jayden bogle|leeds,Jayden Bogle,Leeds,DEF,0.98,81.6,0.939,81.6,33,2718,100
+37,837,jayden lienou|leeds,Jayden Lienou,Leeds,DEF,0,0,0,0,,0,
+37,348,joe rodon|leeds,Joe Rodon,Leeds,DEF,0.939,88,0.939,83.2,33,2772,100
+37,343,pascal struijk|leeds,Pascal Struijk,Leeds,DEF,0.2,10,0.727,64.4,33,2845,75
+37,346,sam byram|leeds,Sam Byram,Leeds,DEF,0,6,0,6,1,7,
+37,345,sebastiaan bornauw|leeds,Sebastiaan Bornauw,Leeds,DEF,0.05,10,0.4,30.8,10,338,30
+37,691,dominic calvert lewin|leeds,Dominic Calvert-Lewin,Leeds,FWD,0.98,88,0.848,75.9,33,2563,100
+37,741,harry gray|leeds,Harry Gray,Leeds,FWD,0,0,0,0,0,0,0
+37,362,jo l piroe|leeds,Joël Piroe,Leeds,FWD,0,0,0.143,13.4,14,216,0
+37,365,lukas nmecha|leeds,Lukas Nmecha,Leeds,FWD,0.05,20,0.31,29.2,29,945,70
+37,364,mateo joseph fern ndez regatillo|leeds,Mateo Joseph Fernández-Regatillo,Leeds,FWD,0,0,0,0,,0,0
+37,363,patrick bamford|leeds,Patrick Bamford,Leeds,FWD,0,0,0,0,0,0,0
+37,340,alex cairns|leeds,Alex Cairns,Leeds,GK,0,0,0,0,0,0,
+37,339,illan meslier|leeds,Illan Meslier,Leeds,GK,0,0,0,0,0,0,
+37,341,karl darlow|leeds,Karl Darlow,Leeds,GK,1,90,1,90,20,1800,100
+37,665,lucas estella perri|leeds,Lucas Estella Perri,Leeds,GK,0,0,1,90,16,1440,0
+37,660,anton stach|leeds,Anton Stach,Leeds,MID,0.98,85,0.964,81.6,28,2296,100
+37,350,brenden aaronson|leeds,Brenden Aaronson,Leeds,MID,0.8,63.7,0.8,63.7,35,2300,100
+37,359,charlie crew|leeds,Charlie Crew,Leeds,MID,0,0,0,0,,0,0
+37,353,daniel james|leeds,Daniel James,Leeds,MID,0.05,15,0.294,24.6,17,468,33
+37,361,darko gyabi|leeds,Darko Gyabi,Leeds,MID,0,0,0,0,,0,0
+37,354,ethan ampadu|leeds,Ethan Ampadu,Leeds,MID,1,89.1,1,89.1,33,2939,100
+37,168,facundo buonanotte|leeds,Facundo Buonanotte,Leeds,MID,0,0,0,0,3,69,0
+37,356,ilia gruev|leeds,Ilia Gruev,Leeds,MID,0,0,0,0,23,1318,0
+37,352,jack harrison|leeds,Jack Harrison,Leeds,MID,0,0,0,0,11,262,0
+37,360,joe gelhardt|leeds,Joe Gelhardt,Leeds,MID,0,0,0,0,,0,0
+37,357,largie ramazani|leeds,Largie Ramazani,Leeds,MID,0,0,0,0,,0,0
+37,698,noah okafor|leeds,Noah Okafor,Leeds,MID,0,0,0,0,28,1553,0
+37,838,rhys chadwick|leeds,Rhys Chadwick,Leeds,MID,0,0,0,0,,0,
+37,787,sam chambers|leeds,Sam Chambers,Leeds,MID,0,0,0,0,,0,
+37,355,sam greenwood|leeds,Sam Greenwood,Leeds,MID,0,0,0,0,,0,0
+37,493,sean longstaff|leeds,Sean Longstaff,Leeds,MID,0.05,5,0.455,40.6,22,973,75
+37,358,tanaka ao|leeds,Tanaka Ao,Leeds,MID,0.8,80,0.462,41.4,26,1171,100
+37,351,wilfried gnonto|leeds,Wilfried Gnonto,Leeds,MID,0.2,15,0.19,19.7,21,470,75
+37,378,amara nallo|liverpool,Amara Nallo,Liverpool,DEF,0,0,0,0,0,0,0
+37,372,andrew robertson|liverpool,Andrew Robertson,Liverpool,DEF,0.15,15,0.435,43.1,23,1083,90
+37,380,calvin ramsay|liverpool,Calvin Ramsay,Liverpool,DEF,0,0,0,0,0,0,0
+37,375,conor bradley|liverpool,Conor Bradley,Liverpool,DEF,0,0,0,0,15,928,0
+37,692,giovanni leoni|liverpool,Giovanni Leoni,Liverpool,DEF,0,0,0,0,,0,0
+37,374,ibrahima konat|liverpool,Ibrahima Konaté,Liverpool,DEF,1,85.6,1,85.6,34,2912,100
+37,370,jeremie frimpong|liverpool,Jeremie Frimpong,Liverpool,DEF,0.6,60,0.6,47.8,20,1016,100
+37,376,joe gomez|liverpool,Joe Gomez,Liverpool,DEF,0,5,0.316,24.9,19,528,20
+37,377,konstantinos tsimikas|liverpool,Konstantinos Tsimikas,Liverpool,DEF,0,0,0,0,,0,0
+37,371,milos kerkez|liverpool,Milos Kerkez,Liverpool,DEF,0.812,75,0.812,65.4,32,2154,100
+37,379,rhys williams|liverpool,Rhys Williams,Liverpool,DEF,0,0,0,0,0,0,0
+37,832,talla ndiaye|liverpool,Talla Ndiaye,Liverpool,DEF,0,0,0,0,,0,0
+37,373,virgil van dijk|liverpool,Virgil van Dijk,Liverpool,DEF,1,90,1,90,36,3240,100
+37,760,wellity lucky|liverpool,Wellity Lucky,Liverpool,DEF,0,0,0,0,,0,0
+37,499,alexander isak|liverpool,Alexander Isak,Liverpool,FWD,0.5,60,0.571,46.4,14,694,100
+37,397,darwin n ez ribeiro|liverpool,Darwin Núñez Ribeiro,Liverpool,FWD,0,0,0,0,0,0,0
+37,661,hugo ekitik|liverpool,Hugo Ekitiké,Liverpool,FWD,0,0,0,0,28,1797,0
+37,398,jayden danns|liverpool,Jayden Danns,Liverpool,FWD,0,0,0,0,0,0,0
+37,830,will wright|liverpool,Will Wright,Liverpool,FWD,0,0,0,0,,0,0
+37,366,alisson becker|liverpool,Alisson Becker,Liverpool,GK,0.5,45,0.5,45,25,2250,50
+37,369,freddie woodman|liverpool,Freddie Woodman,Liverpool,GK,0.667,67.1,0.667,67.1,3,212,0
+37,367,giorgi mamardashvili|liverpool,Giorgi Mamardashvili,Liverpool,GK,1,86.3,1,86.3,9,777,100
+37,368,rmin p csi|liverpool,Ármin Pécsi,Liverpool,GK,0,0,0,0,0,0,0
+37,386,alexis mac allister|liverpool,Alexis Mac Allister,Liverpool,MID,0.829,68.9,0.829,68.9,35,2474,100
+37,384,cody gakpo|liverpool,Cody Gakpo,Liverpool,MID,0.882,74.3,0.882,74.3,34,2573,100
+37,388,curtis jones|liverpool,Curtis Jones,Liverpool,MID,0.5,50.4,0.5,50.4,32,1743,100
+37,387,dominik szoboszlai|liverpool,Dominik Szoboszlai,Liverpool,MID,1,89.8,1,89.8,34,3052,100
+37,392,endo wataru|liverpool,Endo Wataru,Liverpool,MID,0,0,0,0,8,170,0
+37,385,federico chiesa|liverpool,Federico Chiesa,Liverpool,MID,0.04,10,0.04,10,25,293,100
+37,382,florian wirtz|liverpool,Florian Wirtz,Liverpool,MID,0.871,73.8,0.871,73.8,31,2333,100
+37,394,james mcconnell|liverpool,James McConnell,Liverpool,MID,0,0,0,0,,0,0
+37,746,kieran morrison|liverpool,Kieran Morrison,Liverpool,MID,0,0,0,0,,0,
+37,383,luis d az marulanda|liverpool,Luis Díaz Marulanda,Liverpool,MID,0,0,0,0,,0,0
+37,381,mohamed salah|liverpool,Mohamed Salah,Liverpool,MID,0,0,0.44,40.4,25,2055,0
+37,686,rio ngumoha|liverpool,Rio Ngumoha,Liverpool,MID,0.05,15,0.176,19.8,17,385,50
+37,390,ryan gravenberch|liverpool,Ryan Gravenberch,Liverpool,MID,0.941,82.9,0.941,82.9,34,2844,100
+37,393,stefan baj eti maquieira|liverpool,Stefan Bajčetić Maquieira,Liverpool,MID,0,0,0,0,0,0,0
+37,396,trey nyoni|liverpool,Trey Nyoni,Liverpool,MID,0,2.4,0,2.4,5,14,
+37,395,tyler morton|liverpool,Tyler Morton,Liverpool,MID,0,0,0,0,,0,0
+37,406,abdukodir khusanov|manchester city,Abdukodir Khusanov,Man City,DEF,0.8,75,0.684,62.5,19,1247,100
+37,409,john stones|manchester city,John Stones,Man City,DEF,0,0,0.571,46.9,7,351,0
+37,403,jo ko gvardiol|manchester city,Joško Gvardiol,Man City,DEF,0,0,0.703,60.4,16,1301,0
+37,404,manuel akanji|manchester city,Manuel Akanji,Man City,DEF,0,0,0,0,0,0,0
+37,260,marc gu hi|manchester city,Marc Guéhi,Man City,DEF,1,90,1,90,33,2970,100
+37,407,matheus nunes|manchester city,Matheus Nunes,Man City,DEF,0.938,84,0.938,84,32,2714,100
+37,794,max alleyne|manchester city,Max Alleyne,Man City,DEF,0,0,1,67.5,2,135,0
+37,405,nathan ak|manchester city,Nathan Aké,Man City,DEF,0.2,15,0.312,32.4,16,578,75
+37,411,nico o reilly|manchester city,Nico O'Reilly,Man City,DEF,0.9,75.6,0.848,75.6,33,2553,100
+37,402,rayan a t nouri|manchester city,Rayan Aït-Nouri,Man City,DEF,0.5,60,0.733,55.6,15,868,100
+37,410,rico lewis|manchester city,Rico Lewis,Man City,DEF,0,0,0.3,27.8,10,311,0
+37,408,r ben dos santos gato alves dias|manchester city,Rúben dos Santos Gato Alves Dias,Man City,DEF,0,0,0.92,81,25,2049,0
+37,740,stephen mfuni|manchester city,Stephen Mfuni,Man City,DEF,0,0,0,0,,0,0
+37,412,vitor de oliveira nunes dos reis|manchester city,Vitor de Oliveira Nunes dos Reis,Man City,DEF,0,0,0,0,,0,0
+37,430,erling haaland|manchester city,Erling Haaland,Man City,FWD,1,88,0.971,83.8,34,2863,100
+37,399,ederson santana de moraes|manchester city,Ederson Santana de Moraes,Man City,GK,0,0,0,0,0,0,0
+37,736,gianluigi donnarumma|manchester city,Gianluigi Donnarumma,Man City,GK,1,90,1,90,32,2880,100
+37,182,james trafford|manchester city,James Trafford,Man City,GK,0,0,1,90,3,270,0
+37,401,marcus bettinelli|manchester city,Marcus Bettinelli,Man City,GK,0,0,0,0,0,0,100
+37,82,antoine semenyo|manchester city,Antoine Semenyo,Man City,MID,0.9,85,1,88.2,34,2998,100
+37,416,bernardo mota veiga de carvalho e silva|manchester city,Bernardo Mota Veiga de Carvalho e Silva,Man City,MID,0.886,75.2,0.886,75.2,35,2678,100
+37,763,charlie gray|manchester city,Charlie Gray,Man City,MID,0,0,0,0,,0,
+37,425,claudio echeverri|manchester city,Claudio Echeverri,Man City,MID,0,0,0,0,,0,0
+37,739,divine mukasa|manchester city,Divine Mukasa,Man City,MID,0,0,0,0,2,25,0
+37,418,j r my doku|manchester city,Jérémy Doku,Man City,MID,0.9,75,0.667,58.2,27,1653,100
+37,429,kalvin phillips|manchester city,Kalvin Phillips,Man City,MID,0,0,0,0,0,0,0
+37,422,mateo kova i|manchester city,Mateo Kovačić,Man City,MID,0,0,0,7.9,3,28,0
+37,423,nico gonz lez iglesias|manchester city,Nico González Iglesias,Man City,MID,0.15,15,0.667,58.2,24,1471,33
+37,413,omar marmoush|manchester city,Omar Marmoush,Man City,MID,0.05,25,0.368,28.5,19,599,50
+37,414,phil foden|manchester city,Phil Foden,Man City,MID,0.15,15,0.7,59.6,30,1873,50
+37,417,rayan cherki|manchester city,Rayan Cherki,Man City,MID,0.8,65,0.633,53.4,30,1695,100
+37,764,reigan heskey|manchester city,Reigan Heskey,Man City,MID,0,0,0,0,,0,
+37,421,rodrigo rodri hernandez cascante|manchester city,Rodrigo 'Rodri' Hernandez Cascante,Man City,MID,0,0,0.6,51.7,20,1420,0
+37,742,ryan mcaidoo|manchester city,Ryan McAidoo,Man City,MID,0,0,0,0,,0,
+37,428,sverre nypan|manchester city,Sverre Nypan,Man City,MID,0,0,0,0,,0,100
+37,415,s vio moreira de oliveira|manchester city,Sávio Moreira de Oliveira,Man City,MID,0.05,5,0.238,25.4,21,603,15
+37,427,tijjani reijnders|manchester city,Tijjani Reijnders,Man City,MID,0.1,15,0.667,54.4,27,1547,33
+37,420,i lkay g ndo an|manchester city,İlkay Gündoğan,Man City,MID,0,0,0,0,0,0,0
+37,447,ayden heaven|manchester united,Ayden Heaven,Man Utd,DEF,0.1,10,0.647,51.3,17,920,20
+37,439,diego le n blanco|manchester united,Diego León Blanco,Man Utd,DEF,0,0,0,0,0,0,
+37,440,diogo dalot teixeira|manchester united,Diogo Dalot Teixeira,Man Utd,DEF,0.848,80,0.848,74.6,33,2519,100
+37,788,godwill kukonki|manchester united,Godwill Kukonki,Man Utd,DEF,0,0,0,0,,0,
+37,445,harry amass|manchester united,Harry Amass,Man Utd,DEF,0,0,0,0,0,0,0
+37,442,harry maguire|manchester united,Harry Maguire,Man Utd,DEF,0.81,80,0.81,68,21,1469,100
+37,444,leny yoro|manchester united,Leny Yoro,Man Utd,DEF,0.1,10,0.581,51.8,31,1714,30
+37,437,lisandro mart nez|manchester united,Lisandro Martínez,Man Utd,DEF,0.75,80,0.688,62.5,16,1049,100
+37,443,luke shaw|manchester united,Luke Shaw,Man Utd,DEF,1,84.7,1,84.7,36,3049,100
+37,436,matthijs de ligt|manchester united,Matthijs de Ligt,Man Utd,DEF,0,0,0,0,13,1170,0
+37,438,noussair mazraoui|manchester united,Noussair Mazraoui,Man Utd,DEF,0.526,60,0.526,44.2,19,904,100
+37,441,patrick dorgu|manchester united,Patrick Dorgu,Man Utd,DEF,0.1,15,0.583,53.5,24,1369,75
+37,446,tyler fredricson|manchester united,Tyler Fredricson,Man Utd,DEF,0,1.7,0,1.7,1,2,0
+37,448,tyrell malacia|manchester united,Tyrell Malacia,Man Utd,DEF,0,3,0,3,2,7,0
+37,681,benjamin sesko|manchester united,Benjamin Sesko,Man Utd,FWD,0.5,60,0.425,38.1,30,1630,100
+37,467,chido obi|manchester united,Chido Obi,Man Utd,FWD,0,0,0,0,0,0,
+37,468,ethan wheatley|manchester united,Ethan Wheatley,Man Utd,FWD,0,0,0,0,0,0,0
+37,466,joshua zirkzee|manchester united,Joshua Zirkzee,Man Utd,FWD,0.227,23.3,0.227,23.3,22,581,100
+37,465,rasmus h jlund|manchester united,Rasmus Højlund,Man Utd,FWD,0,0,0,0,0,0,0
+37,431,altay bay nd r|manchester united,Altay Bayındır,Man Utd,GK,0,0,1,90,6,540,0
+37,432,andr onana|manchester united,André Onana,Man Utd,GK,0,0,0,0,0,0,0
+37,435,dermot mee|manchester united,Dermot Mee,Man Utd,GK,0,0,0,0,0,0,
+37,433,elyh harrison|manchester united,Elyh Harrison,Man Utd,GK,0,0,0,0,,0,0
+37,733,senne lammens|manchester united,Senne Lammens,Man Utd,GK,1,90,1,90,30,2700,100
+37,434,tom heaton|manchester united,Tom Heaton,Man Utd,GK,0,0,0,0,0,0,
+37,452,amad diallo|manchester united,Amad Diallo,Man Utd,MID,0.35,25,0.833,70.2,30,2159,100
+37,454,antony dos santos|manchester united,Antony dos Santos,Man Utd,MID,0,0,0,0,0,0,0
+37,769,bendito mantato|manchester united,Bendito Mantato,Man Utd,MID,0,12.8,0,12.8,1,15,0
+37,449,bruno borges fernandes|manchester united,Bruno Borges Fernandes,Man Utd,MID,1,88,1,87.4,33,2885,100
+37,119,bryan mbeumo|manchester united,Bryan Mbeumo,Man Utd,MID,0.9,78.6,0.935,78.6,31,2459,100
+37,457,carlos henrique casimiro|manchester united,Carlos Henrique Casimiro,Man Utd,MID,0.97,80,0.97,75.3,33,2495,100
+37,462,jack fletcher|manchester united,Jack Fletcher,Man Utd,MID,0,30.3,0,30.3,3,107,
+37,464,jack moorhouse|manchester united,Jack Moorhouse,Man Utd,MID,0,0,0,0,,0,0
+37,461,jayce fitzgerald|manchester united,Jayce Fitzgerald,Man Utd,MID,0,0,0,0,,0,
+37,827,jim thwaites|manchester united,Jim Thwaites,Man Utd,MID,0,0,0,0,,0,
+37,458,kobbie mainoo|manchester united,Kobbie Mainoo,Man Utd,MID,0.8,75,0.538,52.7,26,1473,100
+37,459,manuel ugarte ribeiro|manchester united,Manuel Ugarte Ribeiro,Man Utd,MID,0.05,15,0.273,27,22,876,20
+37,451,marcus rashford|manchester united,Marcus Rashford,Man Utd,MID,0,0,0,0,,0,0
+37,455,mason mount|manchester united,Mason Mount,Man Utd,MID,0.1,5,0.524,41,21,928,10
+37,450,matheus santos carneiro da cunha|manchester united,Matheus Santos Carneiro da Cunha,Man Utd,MID,0.9,85,0.875,74,32,2414,100
+37,755,shea lacey|manchester united,Shea Lacey,Man Utd,MID,0,5.1,0,5.1,2,12,100
+37,463,s kou kon|manchester united,Sékou Koné,Man Utd,MID,0,0,0,0,0,0,0
+37,460,toby collyer|manchester united,Toby Collyer,Man Utd,MID,0,0,0,0,,0,0
+37,771,tyler fletcher|manchester united,Tyler Fletcher,Man Utd,MID,0,0.8,0,0.8,1,1,
+37,481,alex murphy|newcastle united,Alex Murphy,Newcastle,DEF,0,0.8,0,0.8,1,1,
+37,476,dan burn|newcastle united,Dan Burn,Newcastle,DEF,0.889,76.4,0.889,76.4,27,2097,100
+37,479,emil krafth|newcastle united,Emil Krafth,Newcastle,DEF,0,0,0,0,1,45,0
+37,474,fabian sch r|newcastle united,Fabian Schär,Newcastle,DEF,0,0,0,0,16,1089,0
+37,482,harrison ashby|newcastle united,Harrison Ashby,Newcastle,DEF,0,0,0,0,0,0,0
+37,480,jamaal lascelles|newcastle united,Jamaal Lascelles,Newcastle,DEF,0,0,0,0,2,19,0
+37,478,kieran trippier|newcastle united,Kieran Trippier,Newcastle,DEF,0.05,5,0.85,73.4,20,1502,20
+37,765,leo shahar|newcastle united,Leo Shahar,Newcastle,DEF,0,0,0,0,,0,
+37,473,lewis hall|newcastle united,Lewis Hall,Newcastle,DEF,0.786,69,0.786,69,28,1996,100
+37,684,malick thiaw|newcastle united,Malick Thiaw,Newcastle,DEF,0.939,85,0.939,83.6,33,2783,100
+37,484,matt targett|newcastle united,Matt Targett,Newcastle,DEF,0,0,0,0,0,0,0
+37,483,miodrag piva|newcastle united,Miodrag Pivaš,Newcastle,DEF,0,0,0,0,0,0,
+37,475,sven botman|newcastle united,Sven Botman,Newcastle,DEF,0.826,70,0.826,70,23,1654,100
+37,477,tino livramento|newcastle united,Tino Livramento,Newcastle,DEF,0,0,0,0,17,1326,0
+37,714,nick woltemade|newcastle united,Nick Woltemade,Newcastle,FWD,0.71,60,0.71,53.8,31,1745,100
+37,501,sean neave|newcastle united,Sean Neave,Newcastle,FWD,0,0,0,0,0,0,
+37,500,william osula|newcastle united,William Osula,Newcastle,FWD,0.8,65,0.273,26.6,22,656,100
+37,135,yoane wissa|newcastle united,Yoane Wissa,Newcastle,FWD,0.1,25,0.235,25.4,17,488,30
+37,674,aaron ramsdale|newcastle united,Aaron Ramsdale,Newcastle,GK,0,0,0.917,82.5,12,1003,0
+37,753,john ruddy|newcastle united,John Ruddy,Newcastle,GK,0,0,0,0,,0,
+37,471,mark gillespie|newcastle united,Mark Gillespie,Newcastle,GK,0,0,0,0,0,0,
+37,469,nick pope|newcastle united,Nick Pope,Newcastle,GK,1,89.4,1,89.4,25,2236,100
+37,472,odysseas vlachodimos|newcastle united,Odysseas Vlachodimos,Newcastle,GK,0,0,0,0,,0,0
+37,486,anthony elanga|newcastle united,Anthony Elanga,Newcastle,MID,0.467,60,0.467,39,30,1273,100
+37,485,anthony gordon|newcastle united,Anthony Gordon,Newcastle,MID,0,0,0.923,68.4,26,1798,0
+37,492,anto ito cordero campillo|newcastle united,Antoñito Cordero Campillo,Newcastle,MID,0,0,0,0,,0,0
+37,488,bruno guimar es rodriguez moura|newcastle united,Bruno Guimarães Rodriguez Moura,Newcastle,MID,0.926,84.3,0.926,84.3,27,2301,100
+37,496,garang kuol|newcastle united,Garang Kuol,Newcastle,MID,0,0,0,0,,0,0
+37,487,harvey barnes|newcastle united,Harvey Barnes,Newcastle,MID,0.514,60,0.514,48.5,35,1832,100
+37,495,isaac hayden|newcastle united,Isaac Hayden,Newcastle,MID,0,0,0,0,,0,0
+37,489,jacob murphy|newcastle united,Jacob Murphy,Newcastle,MID,0.581,30,0.581,46.7,31,1546,100
+37,52,jacob ramsey|newcastle united,Jacob Ramsey,Newcastle,MID,0.5,30,0.5,44.9,26,1261,100
+37,498,joe white|newcastle united,Joe White,Newcastle,MID,0,0,0,0,,0,0
+37,494,joe willock|newcastle united,Joe Willock,Newcastle,MID,0.05,10,0.409,35,22,845,100
+37,490,joelinton c ssio apolin rio de lira|newcastle united,Joelinton Cássio Apolinário de Lira,Newcastle,MID,0,0,0.852,70.6,27,1950,0
+37,497,lewis miley|newcastle united,Lewis Miley,Newcastle,MID,0,0,0,0,23,1493,0
+37,772,sam alabi|newcastle united,Sam Alabi,Newcastle,MID,0,0,0,0,,0,
+37,491,sandro tonali|newcastle united,Sandro Tonali,Newcastle,MID,0.882,85,0.882,71.7,34,2482,100
+37,689,seung soo park|newcastle united,Seung-Soo Park,Newcastle,MID,0,0,0,0,0,0,
+37,509,david mota veiga teixeira do carmo|nottingham forest,David Mota Veiga Teixeira do Carmo,Nott'm Forest,DEF,0,0,0,0,,0,0
+37,511,felipe rodrigues da silva|nottingham forest,Felipe Rodrigues da Silva,Nott'm Forest,DEF,0.8,80,0.632,57.7,19,1160,100
+37,510,jair paula da cunha filho|nottingham forest,Jair Paula da Cunha Filho,Nott'm Forest,DEF,0.8,80,0.714,61,7,446,100
+37,814,luca netz|nottingham forest,Luca Netz,Nott'm Forest,DEF,0.8,80,0.4,44.2,5,243,100
+37,729,luis eduardo soares da silva|nottingham forest,Luis Eduardo Soares da Silva,Nott'm Forest,DEF,0,0,0,0,,0,0
+37,506,murillo costa dos santos|nottingham forest,Murillo Costa dos Santos,Nott'm Forest,DEF,0,0,0.5,42.6,25,2130,0
+37,508,neco williams|nottingham forest,Neco Williams,Nott'm Forest,DEF,0.971,86,0.971,86,35,3023,100
+37,716,nicol savona|nottingham forest,Nicolò Savona,Nott'm Forest,DEF,0,0,0,0,14,1025,0
+37,505,nikola milenkovi|nottingham forest,Nikola Milenković,Nott'm Forest,DEF,0.972,88.4,0.972,88.4,36,3195,100
+37,507,ola aina|nottingham forest,Ola Aina,Nott'm Forest,DEF,0,0,0.5,44.1,18,1587,0
+37,12,oleksandr zinchenko|nottingham forest,Oleksandr Zinchenko,Nott'm Forest,DEF,0,0,0,0,5,352,0
+37,512,omar richards|nottingham forest,Omar Richards,Nott'm Forest,DEF,0,0,0,0,,0,0
+37,514,willy boly|nottingham forest,Willy Boly,Nott'm Forest,DEF,0,0,0,0,0,0,0
+37,513,zach abbott|nottingham forest,Zach Abbott,Nott'm Forest,DEF,0.333,26.1,0.333,26.1,3,165,50
+37,696,arnaud kalimuendo|nottingham forest,Arnaud Kalimuendo,Nott'm Forest,FWD,0,0,0,0,9,89,0
+37,525,chris wood|nottingham forest,Chris Wood,Nott'm Forest,FWD,0.9,75,0.692,56.2,13,766,100
+37,526,igor jesus maciel da cruz|nottingham forest,Igor Jesus Maciel da Cruz,Nott'm Forest,FWD,0.8,65,0.743,58.2,35,2120,100
+37,805,lorenzo lucca|nottingham forest,Lorenzo Lucca,Nott'm Forest,FWD,0,15,0.25,28,4,126,30
+37,527,taiwo awoniyi|nottingham forest,Taiwo Awoniyi,Nott'm Forest,FWD,0.1,15,0.2,25.3,15,432,75
+37,675,angus gunn|nottingham forest,Angus Gunn,Nott'm Forest,GK,0,0,0,38.2,1,45,0
+37,503,carlos miguel dos santos pereira|nottingham forest,Carlos Miguel dos Santos Pereira,Nott'm Forest,GK,0,0,0,0,0,0,0
+37,715,john victor maciel furtado|nottingham forest,John Victor Maciel Furtado,Nott'm Forest,GK,0,0,0,0,5,437,0
+37,504,matt turner|nottingham forest,Matt Turner,Nott'm Forest,GK,0,0,0,0,0,0,0
+37,502,matz sels|nottingham forest,Matz Sels,Nott'm Forest,GK,1,90,0.966,85.3,29,2487,100
+37,400,stefan ortega moreno|nottingham forest,Stefan Ortega Moreno,Nott'm Forest,GK,0,0,1,90,3,270,0
+37,835,archie whitehall|nottingham forest,Archie Whitehall,Nott'm Forest,MID,0,0,0,0,,0,
+37,516,callum hudson odoi|nottingham forest,Callum Hudson-Odoi,Nott'm Forest,MID,0,0,0,0,30,1838,0
+37,669,dan ndoye|nottingham forest,Dan Ndoye,Nott'm Forest,MID,0,0,0.292,22.8,24,1167,0
+37,734,dilane bakwa|nottingham forest,Dilane Bakwa,Nott'm Forest,MID,0.462,37.4,0.462,37.4,13,529,100
+37,517,elliot anderson|nottingham forest,Elliot Anderson,Nott'm Forest,MID,0.972,87.9,0.972,87.9,36,3178,100
+37,523,eric da silva moreira|nottingham forest,Eric da Silva Moreira,Nott'm Forest,MID,0,0,0,0,0,0,100
+37,521,ibrahim sangar|nottingham forest,Ibrahim Sangaré,Nott'm Forest,MID,0,0,0.462,37.8,26,1989,0
+37,426,james mcatee|nottingham forest,James McAtee,Nott'm Forest,MID,0.167,15,0.167,19.7,12,270,50
+37,836,jimmy sinclair|nottingham forest,Jimmy Sinclair,Nott'm Forest,MID,0,0,0,0,,0,
+37,518,jo o pedro ferreira da silva|nottingham forest,João Pedro Ferreira da Silva,Nott'm Forest,MID,0,0,0,0,1,11,0
+37,520,lewis o brien|nottingham forest,Lewis O'Brien,Nott'm Forest,MID,0,0,0,0,,0,0
+37,524,marko stameni|nottingham forest,Marko Stamenić,Nott'm Forest,MID,0,0,0,0,,0,0
+37,515,morgan gibbs white|nottingham forest,Morgan Gibbs-White,Nott'm Forest,MID,0,0,0.471,41.4,35,2921,0
+37,519,nicol s dom nguez|nottingham forest,Nicolás Domínguez,Nott'm Forest,MID,0.8,75,0.64,40.6,25,1074,100
+37,693,omari hutchinson|nottingham forest,Omari Hutchinson,Nott'm Forest,MID,0.517,15,0.517,48.9,29,1530,75
+37,522,ryan yates|nottingham forest,Ryan Yates,Nott'm Forest,MID,0.095,23.7,0.095,23.7,21,577,50
+37,576,ashley phillips|tottenham,Ashley Phillips,Spurs,DEF,0,0,0,0,,0,0
+37,571,ben davies|tottenham,Ben Davies,Spurs,DEF,0,0,0,0,3,136,0
+37,569,cristian romero|tottenham,Cristian Romero,Spurs,DEF,0,0,0,0,23,1869,0
+37,574,destiny udogie|tottenham,Destiny Udogie,Spurs,DEF,0.8,75,0.667,62.2,18,1178,100
+37,573,djed spence|tottenham,Djed Spence,Spurs,DEF,0.2,15,0.786,67,28,1938,100
+37,750,james rowswell|tottenham,James Rowswell,Spurs,DEF,0,0.8,0,0.8,1,1,
+37,804,jo o victor de souza menezes|tottenham,João Victor de Souza Menezes,Spurs,DEF,0.5,32.8,0.5,32.8,4,142,
+37,745,jun ai byfield|tottenham,Jun'ai Byfield,Spurs,DEF,0,0.8,0,0.8,1,1,
+37,570,kevin danso|tottenham,Kevin Danso,Spurs,DEF,0.9,85,0.682,56.7,22,1309,100
+37,578,luka vu kovi|tottenham,Luka Vušković,Spurs,DEF,0,0,0,0,0,0,0
+37,575,micky van de ven|tottenham,Micky van de Ven,Spurs,DEF,1,86.7,1,86.7,33,2861,100
+37,568,pedro porro sauceda|tottenham,Pedro Porro Sauceda,Spurs,DEF,0.938,80.9,0.938,80.9,32,2613,100
+37,572,radu dr gu in|tottenham,Radu Drăgușin,Spurs,DEF,0,5,0.556,53.3,9,514,20
+37,577,takai k ta|tottenham,Takai Kōta,Spurs,DEF,0,0,0,0,,0,0
+37,599,dane scarlett|tottenham,Dane Scarlett,Spurs,FWD,0,0,0,0,2,7,0
+37,596,dominic solanke mitchell|tottenham,Dominic Solanke-Mitchell,Spurs,FWD,0,0,0.183,16,15,997,0
+37,818,james wilson|tottenham,James Wilson,Spurs,FWD,0,0,0,0,,0,
+37,726,randal kolo muani|tottenham,Randal Kolo Muani,Spurs,FWD,0.714,60,0.714,53.7,28,1570,100
+37,597,richarlison de andrade|tottenham,Richarlison de Andrade,Spurs,FWD,0.9,80,0.6,56.1,30,1792,100
+37,598,will lankshear|tottenham,Will Lankshear,Spurs,FWD,0,0,0,0,,0,0
+37,567,anton n kinsk|tottenham,Antonín Kinský,Spurs,GK,1,90,1,90,5,450,100
+37,566,brandon austin|tottenham,Brandon Austin,Spurs,GK,0,0,0,0,0,0,0
+37,565,guglielmo vicario|tottenham,Guglielmo Vicario,Spurs,GK,0,0,0,0,31,2790,0
+37,591,archie gray|tottenham,Archie Gray,Spurs,MID,0.5,61.5,0.783,61.5,23,1463,75
+37,590,bryan gil salvatierra|tottenham,Bryan Gil Salvatierra,Spurs,MID,0,0,0,0,,0,0
+37,595,callum olusesi|tottenham,Callum Olusesi,Spurs,MID,0,11.9,0,11.9,1,14,
+37,796,conor gallagher|tottenham,Conor Gallagher,Spurs,MID,0.857,70.7,0.857,70.7,14,1012,100
+37,583,dejan kulusevski|tottenham,Dejan Kulusevski,Spurs,MID,0,0,0,0,,0,0
+37,581,james maddison|tottenham,James Maddison,Spurs,MID,0,5,0,4.2,1,5,100
+37,673,jo o maria lobo alves palhares costa palhinha gon alves|tottenham,João Maria Lobo Alves Palhares Costa Palhinha Gonçalves,Spurs,MID,0.677,62.4,0.677,62.4,31,2034,100
+37,586,lucas bergvall|tottenham,Lucas Bergvall,Spurs,MID,0.478,30,0.478,38.3,23,955,100
+37,790,luc williams barnett|tottenham,Lucá Williams-Barnett,Spurs,MID,0,0,0,0,,0,
+37,589,manor solomon|tottenham,Manor Solomon,Spurs,MID,0,0,0,0,,0,0
+37,584,mathys tel|tottenham,Mathys Tel,Spurs,MID,0.75,60,0.379,36.7,29,1172,100
+37,592,mikey moore|tottenham,Mikey Moore,Spurs,MID,0,0,0,0,,0,0
+37,582,mohammed kudus|tottenham,Mohammed Kudus,Spurs,MID,0,0,0,0,19,1535,0
+37,593,pape matar sarr|tottenham,Pape Matar Sarr,Spurs,MID,0,52.4,0.542,52.4,24,1350,100
+37,811,rio kyerematen|tottenham,Rio Kyerematen,Spurs,MID,0,0,0,0,,0,
+37,585,rodrigo bentancur|tottenham,Rodrigo Bentancur,Spurs,MID,0.875,75,0.875,69.9,24,1709,100
+37,579,son heung min|tottenham,Son Heung-min,Spurs,MID,0,0,0,0,0,0,0
+37,588,wilson odobert|tottenham,Wilson Odobert,Spurs,MID,0,0,0,0,24,972,0
+37,717,xavi simons|tottenham,Xavi Simons,Spurs,MID,0,0,0,0,28,1747,0
+37,594,yang min hyeok|tottenham,Yang Min-hyeok,Spurs,MID,0,0,0,0,,0,0
+37,751,yusuf akhamrich|tottenham,Yusuf Akhamrich,Spurs,MID,0,0,0,0,,0,0
+37,587,yves bissouma|tottenham,Yves Bissouma,Spurs,MID,0,5,0.636,51.6,11,600,20
+37,533,aji alese|sunderland,Aji Alese,Sunderland,DEF,0,0,0,0,,0,0
+37,678,arthur masuaku|sunderland,Arthur Masuaku,Sunderland,DEF,0,0,0,0,3,125,0
+37,531,daniel ballard|sunderland,Daniel Ballard,Sunderland,DEF,0,0,0,0,29,2144,0
+37,535,dennis cirkin|sunderland,Dennis Cirkin,Sunderland,DEF,0.375,36.1,0.375,36.1,8,319,100
+37,774,jenson jones|sunderland,Jenson Jones,Sunderland,DEF,0,0,0,0,,0,
+37,542,jenson seelt|sunderland,Jenson Seelt,Sunderland,DEF,0,0,0,0,2,133,0
+37,534,joe anderson|sunderland,Joe Anderson,Sunderland,DEF,0,0,0,0,0,0,0
+37,536,leo fuhr hjelde|sunderland,Leo Fuhr Hjelde,Sunderland,DEF,0,0,0,0,,0,0
+37,539,luke o nien|sunderland,Luke O'Nien,Sunderland,DEF,0.4,37.1,0.4,37.1,10,408,100
+37,724,lutsharel geertruida|sunderland,Lutsharel Geertruida,Sunderland,DEF,0.577,54.1,0.577,54.1,26,1501,
+37,537,niall huggins|sunderland,Niall Huggins,Sunderland,DEF,0,0,0,0,0,0,0
+37,694,nordi mukiele|sunderland,Nordi Mukiele,Sunderland,DEF,1,86.8,1,86.8,30,2604,100
+37,683,omar alderete|sunderland,Omar Alderete,Sunderland,DEF,0.969,86.3,0.969,86.3,32,2775,100
+37,541,reinildo mandava|sunderland,Reinildo Mandava,Sunderland,DEF,0.913,76.6,0.913,76.6,23,1786,100
+37,540,timoth e pemb l|sunderland,Timothée Pembélé,Sunderland,DEF,0,0,0,0,0,0,0
+37,532,trai hume|sunderland,Trai Hume,Sunderland,DEF,0.889,78.7,0.889,78.7,36,2883,
+37,538,zak johnson|sunderland,Zak Johnson,Sunderland,DEF,0,0,0,0,0,0,0
+37,562,ahmed abdullahi|sunderland,Ahmed Abdullahi,Sunderland,FWD,0,0,0,0,0,0,
+37,730,brian brobbey|sunderland,Brian Brobbey,Sunderland,FWD,0.69,58.7,0.69,58.7,29,1784,100
+37,561,eliezer mayenda dossou|sunderland,Eliezer Mayenda Dossou,Sunderland,FWD,0.4,34.2,0.4,34.2,20,751,40
+37,563,lu s hemir silva semedo|sunderland,Luís Hemir Silva Semedo,Sunderland,FWD,0,0,0,0,0,0,0
+37,564,nazarii rusyn|sunderland,Nazarii Rusyn,Sunderland,FWD,0,0,0,0,0,0,0
+37,560,wilson isidor|sunderland,Wilson Isidor,Sunderland,FWD,0.367,33.4,0.367,33.4,30,1106,100
+37,528,anthony patterson|sunderland,Anthony Patterson,Sunderland,GK,0,0,0,0,0,0,0
+37,530,blondy nna noukeu|sunderland,Blondy Nna Noukeu,Sunderland,GK,0,0,0,0,0,0,0
+37,812,melker ellborg|sunderland,Melker Ellborg,Sunderland,GK,0,0,1,90,3,270,0
+37,670,robin roefs|sunderland,Robin Roefs,Sunderland,GK,1,90,1,90,33,2970,100
+37,529,simon moore|sunderland,Simon Moore,Sunderland,GK,0,0,0,0,0,0,0
+37,554,abdoullah ba|sunderland,Abdoullah Ba,Sunderland,MID,0,0,0,0,0,0,
+37,555,alan browne|sunderland,Alan Browne,Sunderland,MID,0,0,0,0,,0,0
+37,735,bertrand traor|sunderland,Bertrand Traoré,Sunderland,MID,0.75,50.9,0.75,50.9,12,634,100
+37,553,chemsdine talbi|sunderland,Chemsdine Talbi,Sunderland,MID,0.593,53,0.593,53,27,1523,100
+37,551,chris rigg|sunderland,Chris Rigg,Sunderland,MID,0.688,44.3,0.688,44.3,16,744,
+37,549,dan neil|sunderland,Dan Neil,Sunderland,MID,0,0,0,0,3,13,0
+37,800,djiamgone jocelin ta bi|sunderland,Djiamgone Jocelin Ta Bi,Sunderland,MID,1,38,1,38,1,38,100
+37,547,enzo le f e|sunderland,Enzo Le Fée,Sunderland,MID,0.912,79.8,0.912,79.8,34,2750,100
+37,668,granit xhaka|sunderland,Granit Xhaka,Sunderland,MID,0.938,84.2,0.938,84.2,32,2721,100
+37,544,habib diarra|sunderland,Habib Diarra,Sunderland,MID,0.833,73.7,0.833,73.7,18,1361,100
+37,557,harrison jones|sunderland,Harrison Jones,Sunderland,MID,0,0,0,0,0,0,
+37,550,ian poveda ocampo|sunderland,Ian Poveda-Ocampo,Sunderland,MID,0,0,0,0,,0,
+37,821,jack whittaker|sunderland,Jack Whittaker,Sunderland,MID,0,0,0,0,,0,
+37,558,jay matete|sunderland,Jay Matete,Sunderland,MID,0,0,0,0,0,0,0
+37,822,jaydon jones|sunderland,Jaydon Jones,Sunderland,MID,0,0,0,0,,0,
+37,546,milan aleksi|sunderland,Milan Aleksić,Sunderland,MID,0,0,0,0,,0,100
+37,559,nectarios triantis|sunderland,Nectarios Triantis,Sunderland,MID,0,0,0,0,,0,0
+37,813,nilson angulo|sunderland,,Sunderland,MID,0,0,0.5,40.9,6,265,0
+37,552,noah sadiki|sunderland,Noah Sadiki,Sunderland,MID,1,87.9,1,87.9,31,2725,100
+37,545,patrick roberts|sunderland,Patrick Roberts,Sunderland,MID,0,0,0,0,1,27,0
+37,556,pierre ekwah elimby|sunderland,Pierre Ekwah Elimby,Sunderland,MID,0,0,0,0,,0,0
+37,548,romaine mundle|sunderland,Romaine Mundle,Sunderland,MID,0,0,0,0,14,399,0
+37,543,simon adingra|sunderland,Simon Adingra,Sunderland,MID,0,0,0,0,14,649,0
+37,775,tymur tutierov|sunderland,Tymur Tutierov,Sunderland,MID,0,0,0,0,,0,0
+37,610,aaron wan bissaka|west ham,Aaron Wan-Bissaka,West Ham,DEF,0.917,83,0.917,83,24,2018,100
+37,752,airidas golambeckis|west ham,Airidas Golambeckis,West Ham,DEF,0,0,0,0,,0,
+37,815,axel disasi|west ham,Axel Disasi,West Ham,DEF,1,89.5,1,89.5,12,1074,100
+37,603,el hadji malick diouf|west ham,El Hadji Malick Diouf,West Ham,DEF,0.933,83.4,0.933,83.4,30,2526,100
+37,604,emerson palmieri dos santos|west ham,Emerson Palmieri dos Santos,West Ham,DEF,0,0,0,0,,0,0
+37,747,ezra mayers|west ham,Ezra Mayers,West Ham,DEF,0,16,0,16,6,113,
+37,609,jean clair todibo|west ham,Jean-Clair Todibo,West Ham,DEF,0.955,80.9,0.955,80.9,22,1792,100
+37,611,kaelan casey|west ham,Kaelan Casey,West Ham,DEF,0,0,0,0,0,0,0
+37,606,konstantinos mavropanos|west ham,Konstantinos Mavropanos,West Ham,DEF,0.862,79.4,0.862,79.4,29,2352,100
+37,659,kyle walker peters|west ham,Kyle Walker-Peters,West Ham,DEF,0.1,15,0.636,55.4,22,1288,50
+37,605,maximilian kilman|west ham,Maximilian Kilman,West Ham,DEF,0.81,72.1,0.81,72.1,21,1559,100
+37,607,nayef aguerd|west ham,Nayef Aguerd,West Ham,DEF,0,0,0,0,2,180,0
+37,608,ollie scarles|west ham,Ollie Scarles,West Ham,DEF,0,0,0.692,48.1,13,656,0
+37,626,callum marshall|west ham,Callum Marshall,West Ham,FWD,0,0,0,0,2,58,0
+37,671,callum wilson|west ham,Callum Wilson,West Ham,FWD,0.333,33,0.333,33,30,1099,100
+37,624,jarrod bowen|west ham,Jarrod Bowen,West Ham,FWD,1,89.6,1,89.6,36,3226,100
+37,625,niclas f llkrug|west ham,Niclas Füllkrug,West Ham,FWD,0,0,0,0,8,407,0
+37,785,pablo felipe pereira de jesus|west ham,Pablo Felipe Pereira de Jesus,West Ham,FWD,0.75,60,0.75,59.9,12,747,100
+37,791,valent n castellanos|west ham,Valentín Castellanos,West Ham,FWD,1,77.1,1,77.1,16,1233,100
+37,600,alphonse areola|west ham,Alphonse Areola,West Ham,GK,0,0,1,90,20,1800,0
+37,825,finlay herrick|west ham,Finlay Herrick,West Ham,GK,0,0,0,0,,0,0
+37,602,kriszti n hegyi|west ham,Krisztián Hegyi,West Ham,GK,0,0,0,0,0,0,0
+37,738,lukasz fabianski|west ham,Lukasz Fabianski,West Ham,GK,0,0,0,0,,0,100
+37,679,mads hermansen|west ham,Mads Hermansen,West Ham,GK,1,90,1,90,16,1440,100
+37,601,wes foderingham|west ham,Wes Foderingham,West Ham,GK,0,0,0,0,0,0,0
+37,326,adama traor diarra|west ham,Adama Traoré Diarra,West Ham,MID,0.031,10.1,0.031,10.1,24,376,75
+37,621,andy irving|west ham,Andy Irving,West Ham,MID,0,0,0,0,7,156,0
+37,615,crysencio summerville|west ham,Crysencio Summerville,West Ham,MID,0.931,78.1,0.931,78.1,29,2290,100
+37,616,edson lvarez vel zquez|west ham,Edson Álvarez Velázquez,West Ham,MID,0,0,0,0,,0,0
+37,623,freddie potts|west ham,Freddie Potts,West Ham,MID,0,9,0.545,49.2,22,1162,50
+37,620,george earthy|west ham,George Earthy,West Ham,MID,0,0,0,0,1,8,0
+37,618,guido rodr guez|west ham,Guido Rodríguez,West Ham,MID,0,0,0,0,6,175,0
+37,802,keiber lamadrid|west ham,Keiber Lamadrid,West Ham,MID,0,0,0,0,,0,
+37,622,lewis orford|west ham,Lewis Orford,West Ham,MID,0,0,0,0,0,0,0
+37,612,lucas tolentino coelho de lima|west ham,Lucas Tolentino Coelho de Lima,West Ham,MID,0,0,0,0,18,1513,0
+37,619,luis guilherme lira dos santos|west ham,Luis Guilherme Lira dos Santos,West Ham,MID,0,0,0,0,5,121,0
+37,708,mateus gon alo espanha fernandes|west ham,Mateus Gonçalo Espanha Fernandes,West Ham,MID,0.971,83.1,0.971,83.1,34,2837,100
+37,617,maxwel cornet|west ham,Maxwel Cornet,West Ham,MID,0,0,0,0,,0,0
+37,758,mohamadou kant|west ham,Mohamadou Kanté,West Ham,MID,0,3.6,0,3.6,9,38,
+37,718,soungoutou magassa|west ham,Soungoutou Magassa,West Ham,MID,0.5,40.8,0.5,40.8,22,971,
+37,613,tom sou ek|west ham,Tomáš Souček,West Ham,MID,0.667,58.7,0.667,58.7,33,2038,100
+37,641,alfie pond|wolverhampton wanderers,Alfie Pond,Wolves,DEF,0,0,0,0,0,0,0
+37,639,bastien meupiyou menadjou|wolverhampton wanderers,Bastien Meupiyou Menadjou,Wolves,DEF,0,0,0,0,,0,0
+37,682,david m ller wolfe|wolverhampton wanderers,David Møller Wolfe,Wolves,DEF,0.1,15,0.45,40.6,20,885,100
+37,631,emmanuel agbadou|wolverhampton wanderers,Emmanuel Agbadou,Wolves,DEF,0,0,0,0,14,1100,0
+37,633,hugo bueno l pez|wolverhampton wanderers,Hugo Bueno López,Wolves,DEF,0.788,68.6,0.788,68.6,33,2338,100
+37,695,jackson tchatchoua|wolverhampton wanderers,Jackson Tchatchoua,Wolves,DEF,0.613,55.7,0.613,55.7,31,1834,
+37,638,ki jana hoever|wolverhampton wanderers,Ki-Jana Hoever,Wolves,DEF,0,0,0,0,8,423,0
+37,709,ladislav krejc|wolverhampton wanderers,Ladislav Krejcí,Wolves,DEF,0.962,84.2,0.962,84.2,26,2201,100
+37,632,matt doherty|wolverhampton wanderers,Matt Doherty,Wolves,DEF,1,71.5,1,71.5,11,786,100
+37,640,pedro cardoso de lima|wolverhampton wanderers,Pedro Cardoso de Lima,Wolves,DEF,0.429,31.9,0.429,31.9,7,244,100
+37,635,rodrigo martins gomes|wolverhampton wanderers,Rodrigo Martins Gomes,Wolves,DEF,0.35,35.6,0.35,35.6,20,789,100
+37,766,saheed olagunju|wolverhampton wanderers,Saheed Olagunju,Wolves,DEF,0,0,0,0,,0,
+37,636,santiago ignacio bueno|wolverhampton wanderers,Santiago Ignacio Bueno,Wolves,DEF,0.963,87.4,0.963,87.4,27,2372,100
+37,637,toti gomes|wolverhampton wanderers,Toti Gomes,Wolves,DEF,0.944,77.1,0.944,77.1,18,1399,100
+37,634,yerson mosquera valdelamar|wolverhampton wanderers,Yerson Mosquera Valdelamar,Wolves,DEF,0.88,76.9,0.88,76.9,25,1957,100
+37,817,adam armstrong|wolverhampton wanderers,Adam Armstrong,Wolves,FWD,1,83.1,1,83.1,12,997,
+37,655,f bio soares silva|wolverhampton wanderers,Fábio Soares Silva,Wolves,FWD,0,0,0,0,0,0,0
+37,657,leon chiwome|wolverhampton wanderers,Leon Chiwome,Wolves,FWD,0,0,0,0,,0,100
+37,749,mateus man|wolverhampton wanderers,Mateus Mané,Wolves,FWD,0.68,61.2,0.68,61.2,25,1607,
+37,658,nathan fraser|wolverhampton wanderers,Nathan Fraser,Wolves,FWD,0,0,0,0,0,0,
+37,656,sa a kalajd i|wolverhampton wanderers,Saša Kalajdžić,Wolves,FWD,0,0,0,0,1,14,0
+37,720,tolu arokodare|wolverhampton wanderers,Tolu Arokodare,Wolves,FWD,0.419,40,0.419,40,31,1360,
+37,828,alfie brooks|wolverhampton wanderers,Alfie Brooks,Wolves,GK,0,0,0,0,,0,
+37,629,daniel bentley|wolverhampton wanderers,Daniel Bentley,Wolves,GK,0,0,1,90,3,270,0
+37,831,josh gracey|wolverhampton wanderers,Josh Gracey,Wolves,GK,0,0,0,0,,0,
+37,628,jos malheiro de s|wolverhampton wanderers,José Malheiro de Sá,Wolves,GK,1,90,0.5,45,21,1890,90
+37,627,sam johnstone|wolverhampton wanderers,Sam Johnstone,Wolves,GK,0,0,0,0,12,1080,0
+37,643,andr trindade da costa neto|wolverhampton wanderers,André Trindade da Costa Neto,Wolves,MID,0.848,76.4,0.848,76.4,33,2580,100
+37,816,angel gomes|wolverhampton wanderers,Angel Gomes,Wolves,MID,0.545,33.2,0.545,33.2,11,392,100
+37,649,boubacar traor|wolverhampton wanderers,Boubacar Traoré,Wolves,MID,0,0,0,0,,0,0
+37,652,enso gonz lez medina|wolverhampton wanderers,Enso González Medina,Wolves,MID,0,0,0,0,0,0,
+37,778,ethan sutherland|wolverhampton wanderers,Ethan Sutherland,Wolves,MID,0,0,0,0,,0,
+37,645,fer l pez gonz lez|wolverhampton wanderers,Fer López González,Wolves,MID,0,0,0,0,9,228,0
+37,647,gon alo manuel ganchinho guedes|wolverhampton wanderers,Gonçalo Manuel Ganchinho Guedes,Wolves,MID,0,0,0,0,,0,0
+37,642,hwang hee chan|wolverhampton wanderers,Hwang Hee-chan,Wolves,MID,0.667,50.3,0.667,50.3,24,1271,100
+37,644,jean ricner bellegarde|wolverhampton wanderers,Jean-Ricner Bellegarde,Wolves,MID,0.6,46.2,0.6,46.2,25,1228,100
+37,809,jerome abbey|wolverhampton wanderers,Jerome Abbey,Wolves,MID,0,0,0,0,,0,
+37,663,jhon arias|wolverhampton wanderers,Jhon Arias,Wolves,MID,0,0,0,0,23,1117,0
+37,653,joe hodge|wolverhampton wanderers,Joe Hodge,Wolves,MID,0,0,0,0,,0,0
+37,646,jo o victor gomes da silva|wolverhampton wanderers,João Victor Gomes da Silva,Wolves,MID,0.912,79.5,0.912,79.5,34,2739,100
+37,767,luke rawlings|wolverhampton wanderers,Luke Rawlings,Wolves,MID,0,0,0,0,,0,
+37,648,marshall munetsi|wolverhampton wanderers,Marshall Munetsi,Wolves,MID,0,0,0,0,13,872,0
+37,650,tawanda chirewa|wolverhampton wanderers,Tawanda Chirewa,Wolves,MID,0,0,0,0,2,25,0
+37,777,temple ojinnaka|wolverhampton wanderers,Temple Ojinnaka,Wolves,MID,0,0,0,0,,0,0
+37,651,tom edozie|wolverhampton wanderers,Tom Edozie,Wolves,MID,0,3.4,0,3.4,3,12,
+38,11,benjamin white|arsenal,Benjamin White,Arsenal,DEF,0.375,28,0.375,28,12,699,50
+38,13,brayden clarke|arsenal,Brayden Clarke,Arsenal,DEF,0,0,0,0,0,0,
+38,662,cristhian mosquera|arsenal,Cristhian Mosquera,Arsenal,DEF,0.389,40.7,0.389,40.7,18,806,100
+38,5,gabriel dos santos magalh es|arsenal,Gabriel dos Santos Magalhães,Arsenal,DEF,0.967,86.7,0.967,86.7,30,2615,100
+38,9,jakub kiwior|arsenal,Jakub Kiwior,Arsenal,DEF,0,0,0,0,,0,0
+38,15,josh nichols|arsenal,Josh Nichols,Arsenal,DEF,0,0,0,0,0,0,
+38,8,jurri n timber|arsenal,Jurriën Timber,Arsenal,DEF,0,0,0,0,30,2452,0
+38,14,maldini kacurri|arsenal,Maldini Kacurri,Arsenal,DEF,0,0,0,0,0,0,0
+38,759,marli salmon|arsenal,Marli Salmon,Arsenal,DEF,0,0,0,0,,0,
+38,10,myles lewis skelly|arsenal,Myles Lewis-Skelly,Arsenal,DEF,0.222,29,0.222,29,18,590,
+38,725,piero hincapi|arsenal,Piero Hincapié,Arsenal,DEF,0.826,71.1,0.826,71.1,23,1679,100
+38,7,riccardo calafiori|arsenal,Riccardo Calafiori,Arsenal,DEF,0.625,48.2,0.625,48.2,24,1581,75
+38,6,william saliba|arsenal,William Saliba,Arsenal,DEF,0.967,83.7,0.967,83.7,30,2524,100
+38,31,gabriel fernando de jesus|arsenal,Gabriel Fernando de Jesus,Arsenal,FWD,0.154,23.1,0.154,23.1,13,344,100
+38,30,kai havertz|arsenal,Kai Havertz,Arsenal,FWD,0.6,43.2,0.6,43.2,10,460,100
+38,666,viktor gy keres|arsenal,Viktor Gyökeres,Arsenal,FWD,0.765,62.2,0.765,62.2,34,2193,100
+38,1,david raya mart n|arsenal,David Raya Martín,Arsenal,GK,1,90,1,90,36,3240,
+38,3,karl hein|arsenal,Karl Hein,Arsenal,GK,0,0,0,0,0,0,0
+38,2,kepa arrizabalaga revuelta|arsenal,Kepa Arrizabalaga Revuelta,Arsenal,GK,0,0,0,0,0,0,
+38,4,tommy setford|arsenal,Tommy Setford,Arsenal,GK,0,0,0,0,0,0,
+38,29,albert sambi lokonga|arsenal,Albert Sambi Lokonga,Arsenal,MID,0,0,0,0,,0,0
+38,711,andre harriman annous|arsenal,Andre Harriman-Annous,Arsenal,MID,0,0,0,0,,0,
+38,16,bukayo saka|arsenal,Bukayo Saka,Arsenal,MID,0.8,68.8,0.8,68.8,30,2128,100
+38,24,christian n rgaard|arsenal,Christian Nørgaard,Arsenal,MID,0,7.9,0,7.9,6,56,100
+38,21,declan rice|arsenal,Declan Rice,Arsenal,MID,0.971,85.4,0.971,85.4,35,3003,100
+38,266,eberechi eze|arsenal,Eberechi Eze,Arsenal,MID,0.677,55.2,0.677,55.2,31,1798,100
+38,25,ethan nwaneri|arsenal,Ethan Nwaneri,Arsenal,MID,0,0,0,0,6,165,0
+38,23,f bio ferreira vieira|arsenal,Fábio Ferreira Vieira,Arsenal,MID,0,0,0,0,,0,0
+38,19,gabriel martinelli silva|arsenal,Gabriel Martinelli Silva,Arsenal,MID,0.357,31.4,0.357,31.4,28,974,100
+38,28,ismeal kabia|arsenal,Ismeal Kabia,Arsenal,MID,0,0,0,0,0,0,0
+38,20,leandro trossard|arsenal,Leandro Trossard,Arsenal,MID,0.667,60.4,0.667,60.4,30,1907,100
+38,17,martin degaard|arsenal,Martin Ødegaard,Arsenal,MID,0.652,52.5,0.652,52.5,23,1273,100
+38,26,mart n zubimendi ib ez|arsenal,Martín Zubimendi Ibáñez,Arsenal,MID,0.917,79.5,0.917,79.5,36,2900,100
+38,700,max dowman|arsenal,Max Dowman,Arsenal,MID,0,15.5,0,15.5,5,91,100
+38,22,mikel merino zaz n|arsenal,Mikel Merino Zazón,Arsenal,MID,0,0,0,0,21,996,0
+38,18,noni madueke|arsenal,Noni Madueke,Arsenal,MID,0.6,42.2,0.6,42.2,25,1122,100
+38,42,andr s garc a|aston villa,Andrés García,Aston Villa,DEF,0,6.5,0,6.5,5,38,100
+38,38,ezri konsa ngoyo|aston villa,Ezri Konsa Ngoyo,Aston Villa,DEF,1,89.2,1,89.2,33,2945,100
+38,39,ian maatsen|aston villa,Ian Maatsen,Aston Villa,DEF,0.571,50,0.571,50,28,1495,
+38,44,lamare bogarde|aston villa,Lamare Bogarde,Aston Villa,DEF,0.37,32.5,0.37,32.5,27,970,100
+38,768,leon routh|aston villa,Leon Routh,Aston Villa,DEF,0,0,0,0,,0,
+38,45,lino da cruz sousa|aston villa,Lino da Cruz Sousa,Aston Villa,DEF,0,0,0,0,0,0,0
+38,37,lucas digne|aston villa,Lucas Digne,Aston Villa,DEF,0.667,55.5,0.667,55.5,30,1752,100
+38,36,matty cash|aston villa,Matty Cash,Aston Villa,DEF,1,87.3,1,87.3,33,2881,100
+38,41,pau torres|aston villa,Pau Torres,Aston Villa,DEF,0.895,81.1,0.895,81.1,19,1566,100
+38,781,tj carroll|aston villa,TJ Carroll,Aston Villa,DEF,0,0,0,0,,0,
+38,710,travis patterson|aston villa,Travis Patterson,Aston Villa,DEF,0,0,0,0,0,0,
+38,701,triston rowe|aston villa,Triston Rowe,Aston Villa,DEF,0,0,0,0,0,0,0
+38,40,tyrone mings|aston villa,Tyrone Mings,Aston Villa,DEF,0.875,75.6,0.875,75.6,16,1232,100
+38,719,victor lindel f|aston villa,Victor Lindelöf,Aston Villa,DEF,0.6,51.7,0.6,51.7,15,825,100
+38,46,yasin zcan|aston villa,Yasin Özcan,Aston Villa,DEF,0,0,0,0,0,0,0
+38,43,lex moreno lopera|aston villa,Álex Moreno Lopera,Aston Villa,DEF,0,0,0,0,0,0,0
+38,64,ollie watkins|aston villa,Ollie Watkins,Aston Villa,FWD,0.886,74.5,0.886,74.5,35,2653,100
+38,808,tammy abraham|aston villa,Tammy Abraham,Aston Villa,FWD,0.167,20.3,0.167,20.3,12,278,
+38,65,z piqueno redmond|aston villa,Zépiqueno Redmond,Aston Villa,FWD,0,0,0,0,0,0,0
+38,32,emiliano mart nez romero|aston villa,Emiliano Martínez Romero,Aston Villa,GK,1,88.5,1,88.5,31,2745,100
+38,35,filip marschall|aston villa,Filip Marschall,Aston Villa,GK,0,0,0,0,,0,0
+38,688,james wright|aston villa,James Wright,Aston Villa,GK,0,0,0,0,0,0,
+38,34,joe gauci|aston villa,Joe Gauci,Aston Villa,GK,0,0,0,0,0,0,0
+38,33,marco bizot|aston villa,Marco Bizot,Aston Villa,GK,0.833,80.4,0.833,80.4,6,495,100
+38,757,ronnie hollingshead|aston villa,Ronnie Hollingshead,Aston Villa,GK,0,0,0,0,,0,
+38,703,sam proctor|aston villa,Sam Proctor,Aston Villa,GK,0,0,0,0,0,0,
+38,792,alysson edward franco da rocha dos santos|aston villa,Alysson Edward Franco da Rocha dos Santos,Aston Villa,MID,0,13.3,0,13.3,3,47,100
+38,59,amadou onana|aston villa,Amadou Onana,Aston Villa,MID,0.219,17.8,0.219,17.8,24,1738,25
+38,60,ben broggio|aston villa,Ben Broggio,Aston Villa,MID,0,0,0,0,0,0,0
+38,58,boubacar kamara|aston villa,Boubacar Kamara,Aston Villa,MID,0,0,0,0,18,1410,0
+38,702,bradley burrowes|aston villa,Bradley Burrowes,Aston Villa,MID,0,13.6,0,13.6,1,16,
+38,53,donyell malen|aston villa,Donyell Malen,Aston Villa,MID,0,0,0,0,21,640,0
+38,699,douglas luiz soares de paulo|aston villa,Douglas Luiz Soares de Paulo,Aston Villa,MID,0.579,41.4,0.579,41.4,19,840,100
+38,50,emiliano buend a stati|aston villa,Emiliano Buendía Stati,Aston Villa,MID,0.559,43.4,0.559,43.4,34,1579,100
+38,56,enzo barrenechea|aston villa,Enzo Barrenechea,Aston Villa,MID,0,0,0,0,,0,0
+38,754,george hemmings|aston villa,George Hemmings,Aston Villa,MID,0,10.6,0,10.6,2,25,
+38,389,harvey elliott|aston villa,Harvey Elliott,Aston Villa,MID,0,0,0,0,5,110,0
+38,456,jadon sancho|aston villa,Jadon Sancho,Aston Villa,MID,0.409,35.7,0.409,35.7,22,862,100
+38,62,jamaldeen jimoh aloba|aston villa,Jamaldeen Jimoh-Aloba,Aston Villa,MID,0,0,0,0,1,8,0
+38,54,john mcginn|aston villa,John McGinn,Aston Villa,MID,0.964,72.6,0.964,72.6,28,2043,100
+38,63,kadan young|aston villa,Kadan Young,Aston Villa,MID,0,0,0,0,0,0,0
+38,61,leander dendoncker|aston villa,Leander Dendoncker,Aston Villa,MID,0,0,0,0,0,0,0
+38,49,leon bailey|aston villa,Leon Bailey,Aston Villa,MID,0.167,26.2,0.167,26.2,12,360,100
+38,57,lewis dobbin|aston villa,Lewis Dobbin,Aston Villa,MID,0,0,0,0,,0,0
+38,47,morgan rogers|aston villa,Morgan Rogers,Aston Villa,MID,1,88.6,1,88.6,36,3190,100
+38,55,ross barkley|aston villa,Ross Barkley,Aston Villa,MID,0.316,33.7,0.316,33.7,19,714,100
+38,51,samuel iling junior|aston villa,Samuel Iling-Junior,Aston Villa,MID,0,0,0,0,,0,0
+38,48,youri tielemans|aston villa,Youri Tielemans,Aston Villa,MID,0.87,74.6,0.87,74.6,23,1751,100
+38,73,adam smith|bournemouth,Adam Smith,Bournemouth,DEF,0.6,42.1,0.6,42.1,20,895,100
+38,74,adrien truffert|bournemouth,Adrien Truffert,Bournemouth,DEF,1,88.8,1,88.8,36,3198,
+38,685,bafod diakit|bournemouth,Bafodé Diakité,Bournemouth,DEF,0.833,69.1,0.833,69.1,18,1275,100
+38,79,chris mepham|bournemouth,Chris Mepham,Bournemouth,DEF,0,0,0,0,0,0,0
+38,71,illia zabarnyi|bournemouth,Illia Zabarnyi,Bournemouth,DEF,0,0,0,0,,0,0
+38,77,james hill|bournemouth,James Hill,Bournemouth,DEF,0.741,68.4,0.741,68.4,27,1922,
+38,80,julio soler barreto|bournemouth,Julio Soler Barreto,Bournemouth,DEF,0,9.6,0,9.6,3,34,100
+38,78,juli n araujo z iga|bournemouth,Julián Araujo Zúñiga,Bournemouth,DEF,0,0,0,0,0,0,0
+38,72,marcos senesi bar n|bournemouth,Marcos Senesi Barón,Bournemouth,DEF,1,88.8,1,88.8,35,3108,100
+38,75,matai akinmboni|bournemouth,Matai Akinmboni,Bournemouth,DEF,0,0,0,0,0,0,100
+38,76,owen bevan|bournemouth,Owen Bevan,Bournemouth,DEF,0,0,0,0,0,0,
+38,721,veljko milosavljevic|bournemouth,Veljko Milosavljevic,Bournemouth,DEF,0.571,49.1,0.571,49.1,7,367,100
+38,713,lex jim nez s nchez|bournemouth,Álex Jiménez Sánchez,Bournemouth,DEF,0,0,0,0,31,2315,0
+38,99,daniel adu adjei|bournemouth,Daniel Adu-Adjei,Bournemouth,FWD,0,0,0,0,0,0,0
+38,98,enes nal|bournemouth,Enes Ünal,Bournemouth,FWD,0,7.9,0,7.9,21,196,100
+38,97,francisco evanilson de lima barbosa|bournemouth,Francisco Evanilson de Lima Barbosa,Bournemouth,FWD,0.882,74.6,0.882,74.6,34,2581,100
+38,100,junior kroupi|bournemouth,Junior Kroupi,Bournemouth,FWD,0.613,46.1,0.613,46.1,31,1516,100
+38,70,alex paulsen|bournemouth,Alex Paulsen,Bournemouth,GK,0,0,0,0,0,0,0
+38,69,callan mckenna|bournemouth,Callan McKenna,Bournemouth,GK,0,0,0,0,0,0,
+38,806,christos mandas|bournemouth,Christos Mandas,Bournemouth,GK,0,0,0,0,,0,
+38,782,fraser forster|bournemouth,Fraser Forster,Bournemouth,GK,0,0,0,0,,0,
+38,66,norberto murara neto|bournemouth,Norberto Murara Neto,Bournemouth,GK,0,0,0,0,0,0,0
+38,68,will dennis|bournemouth,Will Dennis,Bournemouth,GK,0,0,0,0,0,0,0
+38,67,or e petrovi|bournemouth,Đorđe Petrović,Bournemouth,GK,1,90,1,90,36,3240,
+38,90,alex scott|bournemouth,Alex Scott,Bournemouth,MID,0.917,75.7,0.917,75.7,36,2758,100
+38,801,alex t th|bournemouth,Alex Tóth,Bournemouth,MID,0.125,8.6,0.125,8.6,8,79,
+38,697,amine adli|bournemouth,Amine Adli,Bournemouth,MID,0.333,31.7,0.333,31.7,30,1057,
+38,391,ben gannon doak|bournemouth,Ben Gannon-Doak,Bournemouth,MID,0,8.7,0,8.7,7,72,100
+38,96,ben winterburn|bournemouth,Ben Winterburn,Bournemouth,MID,0,0,0,0,1,6,0
+38,799,charlie stevens|bournemouth,Charlie Stevens,Bournemouth,MID,0,0,0,0,,0,
+38,86,david brooks|bournemouth,David Brooks,Bournemouth,MID,0.433,36.1,0.433,36.1,30,1182,100
+38,94,dominic sadi|bournemouth,Dominic Sadi,Bournemouth,MID,0,0,0,0,,0,0
+38,93,hamed traor|bournemouth,Hamed Traorè,Bournemouth,MID,0,0,0,0,1,16,0
+38,81,justin kluivert|bournemouth,Justin Kluivert,Bournemouth,MID,0.556,47.4,0.556,47.4,18,914,100
+38,88,lewis cook|bournemouth,Lewis Cook,Bournemouth,MID,0.25,25.1,0.25,25.1,16,870,50
+38,91,luis sinisterra lucum|bournemouth,Luis Sinisterra Lucumí,Bournemouth,MID,0,0,0,0,,0,0
+38,756,malcom dacosta|bournemouth,Malcom DaCosta,Bournemouth,MID,0,0,0,0,,0,
+38,84,marcus tavernier|bournemouth,Marcus Tavernier,Bournemouth,MID,0.906,78.6,0.906,78.6,32,2552,100
+38,89,philip billing|bournemouth,Philip Billing,Bournemouth,MID,0,0,0,0,,0,0
+38,807,rayan vitor simpl cio rocha|bournemouth,Rayan Vitor Simplício Rocha,Bournemouth,MID,0.846,71.8,0.846,71.8,13,955,
+38,687,remy rees dottin|bournemouth,Remy Rees-Dottin,Bournemouth,MID,0,0,0,0,0,0,
+38,92,romain faivre|bournemouth,Romain Faivre,Bournemouth,MID,0,0,0,0,0,0,0
+38,87,ryan christie|bournemouth,Ryan Christie,Bournemouth,MID,0,0,0,0,26,978,0
+38,85,tyler adams|bournemouth,Tyler Adams,Bournemouth,MID,0.826,67.3,0.826,67.3,23,1589,100
+38,95,zain silcott duberry|bournemouth,Zain Silcott-Duberry,Bournemouth,MID,0,0,0,0,0,0,0
+38,116,aaron hickey|brentford,Aaron Hickey,Brentford,DEF,0.4,29.5,0.4,29.5,20,649,100
+38,114,benjamin arthur|brentford,Benjamin Arthur,Brentford,DEF,0,0,0,0,0,0,0
+38,115,benjamin fredrick|brentford,Benjamin Fredrick,Brentford,DEF,0,0,0,0,0,0,0
+38,824,conor mcmanus|brentford,Conor McManus,Brentford,DEF,0,0,0,0,,0,
+38,111,ethan pinnock|brentford,Ethan Pinnock,Brentford,DEF,1,79.5,1,79.5,4,318,100
+38,118,jayden meghoma|brentford,Jayden Meghoma,Brentford,DEF,0,0,0,0,,0,0
+38,823,joshua stephenson|brentford,Joshua Stephenson,Brentford,DEF,0,0,0,0,,0,
+38,107,keane lewis potter|brentford,Keane Lewis-Potter,Brentford,DEF,0.588,49.2,0.588,49.2,34,1782,
+38,117,kim ji soo|brentford,Kim Ji-soo,Brentford,DEF,0,0,0,0,0,0,0
+38,108,kristoffer ajer|brentford,Kristoffer Ajer,Brentford,DEF,0.731,63.6,0.731,63.6,26,1724,100
+38,112,mads roerslev rasmussen|brentford,Mads Roerslev Rasmussen,Brentford,DEF,0,0,0,0,,0,0
+38,110,michael kayode|brentford,Michael Kayode,Brentford,DEF,1,87.9,1,87.9,35,3078,100
+38,106,nathan collins|brentford,Nathan Collins,Brentford,DEF,0.909,83.4,0.909,83.4,33,2791,
+38,819,ollie shield|brentford,Ollie Shield,Brentford,DEF,0,0,0,0,,0,
+38,109,rico henry|brentford,Rico Henry,Brentford,DEF,0,0,0,0,25,1322,0
+38,113,sepp van den berg|brentford,Sepp van den Berg,Brentford,DEF,0.967,88.3,0.967,88.3,30,2663,100
+38,136,igor thiago nascimento rodrigues|brentford,Igor Thiago Nascimento Rodrigues,Brentford,FWD,0.972,85.8,0.972,85.8,36,3102,100
+38,137,iwan morgan|brentford,Iwan Morgan,Brentford,FWD,0,0,0,0,0,0,0
+38,797,kaye furo|brentford,Kaye Furo,Brentford,FWD,0,0.8,0,0.8,1,1,100
+38,101,caoimh n kelleher|brentford,Caoimhín Kelleher,Brentford,GK,1,90,1,90,35,3150,100
+38,102,ellery balcombe|brentford,Ellery Balcombe,Brentford,GK,0,0,0,0,0,0,
+38,105,h kon rafn valdimarsson|brentford,Hákon Rafn Valdimarsson,Brentford,GK,1,90,1,90,1,90,
+38,104,julian eyestone|brentford,Julian Eyestone,Brentford,GK,0,0,0,0,0,0,
+38,103,matthew cox|brentford,Matthew Cox,Brentford,GK,0,0,0,0,0,0,0
+38,122,antoni milambo|brentford,Antoni Milambo,Brentford,MID,0,0,0,0,1,45,0
+38,83,dango ouattara|brentford,Dango Ouattara,Brentford,MID,0.767,67.3,0.767,67.3,30,2091,100
+38,128,frank onyeka|brentford,Frank Onyeka,Brentford,MID,0,0,0,0,6,88,0
+38,123,f bio freitas gouveia carvalho|brentford,Fábio Freitas Gouveia Carvalho,Brentford,MID,0,0,0,0,6,100,0
+38,127,gustavo nunes fernandes gomes|brentford,Gustavo Nunes Fernandes Gomes,Brentford,MID,0,0,0,0,,0,0
+38,124,jordan henderson|brentford,Jordan Henderson,Brentford,MID,0.7,58.1,0.7,58.1,30,1825,100
+38,748,josh dasilva|brentford,Josh Dasilva,Brentford,MID,0,0.8,0,0.8,1,1,100
+38,120,kevin schade|brentford,Kevin Schade,Brentford,MID,0.939,78.9,0.939,78.9,33,2627,100
+38,810,luka bentt|brentford,Luka Bentt,Brentford,MID,0,0,0,0,,0,
+38,126,mathias jensen|brentford,Mathias Jensen,Brentford,MID,0.706,58.9,0.706,58.9,34,2095,
+38,121,mikkel damsgaard|brentford,Mikkel Damsgaard,Brentford,MID,0.742,60.4,0.742,60.4,31,1949,100
+38,133,myles peart harris|brentford,Myles Peart-Harris,Brentford,MID,0,0,0,0,1,1,0
+38,132,paris maghoma|brentford,Paris Maghoma,Brentford,MID,0,0,0,0,,0,0
+38,27,reiss nelson|brentford,Reiss Nelson,Brentford,MID,0,11,0,11,9,117,100
+38,826,riley owen|brentford,Riley Owen,Brentford,MID,0,0,0,0,,0,
+38,130,romelle donovan|brentford,Romelle Donovan,Brentford,MID,0,8.1,0,8.1,4,38,
+38,134,ryan trevitt|brentford,Ryan Trevitt,Brentford,MID,0,0,0,0,,0,0
+38,125,vitaly janelt|brentford,Vitaly Janelt,Brentford,MID,0.565,52.1,0.565,52.1,23,1282,100
+38,129,yehor yarmoliuk|brentford,Yehor Yarmoliuk,Brentford,MID,0.806,69.1,0.806,69.1,36,2564,100
+38,131,yunus emre konak|brentford,Yunus Emre Konak,Brentford,MID,0,0,0,0,0,0,0
+38,153,adam webster|brighton,Adam Webster,Brighton,DEF,0,0,0,0,,0,0
+38,156,charlie tasker|brighton,Charlie Tasker,Brighton,DEF,0,0,0,0,0,0,
+38,144,diego coppola|brighton,Diego Coppola,Brighton,DEF,0,0,0,0,5,193,0
+38,154,eiran cashin|brighton,Eiran Cashin,Brighton,DEF,0,0,0,0,,0,0
+38,148,ferdi kad o lu|brighton,Ferdi Kadıoğlu,Brighton,DEF,0.914,83.2,0.914,83.2,35,2950,
+38,761,freddie simmonds|brighton,Freddie Simmonds,Brighton,DEF,0,0,0,0,,0,
+38,149,igor julio dos santos de paulo|brighton,Igor Julio dos Santos de Paulo,Brighton,DEF,0.25,22.9,0.25,22.9,4,103,100
+38,155,jacob slater|brighton,Jacob Slater,Brighton,DEF,0,0,0,0,0,0,0
+38,151,jan paul van hecke|brighton,Jan Paul van Hecke,Brighton,DEF,1,89.1,1,89.1,34,3030,100
+38,152,jo l veltman|brighton,Joël Veltman,Brighton,DEF,0.348,38.6,0.348,38.6,23,983,100
+38,146,lewis dunk|brighton,Lewis Dunk,Brighton,DEF,0.935,84.9,0.935,84.9,31,2657,100
+38,145,maxim de cuyper|brighton,Maxim De Cuyper,Brighton,DEF,0.536,42.2,0.536,42.2,28,1269,100
+38,143,olivier boscagli|brighton,Olivier Boscagli,Brighton,DEF,0.75,64.1,0.75,64.1,12,799,
+38,147,pervis estupi n tenorio|brighton,Pervis Estupiñán Tenorio,Brighton,DEF,0,0,0,0,,0,0
+38,150,tariq lamptey|brighton,Tariq Lamptey,Brighton,DEF,0,0,0,0,0,0,0
+38,181,charalampos kostoulas|brighton,Charalampos Kostoulas,Brighton,FWD,0.105,14.2,0.105,14.2,19,312,
+38,178,danny welbeck|brighton,Danny Welbeck,Brighton,FWD,0.686,57.9,0.686,57.9,35,2127,100
+38,179,evan ferguson|brighton,Evan Ferguson,Brighton,FWD,0,0,0,0,,0,0
+38,180,stefanos tzimas|brighton,Stefanos Tzimas,Brighton,FWD,0,0,0,0,9,132,0
+38,139,bart verbruggen|brighton,Bart Verbruggen,Brighton,GK,1,90,1,90,36,3240,
+38,141,carl rushworth|brighton,Carl Rushworth,Brighton,GK,0,0,0,0,,0,0
+38,138,jason steele|brighton,Jason Steele,Brighton,GK,0,0,0,0,0,0,
+38,142,kjell scherpen|brighton,Kjell Scherpen,Brighton,GK,0,0,0,0,,0,0
+38,140,tom mcgill|brighton,Tom McGill,Brighton,GK,0,0,0,0,0,0,
+38,165,abdallah sima|brighton,Abdallah Sima,Brighton,MID,0,0,0,0,,0,0
+38,176,adrian mazilu|brighton,Adrian Mazilu,Brighton,MID,0,0,0,0,,0,0
+38,177,andrew moran|brighton,Andrew Moran,Brighton,MID,0,0,0,0,,0,0
+38,162,brajan gruda|brighton,Brajan Gruda,Brighton,MID,0,0,0,0,18,708,0
+38,167,carlos baleba|brighton,Carlos Baleba,Brighton,MID,0.759,51,0.759,51,29,1534,100
+38,169,diego g mez amarilla|brighton,Diego Gómez Amarilla,Brighton,MID,0.417,33.1,0.417,33.1,30,2034,50
+38,158,georginio rutter|brighton,Georginio Rutter,Brighton,MID,0.667,54.9,0.667,54.9,30,1735,100
+38,795,harry howell|brighton,Harry Howell,Brighton,MID,0.333,27.6,0.333,27.6,3,92,
+38,163,jack hinshelwood|brighton,Jack Hinshelwood,Brighton,MID,0.72,60.6,0.72,60.6,25,1582,100
+38,170,james milner|brighton,James Milner,Brighton,MID,0.316,33.7,0.316,33.7,19,714,100
+38,171,jeremy sarmiento morante|brighton,Jeremy Sarmiento Morante,Brighton,MID,0,0,0,0,,0,0
+38,175,joe knight|brighton,Joe Knight,Brighton,MID,0,0,0,0,1,1,0
+38,161,julio enciso esp nola|brighton,Julio Enciso Espínola,Brighton,MID,0,0,0,0,,0,0
+38,174,malick yalcouy|brighton,Malick Yalcouyé,Brighton,MID,0,0,0,0,,0,0
+38,173,mats wieffer|brighton,Mats Wieffer,Brighton,MID,0.44,35.6,0.44,35.6,25,1811,50
+38,164,matt o riley|brighton,Matt O'Riley,Brighton,MID,0.333,30.3,0.333,30.3,6,202,100
+38,157,mitoma kaoru|brighton,Mitoma Kaoru,Brighton,MID,0.57,49.6,0.57,49.6,25,1714,75
+38,744,nehemiah oriola|brighton,Nehemiah Oriola,Brighton,MID,0,0.8,0,0.8,1,1,
+38,783,pascal gro|brighton,Pascal Groß,Brighton,MID,0.941,84.9,0.941,84.9,17,1456,
+38,159,solly march|brighton,Solly March,Brighton,MID,0,2.6,0,2.6,2,6,100
+38,172,tom watson|brighton,Tom Watson,Brighton,MID,0,0,0,0,6,57,0
+38,160,yankuba minteh|brighton,Yankuba Minteh,Brighton,MID,0.781,68.1,0.781,68.1,32,2254,100
+38,166,yasin ayari|brighton,Yasin Ayari,Brighton,MID,0.714,65.4,0.714,65.4,28,1913,100
+38,198,axel tuanzebe|burnley,Axel Tuanzebe,Burnley,DEF,1,85.1,1,85.1,12,1021,100
+38,193,bashir humphreys|burnley,Bashir Humphreys,Burnley,DEF,0.889,80.6,0.889,80.6,18,1476,100
+38,186,connor roberts|burnley,Connor Roberts,Burnley,DEF,0,0,0,0,,0,0
+38,188,hannes delcroix|burnley,Hannes Delcroix,Burnley,DEF,0,0,0,0,0,0,0
+38,190,hjalmar ekdal|burnley,Hjalmar Ekdal,Burnley,DEF,0.895,79.7,0.895,79.7,19,1539,
+38,199,joe worrall|burnley,Joe Worrall,Burnley,DEF,0.455,41.4,0.455,41.4,11,496,100
+38,194,jordan beyer|burnley,Jordan Beyer,Burnley,DEF,0,0,0,0,0,0,0
+38,187,kyle walker|burnley,Kyle Walker,Burnley,DEF,0.971,85.4,0.971,85.4,34,2915,100
+38,195,lucas pires silva|burnley,Lucas Pires Silva,Burnley,DEF,0.722,65.2,0.722,65.2,18,1225,100
+38,191,maxime est ve|burnley,Maxime Estève,Burnley,DEF,1,86.4,1,86.4,33,2852,100
+38,197,oliver sonne|burnley,Oliver Sonne,Burnley,DEF,0,0,0,0,7,164,0
+38,189,owen dodgson|burnley,Owen Dodgson,Burnley,DEF,0,0,0,0,,0,0
+38,192,quilindschy hartman|burnley,Quilindschy Hartman,Burnley,DEF,1,86.9,1,86.9,21,1825,
+38,196,shurandy sambo|burnley,Shurandy Sambo,Burnley,DEF,0,0,0,0,,0,0
+38,680,armando broja|burnley,Armando Broja,Burnley,FWD,0.333,31.6,0.333,31.6,24,843,100
+38,218,ashley barnes|burnley,Ashley Barnes,Burnley,FWD,0,5,0,5,6,35,
+38,217,lyle foster|burnley,Lyle Foster,Burnley,FWD,0.577,49,0.577,49,26,1361,100
+38,219,michael obafemi|burnley,Michael Obafemi,Burnley,FWD,0,0,0,0,0,0,0
+38,216,zeki amdouni|burnley,Zeki Amdouni,Burnley,FWD,0,10.6,0,10.6,2,25,100
+38,215,zian flemming|burnley,Zian Flemming,Burnley,FWD,0.704,56.3,0.704,56.3,27,1590,100
+38,184,etienne green|burnley,Etienne Green,Burnley,GK,0,0,0,0,0,0,0
+38,470,martin d bravka|burnley,Martin Dúbravka,Burnley,GK,1,90,1,90,35,3150,100
+38,183,max wei|burnley,Max Weiß,Burnley,GK,1,90,1,90,1,90,
+38,185,v clav hladk|burnley,Václav Hladký,Burnley,GK,0,0,0,0,0,0,
+38,211,aaron ramsey|burnley,Aaron Ramsey,Burnley,MID,0,0,0,0,0,0,0
+38,204,darko churlinov|burnley,Darko Churlinov,Burnley,MID,0,0,0,0,,0,0
+38,203,enock agyei|burnley,Enock Agyei,Burnley,MID,0,0,0,0,,0,
+38,722,florentino ibrain morris lu s|burnley,Florentino Ibrain Morris Luís,Burnley,MID,0.793,64.6,0.793,64.6,29,1933,
+38,784,george brierley|burnley,George Brierley,Burnley,MID,0,0,0,0,,0,
+38,207,hannibal mejbri|burnley,Hannibal Mejbri,Burnley,MID,0.52,40.3,0.52,40.3,25,1085,100
+38,202,jacob bruun larsen|burnley,Jacob Bruun Larsen,Burnley,MID,0.385,34.9,0.385,34.9,26,1001,100
+38,200,jaidon anthony|burnley,Jaidon Anthony,Burnley,MID,0.857,71.1,0.857,71.1,35,2543,100
+38,614,james ward prowse|burnley,James Ward-Prowse,Burnley,MID,0.75,64.1,0.75,64.1,16,1065,100
+38,213,jaydon banel|burnley,Jaydon Banel,Burnley,MID,0,0,0,0,1,9,0
+38,205,josh cullen|burnley,Josh Cullen,Burnley,MID,0,0,0,0,18,1513,0
+38,209,josh laurent|burnley,Josh Laurent,Burnley,MID,0.562,50.6,0.562,50.6,32,1733,100
+38,820,kian mcmahon brown|burnley,Kian McMahon-Brown,Burnley,MID,0,0,0,0,,0,
+38,676,lesley ugochukwu|burnley,Lesley Ugochukwu,Burnley,MID,0.758,63.8,0.758,63.8,33,2186,100
+38,210,loum tchaouna|burnley,Loum Tchaouna,Burnley,MID,0.444,37.5,0.444,37.5,27,1104,
+38,208,luca koleosho|burnley,Luca Koleosho,Burnley,MID,0,0,0,0,,0,0
+38,201,manuel benson hedilazio|burnley,Manuel Benson Hedilazio,Burnley,MID,0,0,0,0,,0,0
+38,206,marcus edwards|burnley,Marcus Edwards,Burnley,MID,0.5,43.9,0.5,43.9,22,1043,100
+38,214,mike tr sor ndayishimiye|burnley,Mike Trésor Ndayishimiye,Burnley,MID,0,5.2,0,5.2,6,37,100
+38,776,oliver pimlott|burnley,Oliver Pimlott,Burnley,MID,0,0,0,0,,0,
+38,212,oluwaseun adewumi|burnley,Oluwaseun Adewumi,Burnley,MID,0,0,0,0,,0,0
+38,234,aar n anselmino|chelsea,Aarón Anselmino,Chelsea,DEF,0,0,0,0,0,0,0
+38,229,beno t badiashile mukinayi|chelsea,Benoît Badiashile Mukinayi,Chelsea,DEF,0.75,56.5,0.75,56.5,8,470,100
+38,672,jorrel hato|chelsea,Jorrel Hato,Chelsea,DEF,0.5,46.2,0.5,46.2,20,998,100
+38,233,josh acheampong|chelsea,Josh Acheampong,Chelsea,DEF,0.467,35.5,0.467,35.5,15,579,100
+38,227,levi samuels colwill|chelsea,Levi Samuels Colwill,Chelsea,DEF,0.5,62.4,0.5,62.4,2,135,100
+38,228,malo gusto|chelsea,Malo Gusto,Chelsea,DEF,0.758,63.4,0.758,63.4,33,2171,100
+38,231,mamadou sarr|chelsea,Mamadou Sarr,Chelsea,DEF,0.5,42.1,0.5,42.1,2,91,100
+38,224,marc cucurella saseta|chelsea,Marc Cucurella Saseta,Chelsea,DEF,0.906,77.8,0.906,77.8,32,2526,100
+38,225,reece james|chelsea,Reece James,Chelsea,DEF,0.714,65.6,0.714,65.6,28,1919,100
+38,232,tosin adarabioyo|chelsea,Tosin Adarabioyo,Chelsea,DEF,0.5,45.6,0.5,45.6,16,788,100
+38,226,trevoh chalobah|chelsea,Trevoh Chalobah,Chelsea,DEF,0.969,85.2,0.969,85.2,32,2739,100
+38,230,wesley fofana|chelsea,Wesley Fofana,Chelsea,DEF,0.783,66.3,0.783,66.3,23,1577,100
+38,249,jo o pedro junqueira de jesus|chelsea,João Pedro Junqueira de Jesus,Chelsea,FWD,0.882,74.2,0.882,74.2,34,2568,
+38,250,liam delap|chelsea,Liam Delap,Chelsea,FWD,0.423,35.1,0.423,35.1,26,999,100
+38,252,marc guiu paz|chelsea,Marc Guiu Paz,Chelsea,FWD,0.1,22.9,0.1,22.9,10,265,100
+38,251,nicolas jackson|chelsea,Nicolas Jackson,Chelsea,FWD,0,0,0,0,0,0,0
+38,221,filip j rgensen|chelsea,Filip Jörgensen,Chelsea,GK,0.6,71.1,0.6,71.1,5,378,100
+38,223,gabriel s onina|chelsea,Gabriel Słonina,Chelsea,GK,0,0,0,0,0,0,
+38,789,max merrick|chelsea,Max Merrick,Chelsea,GK,0,0,0,0,,0,
+38,222,mike penders|chelsea,Mike Penders,Chelsea,GK,0,0,0,0,,0,0
+38,220,robert lynch s nchez|chelsea,Robert Lynch Sánchez,Chelsea,GK,0.5,43.3,0.5,43.3,33,2860,50
+38,803,teddy sharman lowe|chelsea,Teddy Sharman-Lowe,Chelsea,GK,0,0,0,0,,0,
+38,453,alejandro garnacho ferreyra|chelsea,Alejandro Garnacho Ferreyra,Chelsea,MID,0.304,25.8,0.304,25.8,23,1260,50
+38,246,andrey nascimento dos santos|chelsea,Andrey Nascimento dos Santos,Chelsea,MID,0.462,40.9,0.462,40.9,26,1157,100
+38,240,christopher nkunku|chelsea,Christopher Nkunku,Chelsea,MID,0,0,0,0,0,0,0
+38,235,cole palmer|chelsea,Cole Palmer,Chelsea,MID,0.917,73.1,0.917,73.1,24,1776,100
+38,247,d rio lu s essugo|chelsea,Dário Luís Essugo,Chelsea,MID,0,10.6,0,10.6,2,25,100
+38,237,enzo fern ndez|chelsea,Enzo Fernández,Chelsea,MID,0.971,85.9,0.971,85.9,34,2934,100
+38,238,est v o almeida de oliveira gon alves|chelsea,Estêvão Almeida de Oliveira Gonçalves,Chelsea,MID,0,0,0,0,22,839,0
+38,239,jamie bynoe gittens|chelsea,Jamie Bynoe-Gittens,Chelsea,MID,0.078,6.8,0.078,6.8,16,486,25
+38,829,jesse derry|chelsea,Jesse Derry,Chelsea,MID,0,0,0,0,1,45,0
+38,248,kendry p ez andrade|chelsea,Kendry Páez Andrade,Chelsea,MID,0,0,0,0,,0,0
+38,743,landon emenalo|chelsea,Landon Emenalo,Chelsea,MID,0,0,0,0,,0,
+38,833,mathis ebou|chelsea,Mathis Eboué,Chelsea,MID,0,0,0,0,,0,
+38,241,mois s caicedo corozo|chelsea,Moisés Caicedo Corozo,Chelsea,MID,0.968,84.2,0.968,84.2,31,2622,100
+38,245,mykhailo mudryk|chelsea,Mykhailo Mudryk,Chelsea,MID,0,0,0,0,,0,0
+38,236,pedro lomba neto|chelsea,Pedro Lomba Neto,Chelsea,MID,0.438,38,0.438,38,32,2477,50
+38,244,rom o lavia|chelsea,Roméo Lavia,Chelsea,MID,0.333,28,0.333,28,12,374,100
+38,834,ryan kavuma mcqueen|chelsea,Ryan Kavuma-McQueen,Chelsea,MID,0,0,0,0,,0,
+38,259,borna sosa|crystal palace,Borna Sosa,Crystal Palace,DEF,0,6,0,6,7,99,50
+38,265,caleb kporha|crystal palace,Caleb Kporha,Crystal Palace,DEF,0,0,0,0,,0,100
+38,262,chadi riad dnanou|crystal palace,Chadi Riad Dnanou,Crystal Palace,DEF,0.571,51.7,0.571,51.7,7,387,100
+38,261,chris richards|crystal palace,Chris Richards,Crystal Palace,DEF,0.968,86.9,0.968,86.9,31,2706,100
+38,256,daniel mu oz mej a|crystal palace,Daniel Muñoz Mejía,Crystal Palace,DEF,1,84,1,84,26,2184,100
+38,798,danny imray|crystal palace,Danny Imray,Crystal Palace,DEF,0,0,0,0,,0,0
+38,773,dean benamar|crystal palace,Dean Benamar,Crystal Palace,DEF,0,0,0,0,,0,
+38,793,george king|crystal palace,George King,Crystal Palace,DEF,0,0,0,0,,0,
+38,723,jaydee canvot|crystal palace,Jaydee Canvot,Crystal Palace,DEF,0.667,60.7,0.667,60.7,18,1151,100
+38,257,maxence lacroix|crystal palace,Maxence Lacroix,Crystal Palace,DEF,1,88.9,1,88.9,33,2935,100
+38,263,nathaniel clyne|crystal palace,Nathaniel Clyne,Crystal Palace,DEF,0.75,59.4,0.75,59.4,8,494,100
+38,264,rob holding|crystal palace,Rob Holding,Crystal Palace,DEF,0,0,0,0,,0,0
+38,258,tyrick mitchell|crystal palace,Tyrick Mitchell,Crystal Palace,DEF,0.971,86.1,0.971,86.1,35,3028,
+38,780,ben casey|crystal palace,Ben Casey,Crystal Palace,FWD,0,0,0,0,,0,
+38,732,christantus uche|crystal palace,Christantus Uche,Crystal Palace,FWD,0,9.7,0,9.7,14,159,
+38,284,eddie nketiah|crystal palace,Eddie Nketiah,Crystal Palace,FWD,0,0,0,0,12,414,0
+38,283,jean philippe mateta|crystal palace,Jean-Philippe Mateta,Crystal Palace,FWD,0.828,70.8,0.828,70.8,29,2109,100
+38,654,j rgen strand larsen|crystal palace,Jørgen Strand Larsen,Crystal Palace,FWD,0.727,62.1,0.727,62.1,33,2135,100
+38,285,odsonne douard|crystal palace,Odsonne Édouard,Crystal Palace,FWD,0,0,0,0,1,2,0
+38,286,zach marsh|crystal palace,Zach Marsh,Crystal Palace,FWD,0,0,0,0,0,0,
+38,253,dean henderson|crystal palace,Dean Henderson,Crystal Palace,GK,1,90,1,90,34,3060,
+38,255,remi matthews|crystal palace,Remi Matthews,Crystal Palace,GK,0,0,0,0,0,0,
+38,254,walter ben tez|crystal palace,Walter Benítez,Crystal Palace,GK,1,90,1,90,1,90,100
+38,273,adam wharton|crystal palace,Adam Wharton,Crystal Palace,MID,0.903,76.8,0.903,76.8,31,2416,100
+38,274,asher agbinone|crystal palace,Asher Agbinone,Crystal Palace,MID,0,0,0,0,0,0,
+38,580,brennan johnson|crystal palace,Brennan Johnson,Crystal Palace,MID,0.562,46.5,0.562,46.5,32,1591,
+38,268,cheick doucour|crystal palace,Cheick Doucouré,Crystal Palace,MID,0,0,0,0,,0,0
+38,271,daichi kamada|crystal palace,Daichi Kamada,Crystal Palace,MID,0.8,67.9,0.8,67.9,25,1749,100
+38,280,david ozoh|crystal palace,David Ozoh,Crystal Palace,MID,0,0,0,0,,0,0
+38,677,evann guessand|crystal palace,Evann Guessand,Crystal Palace,MID,0.237,21.3,0.237,21.3,19,880,50
+38,282,franco umeh chibueze|crystal palace,Franco Umeh-Chibueze,Crystal Palace,MID,0,0,0,0,,0,0
+38,267,isma la sarr|crystal palace,Ismaïla Sarr,Crystal Palace,MID,0.88,78.9,0.88,78.9,25,2008,100
+38,272,jefferson lerma sol s|crystal palace,Jefferson Lerma Solís,Crystal Palace,MID,0.571,51,0.571,51,28,1526,100
+38,278,jesurun rak sakyi|crystal palace,Jesurun Rak-Sakyi,Crystal Palace,MID,0,0,0,0,,0,0
+38,762,jo l drakes thomas|crystal palace,Joél Drakes-Thomas,Crystal Palace,MID,0,3,0,3,2,7,
+38,276,justin devenny|crystal palace,Justin Devenny,Crystal Palace,MID,0.3,31.1,0.3,31.1,20,695,100
+38,281,kaden rodney|crystal palace,Kaden Rodney,Crystal Palace,MID,0,2.6,0,2.6,1,3,
+38,277,malcolm ebiowei|crystal palace,Malcolm Ebiowei,Crystal Palace,MID,0,0,0,0,,0,0
+38,279,matheus fran a de oliveira|crystal palace,Matheus França de Oliveira,Crystal Palace,MID,0,0,0,0,,0,0
+38,275,naouirou ahamada|crystal palace,Naouirou Ahamada,Crystal Palace,MID,0,0,0,0,,0,0
+38,690,rio cardines|crystal palace,Rio Cardines,Crystal Palace,MID,0,0,0,0,0,0,100
+38,269,romain esse|crystal palace,Romain Esse,Crystal Palace,MID,0,0,0,0,4,40,0
+38,270,will hughes|crystal palace,Will Hughes,Crystal Palace,MID,0.586,45.6,0.586,45.6,29,1411,100
+38,712,y remy pino santos|crystal palace,Yéremy Pino Santos,Crystal Palace,MID,0.774,60,0.774,60,31,1925,100
+38,667,adam aznou|everton,Adam Aznou,Everton,DEF,0,0,0,0,0,0,100
+38,705,elijah campbell|everton,Elijah Campbell,Everton,DEF,0,0,0,0,0,0,0
+38,293,jake o brien|everton,Jake O'Brien,Everton,DEF,0.943,84.1,0.943,84.1,35,2970,100
+38,291,james tarkowski|everton,James Tarkowski,Everton,DEF,1,90,1,90,35,3150,100
+38,290,jarrad branthwaite|everton,Jarrad Branthwaite,Everton,DEF,0,0,0,0,10,678,0
+38,295,michael keane|everton,Michael Keane,Everton,DEF,0.871,76.2,0.871,76.2,31,2408,100
+38,296,nathan patterson|everton,Nathan Patterson,Everton,DEF,0.429,31.1,0.429,31.1,7,238,100
+38,298,reece welch|everton,Reece Welch,Everton,DEF,0,0,0,0,0,0,
+38,297,roman dixon|everton,Roman Dixon,Everton,DEF,0,0,0,0,0,0,0
+38,294,s amus coleman|everton,Séamus Coleman,Everton,DEF,0.333,3.3,0.333,3.3,3,11,100
+38,292,vitalii mykolenko|everton,Vitalii Mykolenko,Everton,DEF,1,89.6,1,89.6,31,2779,100
+38,779,braiden graham|everton,Braiden Graham,Everton,FWD,0,0,0,0,,0,
+38,313,martin sherif|everton,Martin Sherif,Everton,FWD,0,0,0,0,0,0,0
+38,311,norberto bercique gomes betuncal|everton,Norberto Bercique Gomes Betuncal,Everton,FWD,0.457,38.7,0.457,38.7,35,1473,100
+38,310,thierno barry|everton,Thierno Barry,Everton,FWD,0.556,46.6,0.556,46.6,36,1798,
+38,312,youssef ramalho chermiti|everton,Youssef Ramalho Chermiti,Everton,FWD,0,0,0,0,0,0,0
+38,289,harry tyrer|everton,Harry Tyrer,Everton,GK,0,0,0,0,0,0,0
+38,287,jordan pickford|everton,Jordan Pickford,Everton,GK,1,90,1,90,36,3240,
+38,288,mark travers|everton,Mark Travers,Everton,GK,0,0,0,0,0,0,100
+38,630,tom king|everton,Tom King,Everton,GK,0,0,0,0,0,0,
+38,306,callum bates|everton,Callum Bates,Everton,MID,0,0,0,0,0,0,
+38,301,carlos alcaraz dur n|everton,Carlos Alcaraz Durán,Everton,MID,0.316,31.8,0.316,31.8,19,673,100
+38,307,coby ebere|everton,Coby Ebere,Everton,MID,0,0,0,0,,0,
+38,300,dwight mcneil|everton,Dwight McNeil,Everton,MID,0.667,52.4,0.667,52.4,21,1159,
+38,305,harrison armstrong|everton,Harrison Armstrong,Everton,MID,0.5,38.2,0.5,38.2,12,496,100
+38,302,idrissa gana gueye|everton,Idrissa Gana Gueye,Everton,MID,0.5,41.9,0.5,41.9,25,2094,50
+38,299,iliman ndiaye|everton,Iliman Ndiaye,Everton,MID,1,86.7,1,86.7,30,2601,100
+38,308,isaac heath|everton,Isaac Heath,Everton,MID,0,0,0,0,,0,0
+38,419,jack grealish|everton,Jack Grealish,Everton,MID,0,0,0,0,20,1627,0
+38,303,james garner|everton,James Garner,Everton,MID,1,89.8,1,89.8,36,3233,
+38,309,jenson metcalfe|everton,Jenson Metcalfe,Everton,MID,0,0,0,0,,0,0
+38,242,kiernan dewsbury hall|everton,Kiernan Dewsbury-Hall,Everton,MID,0.966,84.3,0.966,84.3,29,2456,100
+38,728,merlin r hl|everton,Merlin Röhl,Everton,MID,0.286,33.6,0.286,33.6,14,527,100
+38,304,tim iroegbunam|everton,Tim Iroegbunam,Everton,MID,0.556,45.7,0.556,45.7,27,1322,100
+38,707,tyler dibling|everton,Tyler Dibling,Everton,MID,0.286,22.3,0.286,22.3,14,349,
+38,704,tyler onyango|everton,Tyler Onyango,Everton,MID,0,0,0,0,,0,0
+38,243,tyrique george|everton,Tyrique George,Everton,MID,0.077,20.3,0.077,20.3,13,306,100
+38,316,antonee robinson|fulham,Antonee Robinson,Fulham,DEF,0.75,62.9,0.75,62.9,20,1307,100
+38,318,calvin bassey|fulham,Calvin Bassey,Fulham,DEF,0.929,83.1,0.929,83.1,28,2352,100
+38,320,issa diop|fulham,Issa Diop,Fulham,DEF,0.545,54,0.545,54,11,637,
+38,317,joachim andersen|fulham,Joachim Andersen,Fulham,DEF,0,0,0,0,33,2882,0
+38,321,jorge cuenca barreno|fulham,Jorge Cuenca Barreno,Fulham,DEF,0.786,64.4,0.786,64.4,14,931,
+38,322,kenny tete|fulham,Kenny Tete,Fulham,DEF,0.955,80.9,0.955,80.9,22,1791,100
+38,323,samuel amissah|fulham,Samuel Amissah,Fulham,DEF,0,0,0,0,0,0,
+38,319,timothy castagne|fulham,Timothy Castagne,Fulham,DEF,0.643,56,0.643,56,28,1658,
+38,737,jonah kusi asare|fulham,Jonah Kusi-Asare,Fulham,FWD,0,6,0,6,7,49,
+38,337,ra l jim nez rodr guez|fulham,Raúl Jiménez Rodríguez,Fulham,FWD,0.794,61.1,0.794,61.1,34,2142,100
+38,338,rodrigo muniz carvalho|fulham,Rodrigo Muniz Carvalho,Fulham,FWD,0.421,40.9,0.421,40.9,19,850,100
+38,786,alfie mcnally|fulham,Alfie McNally,Fulham,GK,0,0,0,0,,0,
+38,664,benjamin lecomte|fulham,Benjamin Lecomte,Fulham,GK,0,0,0,0,0,0,
+38,314,bernd leno|fulham,Bernd Leno,Fulham,GK,1,90,1,90,36,3240,
+38,315,steven benda|fulham,Steven Benda,Fulham,GK,0,0,0,0,,0,0
+38,324,alex iwobi|fulham,Alex Iwobi,Fulham,MID,0,0,0,0,27,2264,0
+38,327,andreas hoelgebaum pereira|fulham,Andreas Hoelgebaum Pereira,Fulham,MID,0,0,0,0,0,0,0
+38,325,emile smith rowe|fulham,Emile Smith Rowe,Fulham,MID,0.571,47.1,0.571,47.1,35,1760,100
+38,336,harrison reed|fulham,Harrison Reed,Fulham,MID,0.143,11.1,0.143,11.1,7,89,100
+38,329,harry wilson|fulham,Harry Wilson,Fulham,MID,0.941,77.1,0.941,77.1,34,2645,100
+38,335,josh king|fulham,Josh King,Fulham,MID,0.5,38.5,0.5,38.5,30,1249,100
+38,731,kevin santos lopes de macedo|fulham,Kevin Santos Lopes de Macedo,Fulham,MID,0.333,34.7,0.333,34.7,24,926,100
+38,334,luke harris|fulham,Luke Harris,Fulham,MID,0,0,0,0,,0,0
+38,333,martial godo|fulham,Martial Godo,Fulham,MID,0,0,0,0,,0,0
+38,424,oscar bobb|fulham,Oscar Bobb,Fulham,MID,0.429,38.4,0.429,38.4,21,881,100
+38,328,ryan sessegnon|fulham,Ryan Sessegnon,Fulham,MID,0.37,32.3,0.37,32.3,27,1816,50
+38,727,samuel chukwueze|fulham,Samuel Chukwueze,Fulham,MID,0.455,44.1,0.455,44.1,22,1056,100
+38,330,sander berge|fulham,Sander Berge,Fulham,MID,0.97,83.5,0.97,83.5,33,2769,
+38,332,sa a luki|fulham,Saša Lukić,Fulham,MID,0.76,63.2,0.76,63.2,25,1640,100
+38,770,seth ridgeon|fulham,Seth Ridgeon,Fulham,MID,0,0,0,0,,0,
+38,331,tom cairney|fulham,Tom Cairney,Fulham,MID,0.261,28.1,0.261,28.1,23,726,100
+38,347,gabriel gudmundsson|leeds,Gabriel Gudmundsson,Leeds,DEF,0.484,41,0.484,41,32,2637,50
+38,349,isaac schmidt|leeds,Isaac Schmidt,Leeds,DEF,0,0,0,0,0,0,0
+38,344,jaka bijol|leeds,Jaka Bijol,Leeds,DEF,0.826,73.2,0.826,73.2,23,1729,100
+38,706,james justin|leeds,James Justin,Leeds,DEF,0.704,60.6,0.704,60.6,27,1713,100
+38,342,jayden bogle|leeds,Jayden Bogle,Leeds,DEF,0.939,81.6,0.939,81.6,33,2718,100
+38,837,jayden lienou|leeds,Jayden Lienou,Leeds,DEF,0,0,0,0,,0,
+38,348,joe rodon|leeds,Joe Rodon,Leeds,DEF,0.939,83.2,0.939,83.2,33,2772,100
+38,343,pascal struijk|leeds,Pascal Struijk,Leeds,DEF,0.727,64.4,0.727,64.4,33,2845,75
+38,346,sam byram|leeds,Sam Byram,Leeds,DEF,0,6,0,6,1,7,
+38,345,sebastiaan bornauw|leeds,Sebastiaan Bornauw,Leeds,DEF,0.4,30.8,0.4,30.8,10,338,100
+38,691,dominic calvert lewin|leeds,Dominic Calvert-Lewin,Leeds,FWD,0.848,75.9,0.848,75.9,33,2563,100
+38,741,harry gray|leeds,Harry Gray,Leeds,FWD,0,0,0,0,0,0,0
+38,362,jo l piroe|leeds,Joël Piroe,Leeds,FWD,0.143,13.4,0.143,13.4,14,216,100
+38,365,lukas nmecha|leeds,Lukas Nmecha,Leeds,FWD,0.31,29.2,0.31,29.2,29,945,100
+38,364,mateo joseph fern ndez regatillo|leeds,Mateo Joseph Fernández-Regatillo,Leeds,FWD,0,0,0,0,,0,0
+38,363,patrick bamford|leeds,Patrick Bamford,Leeds,FWD,0,0,0,0,0,0,0
+38,340,alex cairns|leeds,Alex Cairns,Leeds,GK,0,0,0,0,0,0,
+38,339,illan meslier|leeds,Illan Meslier,Leeds,GK,0,0,0,0,0,0,
+38,341,karl darlow|leeds,Karl Darlow,Leeds,GK,1,90,1,90,20,1800,
+38,665,lucas estella perri|leeds,Lucas Estella Perri,Leeds,GK,1,90,1,90,16,1440,100
+38,660,anton stach|leeds,Anton Stach,Leeds,MID,0.964,81.6,0.964,81.6,28,2296,100
+38,350,brenden aaronson|leeds,Brenden Aaronson,Leeds,MID,0.8,63.7,0.8,63.7,35,2300,
+38,359,charlie crew|leeds,Charlie Crew,Leeds,MID,0,0,0,0,,0,0
+38,353,daniel james|leeds,Daniel James,Leeds,MID,0.294,24.6,0.294,24.6,17,468,100
+38,361,darko gyabi|leeds,Darko Gyabi,Leeds,MID,0,0,0,0,,0,0
+38,354,ethan ampadu|leeds,Ethan Ampadu,Leeds,MID,1,89.1,1,89.1,33,2939,100
+38,168,facundo buonanotte|leeds,Facundo Buonanotte,Leeds,MID,0,0,0,0,3,69,0
+38,356,ilia gruev|leeds,Ilia Gruev,Leeds,MID,0,0,0,0,23,1318,0
+38,352,jack harrison|leeds,Jack Harrison,Leeds,MID,0,0,0,0,11,262,0
+38,360,joe gelhardt|leeds,Joe Gelhardt,Leeds,MID,0,0,0,0,,0,0
+38,357,largie ramazani|leeds,Largie Ramazani,Leeds,MID,0,0,0,0,,0,0
+38,698,noah okafor|leeds,Noah Okafor,Leeds,MID,0,0,0,0,28,1553,0
+38,838,rhys chadwick|leeds,Rhys Chadwick,Leeds,MID,0,0,0,0,,0,
+38,787,sam chambers|leeds,Sam Chambers,Leeds,MID,0,0,0,0,,0,
+38,355,sam greenwood|leeds,Sam Greenwood,Leeds,MID,0,0,0,0,,0,0
+38,493,sean longstaff|leeds,Sean Longstaff,Leeds,MID,0.455,40.6,0.455,40.6,22,973,100
+38,358,tanaka ao|leeds,Tanaka Ao,Leeds,MID,0.462,41.4,0.462,41.4,26,1171,100
+38,351,wilfried gnonto|leeds,Wilfried Gnonto,Leeds,MID,0.19,19.7,0.19,19.7,21,470,100
+38,378,amara nallo|liverpool,Amara Nallo,Liverpool,DEF,0,0,0,0,0,0,100
+38,372,andrew robertson|liverpool,Andrew Robertson,Liverpool,DEF,0.435,43.1,0.435,43.1,23,1083,
+38,380,calvin ramsay|liverpool,Calvin Ramsay,Liverpool,DEF,0,0,0,0,0,0,
+38,375,conor bradley|liverpool,Conor Bradley,Liverpool,DEF,0,0,0,0,15,928,0
+38,692,giovanni leoni|liverpool,Giovanni Leoni,Liverpool,DEF,0,0,0,0,,0,0
+38,374,ibrahima konat|liverpool,Ibrahima Konaté,Liverpool,DEF,1,85.6,1,85.6,34,2912,100
+38,370,jeremie frimpong|liverpool,Jeremie Frimpong,Liverpool,DEF,0.6,47.8,0.6,47.8,20,1016,100
+38,376,joe gomez|liverpool,Joe Gomez,Liverpool,DEF,0.316,24.9,0.316,24.9,19,528,100
+38,377,konstantinos tsimikas|liverpool,Konstantinos Tsimikas,Liverpool,DEF,0,0,0,0,,0,0
+38,371,milos kerkez|liverpool,Milos Kerkez,Liverpool,DEF,0.812,65.4,0.812,65.4,32,2154,100
+38,379,rhys williams|liverpool,Rhys Williams,Liverpool,DEF,0,0,0,0,0,0,
+38,832,talla ndiaye|liverpool,Talla Ndiaye,Liverpool,DEF,0,0,0,0,,0,
+38,373,virgil van dijk|liverpool,Virgil van Dijk,Liverpool,DEF,1,90,1,90,36,3240,
+38,760,wellity lucky|liverpool,Wellity Lucky,Liverpool,DEF,0,0,0,0,,0,
+38,499,alexander isak|liverpool,Alexander Isak,Liverpool,FWD,0.571,46.4,0.571,46.4,14,694,100
+38,397,darwin n ez ribeiro|liverpool,Darwin Núñez Ribeiro,Liverpool,FWD,0,0,0,0,0,0,0
+38,661,hugo ekitik|liverpool,Hugo Ekitiké,Liverpool,FWD,0,0,0,0,28,1797,0
+38,398,jayden danns|liverpool,Jayden Danns,Liverpool,FWD,0,0,0,0,0,0,0
+38,830,will wright|liverpool,Will Wright,Liverpool,FWD,0,0,0,0,,0,
+38,366,alisson becker|liverpool,Alisson Becker,Liverpool,GK,0.5,45,0.5,45,25,2250,50
+38,369,freddie woodman|liverpool,Freddie Woodman,Liverpool,GK,0.667,67.1,0.667,67.1,3,212,
+38,367,giorgi mamardashvili|liverpool,Giorgi Mamardashvili,Liverpool,GK,1,86.3,1,86.3,9,777,100
+38,368,rmin p csi|liverpool,Ármin Pécsi,Liverpool,GK,0,0,0,0,0,0,
+38,386,alexis mac allister|liverpool,Alexis Mac Allister,Liverpool,MID,0.829,68.9,0.829,68.9,35,2474,100
+38,384,cody gakpo|liverpool,Cody Gakpo,Liverpool,MID,0.882,74.3,0.882,74.3,34,2573,100
+38,388,curtis jones|liverpool,Curtis Jones,Liverpool,MID,0.5,50.4,0.5,50.4,32,1743,100
+38,387,dominik szoboszlai|liverpool,Dominik Szoboszlai,Liverpool,MID,1,89.8,1,89.8,34,3052,100
+38,392,endo wataru|liverpool,Endo Wataru,Liverpool,MID,0,0,0,0,8,170,0
+38,385,federico chiesa|liverpool,Federico Chiesa,Liverpool,MID,0.04,10,0.04,10,25,293,100
+38,382,florian wirtz|liverpool,Florian Wirtz,Liverpool,MID,0.871,73.8,0.871,73.8,31,2333,100
+38,394,james mcconnell|liverpool,James McConnell,Liverpool,MID,0,0,0,0,,0,0
+38,746,kieran morrison|liverpool,Kieran Morrison,Liverpool,MID,0,0,0,0,,0,
+38,383,luis d az marulanda|liverpool,Luis Díaz Marulanda,Liverpool,MID,0,0,0,0,,0,0
+38,381,mohamed salah|liverpool,Mohamed Salah,Liverpool,MID,0.44,40.4,0.44,40.4,25,2055,50
+38,686,rio ngumoha|liverpool,Rio Ngumoha,Liverpool,MID,0.176,19.8,0.176,19.8,17,385,
+38,390,ryan gravenberch|liverpool,Ryan Gravenberch,Liverpool,MID,0.941,82.9,0.941,82.9,34,2844,100
+38,393,stefan baj eti maquieira|liverpool,Stefan Bajčetić Maquieira,Liverpool,MID,0,0,0,0,0,0,0
+38,396,trey nyoni|liverpool,Trey Nyoni,Liverpool,MID,0,2.4,0,2.4,5,14,
+38,395,tyler morton|liverpool,Tyler Morton,Liverpool,MID,0,0,0,0,,0,0
+38,406,abdukodir khusanov|manchester city,Abdukodir Khusanov,Man City,DEF,0.684,62.5,0.684,62.5,19,1247,100
+38,409,john stones|manchester city,John Stones,Man City,DEF,0.571,46.9,0.571,46.9,7,351,100
+38,403,jo ko gvardiol|manchester city,Joško Gvardiol,Man City,DEF,0.703,60.4,0.703,60.4,16,1301,75
+38,404,manuel akanji|manchester city,Manuel Akanji,Man City,DEF,0,0,0,0,0,0,0
+38,260,marc gu hi|manchester city,Marc Guéhi,Man City,DEF,1,90,1,90,33,2970,100
+38,407,matheus nunes|manchester city,Matheus Nunes,Man City,DEF,0.938,84,0.938,84,32,2714,100
+38,794,max alleyne|manchester city,Max Alleyne,Man City,DEF,1,67.5,1,67.5,2,135,100
+38,405,nathan ak|manchester city,Nathan Aké,Man City,DEF,0.312,32.4,0.312,32.4,16,578,
+38,411,nico o reilly|manchester city,Nico O'Reilly,Man City,DEF,0.848,75.6,0.848,75.6,33,2553,100
+38,402,rayan a t nouri|manchester city,Rayan Aït-Nouri,Man City,DEF,0.733,55.6,0.733,55.6,15,868,100
+38,410,rico lewis|manchester city,Rico Lewis,Man City,DEF,0.3,27.8,0.3,27.8,10,311,100
+38,408,r ben dos santos gato alves dias|manchester city,Rúben dos Santos Gato Alves Dias,Man City,DEF,0.92,81,0.92,81,25,2049,100
+38,740,stephen mfuni|manchester city,Stephen Mfuni,Man City,DEF,0,0,0,0,,0,0
+38,412,vitor de oliveira nunes dos reis|manchester city,Vitor de Oliveira Nunes dos Reis,Man City,DEF,0,0,0,0,,0,0
+38,430,erling haaland|manchester city,Erling Haaland,Man City,FWD,0.971,83.8,0.971,83.8,34,2863,100
+38,399,ederson santana de moraes|manchester city,Ederson Santana de Moraes,Man City,GK,0,0,0,0,0,0,0
+38,736,gianluigi donnarumma|manchester city,Gianluigi Donnarumma,Man City,GK,1,90,1,90,32,2880,
+38,182,james trafford|manchester city,James Trafford,Man City,GK,1,90,1,90,3,270,
+38,401,marcus bettinelli|manchester city,Marcus Bettinelli,Man City,GK,0,0,0,0,0,0,100
+38,82,antoine semenyo|manchester city,Antoine Semenyo,Man City,MID,1,88.2,1,88.2,34,2998,100
+38,416,bernardo mota veiga de carvalho e silva|manchester city,Bernardo Mota Veiga de Carvalho e Silva,Man City,MID,0.886,75.2,0.886,75.2,35,2678,100
+38,763,charlie gray|manchester city,Charlie Gray,Man City,MID,0,0,0,0,,0,
+38,425,claudio echeverri|manchester city,Claudio Echeverri,Man City,MID,0,0,0,0,,0,0
+38,739,divine mukasa|manchester city,Divine Mukasa,Man City,MID,0,0,0,0,2,25,0
+38,418,j r my doku|manchester city,Jérémy Doku,Man City,MID,0.667,58.2,0.667,58.2,27,1653,100
+38,429,kalvin phillips|manchester city,Kalvin Phillips,Man City,MID,0,0,0,0,0,0,0
+38,422,mateo kova i|manchester city,Mateo Kovačić,Man City,MID,0,7.9,0,7.9,3,28,100
+38,423,nico gonz lez iglesias|manchester city,Nico González Iglesias,Man City,MID,0.667,58.2,0.667,58.2,24,1471,100
+38,413,omar marmoush|manchester city,Omar Marmoush,Man City,MID,0.368,28.5,0.368,28.5,19,599,100
+38,414,phil foden|manchester city,Phil Foden,Man City,MID,0.7,59.6,0.7,59.6,30,1873,100
+38,417,rayan cherki|manchester city,Rayan Cherki,Man City,MID,0.633,53.4,0.633,53.4,30,1695,100
+38,764,reigan heskey|manchester city,Reigan Heskey,Man City,MID,0,0,0,0,,0,
+38,421,rodrigo rodri hernandez cascante|manchester city,Rodrigo 'Rodri' Hernandez Cascante,Man City,MID,0.6,51.7,0.6,51.7,20,1420,75
+38,742,ryan mcaidoo|manchester city,Ryan McAidoo,Man City,MID,0,0,0,0,,0,
+38,428,sverre nypan|manchester city,Sverre Nypan,Man City,MID,0,0,0,0,,0,100
+38,415,s vio moreira de oliveira|manchester city,Sávio Moreira de Oliveira,Man City,MID,0.238,25.4,0.238,25.4,21,603,100
+38,427,tijjani reijnders|manchester city,Tijjani Reijnders,Man City,MID,0.667,54.4,0.667,54.4,27,1547,
+38,420,i lkay g ndo an|manchester city,İlkay Gündoğan,Man City,MID,0,0,0,0,0,0,0
+38,447,ayden heaven|manchester united,Ayden Heaven,Man Utd,DEF,0.647,51.3,0.647,51.3,17,920,100
+38,439,diego le n blanco|manchester united,Diego León Blanco,Man Utd,DEF,0,0,0,0,0,0,
+38,440,diogo dalot teixeira|manchester united,Diogo Dalot Teixeira,Man Utd,DEF,0.848,74.6,0.848,74.6,33,2519,100
+38,788,godwill kukonki|manchester united,Godwill Kukonki,Man Utd,DEF,0,0,0,0,,0,
+38,445,harry amass|manchester united,Harry Amass,Man Utd,DEF,0,0,0,0,0,0,0
+38,442,harry maguire|manchester united,Harry Maguire,Man Utd,DEF,0.81,68,0.81,68,21,1469,100
+38,444,leny yoro|manchester united,Leny Yoro,Man Utd,DEF,0.581,51.8,0.581,51.8,31,1714,100
+38,437,lisandro mart nez|manchester united,Lisandro Martínez,Man Utd,DEF,0.688,62.5,0.688,62.5,16,1049,100
+38,443,luke shaw|manchester united,Luke Shaw,Man Utd,DEF,1,84.7,1,84.7,36,3049,100
+38,436,matthijs de ligt|manchester united,Matthijs de Ligt,Man Utd,DEF,0,0,0,0,13,1170,0
+38,438,noussair mazraoui|manchester united,Noussair Mazraoui,Man Utd,DEF,0.526,44.2,0.526,44.2,19,904,100
+38,441,patrick dorgu|manchester united,Patrick Dorgu,Man Utd,DEF,0.583,53.5,0.583,53.5,24,1369,100
+38,446,tyler fredricson|manchester united,Tyler Fredricson,Man Utd,DEF,0,1.7,0,1.7,1,2,
+38,448,tyrell malacia|manchester united,Tyrell Malacia,Man Utd,DEF,0,3,0,3,2,7,
+38,681,benjamin sesko|manchester united,Benjamin Sesko,Man Utd,FWD,0.425,38.1,0.425,38.1,30,1630,75
+38,467,chido obi|manchester united,Chido Obi,Man Utd,FWD,0,0,0,0,0,0,
+38,468,ethan wheatley|manchester united,Ethan Wheatley,Man Utd,FWD,0,0,0,0,0,0,0
+38,466,joshua zirkzee|manchester united,Joshua Zirkzee,Man Utd,FWD,0.227,23.3,0.227,23.3,22,581,100
+38,465,rasmus h jlund|manchester united,Rasmus Højlund,Man Utd,FWD,0,0,0,0,0,0,0
+38,431,altay bay nd r|manchester united,Altay Bayındır,Man Utd,GK,1,90,1,90,6,540,
+38,432,andr onana|manchester united,André Onana,Man Utd,GK,0,0,0,0,0,0,0
+38,435,dermot mee|manchester united,Dermot Mee,Man Utd,GK,0,0,0,0,0,0,
+38,433,elyh harrison|manchester united,Elyh Harrison,Man Utd,GK,0,0,0,0,,0,0
+38,733,senne lammens|manchester united,Senne Lammens,Man Utd,GK,1,90,1,90,30,2700,
+38,434,tom heaton|manchester united,Tom Heaton,Man Utd,GK,0,0,0,0,0,0,
+38,452,amad diallo|manchester united,Amad Diallo,Man Utd,MID,0.833,70.2,0.833,70.2,30,2159,100
+38,454,antony dos santos|manchester united,Antony dos Santos,Man Utd,MID,0,0,0,0,0,0,0
+38,769,bendito mantato|manchester united,Bendito Mantato,Man Utd,MID,0,12.8,0,12.8,1,15,
+38,449,bruno borges fernandes|manchester united,Bruno Borges Fernandes,Man Utd,MID,1,87.4,1,87.4,33,2885,100
+38,119,bryan mbeumo|manchester united,Bryan Mbeumo,Man Utd,MID,0.935,78.6,0.935,78.6,31,2459,100
+38,457,carlos henrique casimiro|manchester united,Carlos Henrique Casimiro,Man Utd,MID,0.97,75.3,0.97,75.3,33,2495,100
+38,462,jack fletcher|manchester united,Jack Fletcher,Man Utd,MID,0,30.3,0,30.3,3,107,
+38,464,jack moorhouse|manchester united,Jack Moorhouse,Man Utd,MID,0,0,0,0,,0,0
+38,461,jayce fitzgerald|manchester united,Jayce Fitzgerald,Man Utd,MID,0,0,0,0,,0,
+38,827,jim thwaites|manchester united,Jim Thwaites,Man Utd,MID,0,0,0,0,,0,
+38,458,kobbie mainoo|manchester united,Kobbie Mainoo,Man Utd,MID,0.538,52.7,0.538,52.7,26,1473,100
+38,459,manuel ugarte ribeiro|manchester united,Manuel Ugarte Ribeiro,Man Utd,MID,0.273,27,0.273,27,22,876,75
+38,451,marcus rashford|manchester united,Marcus Rashford,Man Utd,MID,0,0,0,0,,0,0
+38,455,mason mount|manchester united,Mason Mount,Man Utd,MID,0.524,41,0.524,41,21,928,100
+38,450,matheus santos carneiro da cunha|manchester united,Matheus Santos Carneiro da Cunha,Man Utd,MID,0.875,74,0.875,74,32,2414,100
+38,755,shea lacey|manchester united,Shea Lacey,Man Utd,MID,0,5.1,0,5.1,2,12,100
+38,463,s kou kon|manchester united,Sékou Koné,Man Utd,MID,0,0,0,0,0,0,0
+38,460,toby collyer|manchester united,Toby Collyer,Man Utd,MID,0,0,0,0,,0,0
+38,771,tyler fletcher|manchester united,Tyler Fletcher,Man Utd,MID,0,0.8,0,0.8,1,1,
+38,481,alex murphy|newcastle united,Alex Murphy,Newcastle,DEF,0,0.8,0,0.8,1,1,
+38,476,dan burn|newcastle united,Dan Burn,Newcastle,DEF,0.889,76.4,0.889,76.4,27,2097,100
+38,479,emil krafth|newcastle united,Emil Krafth,Newcastle,DEF,0,0,0,0,1,45,0
+38,474,fabian sch r|newcastle united,Fabian Schär,Newcastle,DEF,0,0,0,0,16,1089,0
+38,482,harrison ashby|newcastle united,Harrison Ashby,Newcastle,DEF,0,0,0,0,0,0,0
+38,480,jamaal lascelles|newcastle united,Jamaal Lascelles,Newcastle,DEF,0,0,0,0,2,19,0
+38,478,kieran trippier|newcastle united,Kieran Trippier,Newcastle,DEF,0.85,73.4,0.85,73.4,20,1502,100
+38,765,leo shahar|newcastle united,Leo Shahar,Newcastle,DEF,0,0,0,0,,0,
+38,473,lewis hall|newcastle united,Lewis Hall,Newcastle,DEF,0.786,69,0.786,69,28,1996,100
+38,684,malick thiaw|newcastle united,Malick Thiaw,Newcastle,DEF,0.939,83.6,0.939,83.6,33,2783,
+38,484,matt targett|newcastle united,Matt Targett,Newcastle,DEF,0,0,0,0,0,0,0
+38,483,miodrag piva|newcastle united,Miodrag Pivaš,Newcastle,DEF,0,0,0,0,0,0,
+38,475,sven botman|newcastle united,Sven Botman,Newcastle,DEF,0.826,70,0.826,70,23,1654,100
+38,477,tino livramento|newcastle united,Tino Livramento,Newcastle,DEF,0,0,0,0,17,1326,0
+38,714,nick woltemade|newcastle united,Nick Woltemade,Newcastle,FWD,0.71,53.8,0.71,53.8,31,1745,100
+38,501,sean neave|newcastle united,Sean Neave,Newcastle,FWD,0,0,0,0,0,0,
+38,500,william osula|newcastle united,William Osula,Newcastle,FWD,0.273,26.6,0.273,26.6,22,656,100
+38,135,yoane wissa|newcastle united,Yoane Wissa,Newcastle,FWD,0.235,25.4,0.235,25.4,17,488,100
+38,674,aaron ramsdale|newcastle united,Aaron Ramsdale,Newcastle,GK,0.917,82.5,0.917,82.5,12,1003,
+38,753,john ruddy|newcastle united,John Ruddy,Newcastle,GK,0,0,0,0,,0,
+38,471,mark gillespie|newcastle united,Mark Gillespie,Newcastle,GK,0,0,0,0,0,0,
+38,469,nick pope|newcastle united,Nick Pope,Newcastle,GK,1,89.4,1,89.4,25,2236,100
+38,472,odysseas vlachodimos|newcastle united,Odysseas Vlachodimos,Newcastle,GK,0,0,0,0,,0,0
+38,486,anthony elanga|newcastle united,Anthony Elanga,Newcastle,MID,0.467,39,0.467,39,30,1273,100
+38,485,anthony gordon|newcastle united,Anthony Gordon,Newcastle,MID,0.923,68.4,0.923,68.4,26,1798,100
+38,492,anto ito cordero campillo|newcastle united,Antoñito Cordero Campillo,Newcastle,MID,0,0,0,0,,0,0
+38,488,bruno guimar es rodriguez moura|newcastle united,Bruno Guimarães Rodriguez Moura,Newcastle,MID,0.926,84.3,0.926,84.3,27,2301,100
+38,496,garang kuol|newcastle united,Garang Kuol,Newcastle,MID,0,0,0,0,,0,0
+38,487,harvey barnes|newcastle united,Harvey Barnes,Newcastle,MID,0.514,48.5,0.514,48.5,35,1832,
+38,495,isaac hayden|newcastle united,Isaac Hayden,Newcastle,MID,0,0,0,0,,0,0
+38,489,jacob murphy|newcastle united,Jacob Murphy,Newcastle,MID,0.581,46.7,0.581,46.7,31,1546,100
+38,52,jacob ramsey|newcastle united,Jacob Ramsey,Newcastle,MID,0.5,44.9,0.5,44.9,26,1261,100
+38,498,joe white|newcastle united,Joe White,Newcastle,MID,0,0,0,0,,0,0
+38,494,joe willock|newcastle united,Joe Willock,Newcastle,MID,0.409,35,0.409,35,22,845,100
+38,490,joelinton c ssio apolin rio de lira|newcastle united,Joelinton Cássio Apolinário de Lira,Newcastle,MID,0.852,70.6,0.852,70.6,27,1950,100
+38,497,lewis miley|newcastle united,Lewis Miley,Newcastle,MID,0,0,0,0,23,1493,0
+38,772,sam alabi|newcastle united,Sam Alabi,Newcastle,MID,0,0,0,0,,0,
+38,491,sandro tonali|newcastle united,Sandro Tonali,Newcastle,MID,0.882,71.7,0.882,71.7,34,2482,100
+38,689,seung soo park|newcastle united,Seung-Soo Park,Newcastle,MID,0,0,0,0,0,0,
+38,509,david mota veiga teixeira do carmo|nottingham forest,David Mota Veiga Teixeira do Carmo,Nott'm Forest,DEF,0,0,0,0,,0,0
+38,511,felipe rodrigues da silva|nottingham forest,Felipe Rodrigues da Silva,Nott'm Forest,DEF,0.632,57.7,0.632,57.7,19,1160,
+38,510,jair paula da cunha filho|nottingham forest,Jair Paula da Cunha Filho,Nott'm Forest,DEF,0.714,61,0.714,61,7,446,100
+38,814,luca netz|nottingham forest,Luca Netz,Nott'm Forest,DEF,0.4,44.2,0.4,44.2,5,243,
+38,729,luis eduardo soares da silva|nottingham forest,Luis Eduardo Soares da Silva,Nott'm Forest,DEF,0,0,0,0,,0,0
+38,506,murillo costa dos santos|nottingham forest,Murillo Costa dos Santos,Nott'm Forest,DEF,0.5,42.6,0.5,42.6,25,2130,50
+38,508,neco williams|nottingham forest,Neco Williams,Nott'm Forest,DEF,0.971,86,0.971,86,35,3023,100
+38,716,nicol savona|nottingham forest,Nicolò Savona,Nott'm Forest,DEF,0,0,0,0,14,1025,0
+38,505,nikola milenkovi|nottingham forest,Nikola Milenković,Nott'm Forest,DEF,0.972,88.4,0.972,88.4,36,3195,
+38,507,ola aina|nottingham forest,Ola Aina,Nott'm Forest,DEF,0.5,44.1,0.5,44.1,18,1587,50
+38,12,oleksandr zinchenko|nottingham forest,Oleksandr Zinchenko,Nott'm Forest,DEF,0,0,0,0,5,352,0
+38,512,omar richards|nottingham forest,Omar Richards,Nott'm Forest,DEF,0,0,0,0,,0,0
+38,514,willy boly|nottingham forest,Willy Boly,Nott'm Forest,DEF,0,0,0,0,0,0,0
+38,513,zach abbott|nottingham forest,Zach Abbott,Nott'm Forest,DEF,0.333,26.1,0.333,26.1,3,165,50
+38,696,arnaud kalimuendo|nottingham forest,Arnaud Kalimuendo,Nott'm Forest,FWD,0,0,0,0,9,89,0
+38,525,chris wood|nottingham forest,Chris Wood,Nott'm Forest,FWD,0.692,56.2,0.692,56.2,13,766,100
+38,526,igor jesus maciel da cruz|nottingham forest,Igor Jesus Maciel da Cruz,Nott'm Forest,FWD,0.743,58.2,0.743,58.2,35,2120,100
+38,805,lorenzo lucca|nottingham forest,Lorenzo Lucca,Nott'm Forest,FWD,0.25,28,0.25,28,4,126,
+38,527,taiwo awoniyi|nottingham forest,Taiwo Awoniyi,Nott'm Forest,FWD,0.2,25.3,0.2,25.3,15,432,100
+38,675,angus gunn|nottingham forest,Angus Gunn,Nott'm Forest,GK,0,38.2,0,38.2,1,45,100
+38,503,carlos miguel dos santos pereira|nottingham forest,Carlos Miguel dos Santos Pereira,Nott'm Forest,GK,0,0,0,0,0,0,0
+38,715,john victor maciel furtado|nottingham forest,John Victor Maciel Furtado,Nott'm Forest,GK,0,0,0,0,5,437,0
+38,504,matt turner|nottingham forest,Matt Turner,Nott'm Forest,GK,0,0,0,0,0,0,0
+38,502,matz sels|nottingham forest,Matz Sels,Nott'm Forest,GK,0.966,85.3,0.966,85.3,29,2487,100
+38,400,stefan ortega moreno|nottingham forest,Stefan Ortega Moreno,Nott'm Forest,GK,1,90,1,90,3,270,100
+38,835,archie whitehall|nottingham forest,Archie Whitehall,Nott'm Forest,MID,0,0,0,0,,0,
+38,516,callum hudson odoi|nottingham forest,Callum Hudson-Odoi,Nott'm Forest,MID,0,0,0,0,30,1838,0
+38,669,dan ndoye|nottingham forest,Dan Ndoye,Nott'm Forest,MID,0.292,22.8,0.292,22.8,24,1167,50
+38,734,dilane bakwa|nottingham forest,Dilane Bakwa,Nott'm Forest,MID,0.462,37.4,0.462,37.4,13,529,100
+38,517,elliot anderson|nottingham forest,Elliot Anderson,Nott'm Forest,MID,0.972,87.9,0.972,87.9,36,3178,100
+38,523,eric da silva moreira|nottingham forest,Eric da Silva Moreira,Nott'm Forest,MID,0,0,0,0,0,0,100
+38,521,ibrahim sangar|nottingham forest,Ibrahim Sangaré,Nott'm Forest,MID,0.462,37.8,0.462,37.8,26,1989,50
+38,426,james mcatee|nottingham forest,James McAtee,Nott'm Forest,MID,0.167,19.7,0.167,19.7,12,270,
+38,836,jimmy sinclair|nottingham forest,Jimmy Sinclair,Nott'm Forest,MID,0,0,0,0,,0,
+38,518,jo o pedro ferreira da silva|nottingham forest,João Pedro Ferreira da Silva,Nott'm Forest,MID,0,0,0,0,1,11,0
+38,520,lewis o brien|nottingham forest,Lewis O'Brien,Nott'm Forest,MID,0,0,0,0,,0,0
+38,524,marko stameni|nottingham forest,Marko Stamenić,Nott'm Forest,MID,0,0,0,0,,0,0
+38,515,morgan gibbs white|nottingham forest,Morgan Gibbs-White,Nott'm Forest,MID,0.471,41.4,0.471,41.4,35,2921,50
+38,519,nicol s dom nguez|nottingham forest,Nicolás Domínguez,Nott'm Forest,MID,0.64,40.6,0.64,40.6,25,1074,100
+38,693,omari hutchinson|nottingham forest,Omari Hutchinson,Nott'm Forest,MID,0.517,48.9,0.517,48.9,29,1530,
+38,522,ryan yates|nottingham forest,Ryan Yates,Nott'm Forest,MID,0.095,23.7,0.095,23.7,21,577,100
+38,576,ashley phillips|tottenham,Ashley Phillips,Spurs,DEF,0,0,0,0,,0,0
+38,571,ben davies|tottenham,Ben Davies,Spurs,DEF,0,0,0,0,3,136,0
+38,569,cristian romero|tottenham,Cristian Romero,Spurs,DEF,0,0,0,0,23,1869,0
+38,574,destiny udogie|tottenham,Destiny Udogie,Spurs,DEF,0.667,62.2,0.667,62.2,18,1178,100
+38,573,djed spence|tottenham,Djed Spence,Spurs,DEF,0.786,67,0.786,67,28,1938,100
+38,750,james rowswell|tottenham,James Rowswell,Spurs,DEF,0,0.8,0,0.8,1,1,
+38,804,jo o victor de souza menezes|tottenham,João Victor de Souza Menezes,Spurs,DEF,0.5,32.8,0.5,32.8,4,142,
+38,745,jun ai byfield|tottenham,Jun'ai Byfield,Spurs,DEF,0,0.8,0,0.8,1,1,
+38,570,kevin danso|tottenham,Kevin Danso,Spurs,DEF,0.682,56.7,0.682,56.7,22,1309,100
+38,578,luka vu kovi|tottenham,Luka Vušković,Spurs,DEF,0,0,0,0,0,0,0
+38,575,micky van de ven|tottenham,Micky van de Ven,Spurs,DEF,1,86.7,1,86.7,33,2861,100
+38,568,pedro porro sauceda|tottenham,Pedro Porro Sauceda,Spurs,DEF,0.938,80.9,0.938,80.9,32,2613,100
+38,572,radu dr gu in|tottenham,Radu Drăgușin,Spurs,DEF,0.556,53.3,0.556,53.3,9,514,100
+38,577,takai k ta|tottenham,Takai Kōta,Spurs,DEF,0,0,0,0,,0,0
+38,599,dane scarlett|tottenham,Dane Scarlett,Spurs,FWD,0,0,0,0,2,7,0
+38,596,dominic solanke mitchell|tottenham,Dominic Solanke-Mitchell,Spurs,FWD,0.183,16,0.183,16,15,997,25
+38,818,james wilson|tottenham,James Wilson,Spurs,FWD,0,0,0,0,,0,
+38,726,randal kolo muani|tottenham,Randal Kolo Muani,Spurs,FWD,0.714,53.7,0.714,53.7,28,1570,100
+38,597,richarlison de andrade|tottenham,Richarlison de Andrade,Spurs,FWD,0.6,56.1,0.6,56.1,30,1792,100
+38,598,will lankshear|tottenham,Will Lankshear,Spurs,FWD,0,0,0,0,,0,0
+38,567,anton n kinsk|tottenham,Antonín Kinský,Spurs,GK,1,90,1,90,5,450,
+38,566,brandon austin|tottenham,Brandon Austin,Spurs,GK,0,0,0,0,0,0,
+38,565,guglielmo vicario|tottenham,Guglielmo Vicario,Spurs,GK,0,0,0,0,31,2790,0
+38,591,archie gray|tottenham,Archie Gray,Spurs,MID,0.783,61.5,0.783,61.5,23,1463,100
+38,590,bryan gil salvatierra|tottenham,Bryan Gil Salvatierra,Spurs,MID,0,0,0,0,,0,0
+38,595,callum olusesi|tottenham,Callum Olusesi,Spurs,MID,0,11.9,0,11.9,1,14,
+38,796,conor gallagher|tottenham,Conor Gallagher,Spurs,MID,0.857,70.7,0.857,70.7,14,1012,100
+38,583,dejan kulusevski|tottenham,Dejan Kulusevski,Spurs,MID,0,0,0,0,,0,0
+38,581,james maddison|tottenham,James Maddison,Spurs,MID,0,4.2,0,4.2,1,5,100
+38,673,jo o maria lobo alves palhares costa palhinha gon alves|tottenham,João Maria Lobo Alves Palhares Costa Palhinha Gonçalves,Spurs,MID,0.677,62.4,0.677,62.4,31,2034,100
+38,586,lucas bergvall|tottenham,Lucas Bergvall,Spurs,MID,0.478,38.3,0.478,38.3,23,955,100
+38,790,luc williams barnett|tottenham,Lucá Williams-Barnett,Spurs,MID,0,0,0,0,,0,
+38,589,manor solomon|tottenham,Manor Solomon,Spurs,MID,0,0,0,0,,0,0
+38,584,mathys tel|tottenham,Mathys Tel,Spurs,MID,0.379,36.7,0.379,36.7,29,1172,100
+38,592,mikey moore|tottenham,Mikey Moore,Spurs,MID,0,0,0,0,,0,0
+38,582,mohammed kudus|tottenham,Mohammed Kudus,Spurs,MID,0,0,0,0,19,1535,0
+38,593,pape matar sarr|tottenham,Pape Matar Sarr,Spurs,MID,0.542,52.4,0.542,52.4,24,1350,100
+38,811,rio kyerematen|tottenham,Rio Kyerematen,Spurs,MID,0,0,0,0,,0,
+38,585,rodrigo bentancur|tottenham,Rodrigo Bentancur,Spurs,MID,0.875,69.9,0.875,69.9,24,1709,100
+38,579,son heung min|tottenham,Son Heung-min,Spurs,MID,0,0,0,0,0,0,0
+38,588,wilson odobert|tottenham,Wilson Odobert,Spurs,MID,0,0,0,0,24,972,0
+38,717,xavi simons|tottenham,Xavi Simons,Spurs,MID,0,0,0,0,28,1747,0
+38,594,yang min hyeok|tottenham,Yang Min-hyeok,Spurs,MID,0,0,0,0,,0,0
+38,751,yusuf akhamrich|tottenham,Yusuf Akhamrich,Spurs,MID,0,0,0,0,,0,0
+38,587,yves bissouma|tottenham,Yves Bissouma,Spurs,MID,0.636,51.6,0.636,51.6,11,600,100
+38,533,aji alese|sunderland,Aji Alese,Sunderland,DEF,0,0,0,0,,0,0
+38,678,arthur masuaku|sunderland,Arthur Masuaku,Sunderland,DEF,0,0,0,0,3,125,0
+38,531,daniel ballard|sunderland,Daniel Ballard,Sunderland,DEF,0,0,0,0,29,2144,0
+38,535,dennis cirkin|sunderland,Dennis Cirkin,Sunderland,DEF,0.375,36.1,0.375,36.1,8,319,100
+38,774,jenson jones|sunderland,Jenson Jones,Sunderland,DEF,0,0,0,0,,0,
+38,542,jenson seelt|sunderland,Jenson Seelt,Sunderland,DEF,0,0,0,0,2,133,0
+38,534,joe anderson|sunderland,Joe Anderson,Sunderland,DEF,0,0,0,0,0,0,0
+38,536,leo fuhr hjelde|sunderland,Leo Fuhr Hjelde,Sunderland,DEF,0,0,0,0,,0,0
+38,539,luke o nien|sunderland,Luke O'Nien,Sunderland,DEF,0.4,37.1,0.4,37.1,10,408,100
+38,724,lutsharel geertruida|sunderland,Lutsharel Geertruida,Sunderland,DEF,0.577,54.1,0.577,54.1,26,1501,
+38,537,niall huggins|sunderland,Niall Huggins,Sunderland,DEF,0,0,0,0,0,0,0
+38,694,nordi mukiele|sunderland,Nordi Mukiele,Sunderland,DEF,1,86.8,1,86.8,30,2604,100
+38,683,omar alderete|sunderland,Omar Alderete,Sunderland,DEF,0.969,86.3,0.969,86.3,32,2775,100
+38,541,reinildo mandava|sunderland,Reinildo Mandava,Sunderland,DEF,0.913,76.6,0.913,76.6,23,1786,100
+38,540,timoth e pemb l|sunderland,Timothée Pembélé,Sunderland,DEF,0,0,0,0,0,0,0
+38,532,trai hume|sunderland,Trai Hume,Sunderland,DEF,0.889,78.7,0.889,78.7,36,2883,
+38,538,zak johnson|sunderland,Zak Johnson,Sunderland,DEF,0,0,0,0,0,0,0
+38,562,ahmed abdullahi|sunderland,Ahmed Abdullahi,Sunderland,FWD,0,0,0,0,0,0,
+38,730,brian brobbey|sunderland,Brian Brobbey,Sunderland,FWD,0.69,58.7,0.69,58.7,29,1784,100
+38,561,eliezer mayenda dossou|sunderland,Eliezer Mayenda Dossou,Sunderland,FWD,0.4,34.2,0.4,34.2,20,751,
+38,563,lu s hemir silva semedo|sunderland,Luís Hemir Silva Semedo,Sunderland,FWD,0,0,0,0,0,0,0
+38,564,nazarii rusyn|sunderland,Nazarii Rusyn,Sunderland,FWD,0,0,0,0,0,0,0
+38,560,wilson isidor|sunderland,Wilson Isidor,Sunderland,FWD,0.367,33.4,0.367,33.4,30,1106,100
+38,528,anthony patterson|sunderland,Anthony Patterson,Sunderland,GK,0,0,0,0,0,0,0
+38,530,blondy nna noukeu|sunderland,Blondy Nna Noukeu,Sunderland,GK,0,0,0,0,0,0,0
+38,812,melker ellborg|sunderland,Melker Ellborg,Sunderland,GK,1,90,1,90,3,270,
+38,670,robin roefs|sunderland,Robin Roefs,Sunderland,GK,1,90,1,90,33,2970,100
+38,529,simon moore|sunderland,Simon Moore,Sunderland,GK,0,0,0,0,0,0,100
+38,554,abdoullah ba|sunderland,Abdoullah Ba,Sunderland,MID,0,0,0,0,0,0,
+38,555,alan browne|sunderland,Alan Browne,Sunderland,MID,0,0,0,0,,0,0
+38,735,bertrand traor|sunderland,Bertrand Traoré,Sunderland,MID,0.75,50.9,0.75,50.9,12,634,100
+38,553,chemsdine talbi|sunderland,Chemsdine Talbi,Sunderland,MID,0.593,53,0.593,53,27,1523,100
+38,551,chris rigg|sunderland,Chris Rigg,Sunderland,MID,0.688,44.3,0.688,44.3,16,744,
+38,549,dan neil|sunderland,Dan Neil,Sunderland,MID,0,0,0,0,3,13,0
+38,800,djiamgone jocelin ta bi|sunderland,Djiamgone Jocelin Ta Bi,Sunderland,MID,1,38,1,38,1,38,100
+38,547,enzo le f e|sunderland,Enzo Le Fée,Sunderland,MID,0.912,79.8,0.912,79.8,34,2750,100
+38,668,granit xhaka|sunderland,Granit Xhaka,Sunderland,MID,0.938,84.2,0.938,84.2,32,2721,100
+38,544,habib diarra|sunderland,Habib Diarra,Sunderland,MID,0.833,73.7,0.833,73.7,18,1361,100
+38,557,harrison jones|sunderland,Harrison Jones,Sunderland,MID,0,0,0,0,0,0,
+38,550,ian poveda ocampo|sunderland,Ian Poveda-Ocampo,Sunderland,MID,0,0,0,0,,0,
+38,821,jack whittaker|sunderland,Jack Whittaker,Sunderland,MID,0,0,0,0,,0,
+38,558,jay matete|sunderland,Jay Matete,Sunderland,MID,0,0,0,0,0,0,0
+38,822,jaydon jones|sunderland,Jaydon Jones,Sunderland,MID,0,0,0,0,,0,
+38,546,milan aleksi|sunderland,Milan Aleksić,Sunderland,MID,0,0,0,0,,0,100
+38,559,nectarios triantis|sunderland,Nectarios Triantis,Sunderland,MID,0,0,0,0,,0,0
+38,813,nilson angulo|sunderland,Nilson Angulo,Sunderland,MID,0.5,40.9,0.5,40.9,6,265,100
+38,552,noah sadiki|sunderland,Noah Sadiki,Sunderland,MID,1,87.9,1,87.9,31,2725,100
+38,545,patrick roberts|sunderland,Patrick Roberts,Sunderland,MID,0,0,0,0,1,27,0
+38,556,pierre ekwah elimby|sunderland,Pierre Ekwah Elimby,Sunderland,MID,0,0,0,0,,0,0
+38,548,romaine mundle|sunderland,Romaine Mundle,Sunderland,MID,0,0,0,0,14,399,0
+38,543,simon adingra|sunderland,Simon Adingra,Sunderland,MID,0,0,0,0,14,649,0
+38,775,tymur tutierov|sunderland,Tymur Tutierov,Sunderland,MID,0,0,0,0,,0,0
+38,610,aaron wan bissaka|west ham,Aaron Wan-Bissaka,West Ham,DEF,0.917,83,0.917,83,24,2018,100
+38,752,airidas golambeckis|west ham,Airidas Golambeckis,West Ham,DEF,0,0,0,0,,0,
+38,815,axel disasi|west ham,Axel Disasi,West Ham,DEF,1,89.5,1,89.5,12,1074,
+38,603,el hadji malick diouf|west ham,El Hadji Malick Diouf,West Ham,DEF,0.933,83.4,0.933,83.4,30,2526,100
+38,604,emerson palmieri dos santos|west ham,Emerson Palmieri dos Santos,West Ham,DEF,0,0,0,0,,0,0
+38,747,ezra mayers|west ham,Ezra Mayers,West Ham,DEF,0,16,0,16,6,113,
+38,609,jean clair todibo|west ham,Jean-Clair Todibo,West Ham,DEF,0.955,80.9,0.955,80.9,22,1792,100
+38,611,kaelan casey|west ham,Kaelan Casey,West Ham,DEF,0,0,0,0,0,0,0
+38,606,konstantinos mavropanos|west ham,Konstantinos Mavropanos,West Ham,DEF,0.862,79.4,0.862,79.4,29,2352,100
+38,659,kyle walker peters|west ham,Kyle Walker-Peters,West Ham,DEF,0.636,55.4,0.636,55.4,22,1288,
+38,605,maximilian kilman|west ham,Maximilian Kilman,West Ham,DEF,0.81,72.1,0.81,72.1,21,1559,
+38,607,nayef aguerd|west ham,Nayef Aguerd,West Ham,DEF,0,0,0,0,2,180,0
+38,608,ollie scarles|west ham,Ollie Scarles,West Ham,DEF,0.692,48.1,0.692,48.1,13,656,100
+38,626,callum marshall|west ham,Callum Marshall,West Ham,FWD,0,0,0,0,2,58,0
+38,671,callum wilson|west ham,Callum Wilson,West Ham,FWD,0.333,33,0.333,33,30,1099,100
+38,624,jarrod bowen|west ham,Jarrod Bowen,West Ham,FWD,1,89.6,1,89.6,36,3226,
+38,625,niclas f llkrug|west ham,Niclas Füllkrug,West Ham,FWD,0,0,0,0,8,407,0
+38,785,pablo felipe pereira de jesus|west ham,Pablo Felipe Pereira de Jesus,West Ham,FWD,0.75,59.9,0.75,59.9,12,747,100
+38,791,valent n castellanos|west ham,Valentín Castellanos,West Ham,FWD,1,77.1,1,77.1,16,1233,
+38,600,alphonse areola|west ham,Alphonse Areola,West Ham,GK,1,90,1,90,20,1800,100
+38,825,finlay herrick|west ham,Finlay Herrick,West Ham,GK,0,0,0,0,,0,
+38,602,kriszti n hegyi|west ham,Krisztián Hegyi,West Ham,GK,0,0,0,0,0,0,0
+38,738,lukasz fabianski|west ham,Lukasz Fabianski,West Ham,GK,0,0,0,0,,0,100
+38,679,mads hermansen|west ham,Mads Hermansen,West Ham,GK,1,90,1,90,16,1440,
+38,601,wes foderingham|west ham,Wes Foderingham,West Ham,GK,0,0,0,0,0,0,0
+38,326,adama traor diarra|west ham,Adama Traoré Diarra,West Ham,MID,0.031,10.1,0.031,10.1,24,376,75
+38,621,andy irving|west ham,Andy Irving,West Ham,MID,0,0,0,0,7,156,0
+38,615,crysencio summerville|west ham,Crysencio Summerville,West Ham,MID,0.931,78.1,0.931,78.1,29,2290,100
+38,616,edson lvarez vel zquez|west ham,Edson Álvarez Velázquez,West Ham,MID,0,0,0,0,,0,0
+38,623,freddie potts|west ham,Freddie Potts,West Ham,MID,0.545,49.2,0.545,49.2,22,1162,100
+38,620,george earthy|west ham,George Earthy,West Ham,MID,0,0,0,0,1,8,0
+38,618,guido rodr guez|west ham,Guido Rodríguez,West Ham,MID,0,0,0,0,6,175,0
+38,802,keiber lamadrid|west ham,Keiber Lamadrid,West Ham,MID,0,0,0,0,,0,
+38,622,lewis orford|west ham,Lewis Orford,West Ham,MID,0,0,0,0,0,0,0
+38,612,lucas tolentino coelho de lima|west ham,Lucas Tolentino Coelho de Lima,West Ham,MID,0,0,0,0,18,1513,0
+38,619,luis guilherme lira dos santos|west ham,Luis Guilherme Lira dos Santos,West Ham,MID,0,0,0,0,5,121,0
+38,708,mateus gon alo espanha fernandes|west ham,Mateus Gonçalo Espanha Fernandes,West Ham,MID,0.971,83.1,0.971,83.1,34,2837,100
+38,617,maxwel cornet|west ham,Maxwel Cornet,West Ham,MID,0,0,0,0,,0,0
+38,758,mohamadou kant|west ham,Mohamadou Kanté,West Ham,MID,0,3.6,0,3.6,9,38,
+38,718,soungoutou magassa|west ham,Soungoutou Magassa,West Ham,MID,0.5,40.8,0.5,40.8,22,971,
+38,613,tom sou ek|west ham,Tomáš Souček,West Ham,MID,0.667,58.7,0.667,58.7,33,2038,100
+38,641,alfie pond|wolverhampton wanderers,Alfie Pond,Wolves,DEF,0,0,0,0,0,0,0
+38,639,bastien meupiyou menadjou|wolverhampton wanderers,Bastien Meupiyou Menadjou,Wolves,DEF,0,0,0,0,,0,0
+38,682,david m ller wolfe|wolverhampton wanderers,David Møller Wolfe,Wolves,DEF,0.45,40.6,0.45,40.6,20,885,
+38,631,emmanuel agbadou|wolverhampton wanderers,Emmanuel Agbadou,Wolves,DEF,0,0,0,0,14,1100,0
+38,633,hugo bueno l pez|wolverhampton wanderers,Hugo Bueno López,Wolves,DEF,0.788,68.6,0.788,68.6,33,2338,100
+38,695,jackson tchatchoua|wolverhampton wanderers,Jackson Tchatchoua,Wolves,DEF,0.613,55.7,0.613,55.7,31,1834,
+38,638,ki jana hoever|wolverhampton wanderers,Ki-Jana Hoever,Wolves,DEF,0,0,0,0,8,423,0
+38,709,ladislav krejc|wolverhampton wanderers,Ladislav Krejcí,Wolves,DEF,0.962,84.2,0.962,84.2,26,2201,100
+38,632,matt doherty|wolverhampton wanderers,Matt Doherty,Wolves,DEF,1,71.5,1,71.5,11,786,100
+38,640,pedro cardoso de lima|wolverhampton wanderers,Pedro Cardoso de Lima,Wolves,DEF,0.429,31.9,0.429,31.9,7,244,100
+38,635,rodrigo martins gomes|wolverhampton wanderers,Rodrigo Martins Gomes,Wolves,DEF,0.35,35.6,0.35,35.6,20,789,100
+38,766,saheed olagunju|wolverhampton wanderers,Saheed Olagunju,Wolves,DEF,0,0,0,0,,0,
+38,636,santiago ignacio bueno|wolverhampton wanderers,Santiago Ignacio Bueno,Wolves,DEF,0.963,87.4,0.963,87.4,27,2372,100
+38,637,toti gomes|wolverhampton wanderers,Toti Gomes,Wolves,DEF,0.944,77.1,0.944,77.1,18,1399,100
+38,634,yerson mosquera valdelamar|wolverhampton wanderers,Yerson Mosquera Valdelamar,Wolves,DEF,0.88,76.9,0.88,76.9,25,1957,100
+38,817,adam armstrong|wolverhampton wanderers,Adam Armstrong,Wolves,FWD,1,83.1,1,83.1,12,997,
+38,655,f bio soares silva|wolverhampton wanderers,Fábio Soares Silva,Wolves,FWD,0,0,0,0,0,0,0
+38,657,leon chiwome|wolverhampton wanderers,Leon Chiwome,Wolves,FWD,0,0,0,0,,0,100
+38,749,mateus man|wolverhampton wanderers,Mateus Mané,Wolves,FWD,0.68,61.2,0.68,61.2,25,1607,
+38,658,nathan fraser|wolverhampton wanderers,Nathan Fraser,Wolves,FWD,0,0,0,0,0,0,
+38,656,sa a kalajd i|wolverhampton wanderers,Saša Kalajdžić,Wolves,FWD,0,0,0,0,1,14,0
+38,720,tolu arokodare|wolverhampton wanderers,Tolu Arokodare,Wolves,FWD,0.419,40,0.419,40,31,1360,
+38,828,alfie brooks|wolverhampton wanderers,Alfie Brooks,Wolves,GK,0,0,0,0,,0,
+38,629,daniel bentley|wolverhampton wanderers,Daniel Bentley,Wolves,GK,1,90,1,90,3,270,100
+38,831,josh gracey|wolverhampton wanderers,Josh Gracey,Wolves,GK,0,0,0,0,,0,
+38,628,jos malheiro de s|wolverhampton wanderers,José Malheiro de Sá,Wolves,GK,0.5,45,0.5,45,21,1890,50
+38,627,sam johnstone|wolverhampton wanderers,Sam Johnstone,Wolves,GK,0,0,0,0,12,1080,0
+38,643,andr trindade da costa neto|wolverhampton wanderers,André Trindade da Costa Neto,Wolves,MID,0.848,76.4,0.848,76.4,33,2580,100
+38,816,angel gomes|wolverhampton wanderers,Angel Gomes,Wolves,MID,0.545,33.2,0.545,33.2,11,392,100
+38,649,boubacar traor|wolverhampton wanderers,Boubacar Traoré,Wolves,MID,0,0,0,0,,0,0
+38,652,enso gonz lez medina|wolverhampton wanderers,Enso González Medina,Wolves,MID,0,0,0,0,0,0,
+38,778,ethan sutherland|wolverhampton wanderers,Ethan Sutherland,Wolves,MID,0,0,0,0,,0,
+38,645,fer l pez gonz lez|wolverhampton wanderers,Fer López González,Wolves,MID,0,0,0,0,9,228,0
+38,647,gon alo manuel ganchinho guedes|wolverhampton wanderers,Gonçalo Manuel Ganchinho Guedes,Wolves,MID,0,0,0,0,,0,0
+38,642,hwang hee chan|wolverhampton wanderers,Hwang Hee-chan,Wolves,MID,0.667,50.3,0.667,50.3,24,1271,100
+38,644,jean ricner bellegarde|wolverhampton wanderers,Jean-Ricner Bellegarde,Wolves,MID,0.6,46.2,0.6,46.2,25,1228,100
+38,809,jerome abbey|wolverhampton wanderers,Jerome Abbey,Wolves,MID,0,0,0,0,,0,
+38,663,jhon arias|wolverhampton wanderers,Jhon Arias,Wolves,MID,0,0,0,0,23,1117,0
+38,653,joe hodge|wolverhampton wanderers,Joe Hodge,Wolves,MID,0,0,0,0,,0,0
+38,646,jo o victor gomes da silva|wolverhampton wanderers,João Victor Gomes da Silva,Wolves,MID,0.912,79.5,0.912,79.5,34,2739,100
+38,767,luke rawlings|wolverhampton wanderers,Luke Rawlings,Wolves,MID,0,0,0,0,,0,
+38,648,marshall munetsi|wolverhampton wanderers,Marshall Munetsi,Wolves,MID,0,0,0,0,13,872,0
+38,650,tawanda chirewa|wolverhampton wanderers,Tawanda Chirewa,Wolves,MID,0,0,0,0,2,25,0
+38,777,temple ojinnaka|wolverhampton wanderers,Temple Ojinnaka,Wolves,MID,0,0,0,0,,0,0
+38,651,tom edozie|wolverhampton wanderers,Tom Edozie,Wolves,MID,0,3.4,0,3.4,3,12,

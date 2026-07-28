@@ -1,0 +1,1477 @@
+MODELYANSH TECHNICAL EXPLAINER
+Repository state audited: 2026-06-13
+
+FRESHNESS NOTE
+
+The model is built and validated but is awaiting 2026-27 data before it can make live 2026-27 predictions. The Premier League 2025-26 season is complete. Every player projection, GW38 row, website CSV, Monte Carlo bracket, and JSON snapshot currently stored in this repository is therefore a completed-season artifact, not a live prediction.
+
+This document uses five provenance labels:
+
+* CURRENT REPOSITORY AUDIT: measured from the checkout on 2026-06-13. This describes code, files, schemas, model bundles, or tests and is current for this repository, but it is not a football prediction.
+* CURRENT EXTERNAL FACT: checked against the linked source on 2026-06-13. It can change after that date.
+* COMPLETED-SEASON VALIDATION: produced by a named historical replay or holdout run. It is valid evidence about that completed sample, not a forecast of future accuracy.
+* STALE 2025-26 OUTPUT: produced for the completed 2025-26 season. It is retained for audit or website compatibility and must never be shown as a live 2026-27 forecast.
+* PROVISIONAL: an assumption, heuristic, incomplete comparison, or future-season input that needs confirmation.
+
+Every numerical result below names its source and status. Formula constants name the source code that owns them. A path citation means the value is present in that repository file. An external URL citation means the statement was checked at that URL.
+
+READ-PASS CERTIFICATE
+
+Before this explainer was written, a fail-fast reader opened every repository file as bytes, hashed the complete byte stream, decoded every text-like file, parsed every JSON and notebook as JSON, and iterated every CSV through its complete record stream. It found 1,571 files containing 963,036,679 bytes, 190 CSV files containing 1,519,436 data rows, 1,250 JSON documents, 41 Python source files, 25 Markdown files, 9 pickle bundles, 2 notebooks, and 1 ZIP archive. All 41 Python files also passed AST parsing. No readable file failed to open or parse, so the requested abort condition was not triggered. The aggregate content digest was SHA-256 620a0e9ae9d6c6f25799c6cc76d340e470e44f43b9e121aeee52a52dbce7c241. [CURRENT REPOSITORY AUDIT, full read run 2026-06-13]
+
+The same checkout passed 41 tests in 6.77 seconds with:
+
+    $env:PYTHONPATH = "src"
+    & "C:\Users\iamdi\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe" -B -m pytest -q -p no:cacheprovider
+
+[CURRENT REPOSITORY AUDIT, test run 2026-06-13]
+
+Eight historical football-data CSVs have a blank terminal record that makes their final row shorter than the header. The parser accepts that harmless terminal blank. Three older Vaastav CSVs require Windows-1252 decoding. Neither condition is a read failure. [CURRENT REPOSITORY AUDIT, full read run 2026-06-13]
+
+
+PART 1 - WHAT THIS IS
+
+1.1 Plain-English description
+
+Modelyansh is a Fantasy Premier League player projection system. It starts with the official FPL player list, teams, fixtures, prices, availability flags, and recent player histories. It estimates how many goals each team is likely to score in each fixture, how likely each team is to keep a clean sheet, how likely each player is to play and start, and how a team's attacking expectation should be divided among its players. It then converts those football events into expected FPL points.
+
+The system produces three related views:
+
+* A deterministic rules model, called KFT in the validation files, decomposes expected points into appearance, goal, assist, clean-sheet, save, defensive-contribution, card, penalty-miss, concession, and expected-bonus components.
+* A position-specific machine-learning ensemble predicts player points from historical and current features. Its final live value is composed with the calibrated probability of playing so that a conditional talent estimate becomes an unconditional expected-points estimate.
+* A match-first Monte Carlo model simulates shared fixture outcomes, discrete player-minute states, scorers, assisters, defensive events, cards, and proxy bonus. It produces distributions such as floor, upside, return probability, haul probability, and score brackets.
+
+The primary audience is an FPL analyst who wants auditable player-week projections rather than a single opaque rank. The raw files expose intermediate quantities such as fixture lambda, expected minutes, xG, xA, scoring components, model source, and simulation probabilities. The legacy exporter serves a pre-existing website or notebook contract with fixed CSV names.
+
+The system is not an optimizer for transfers, captains, chips, budgets, or squads. It does not ingest live injury news automatically. It does not reproduce the official Bonus Points System exactly. It does not contain a neural network. It is a projection engine and validation framework.
+
+1.2 Technical framing
+
+At a high level the repository implements:
+
+    official and external data
+        -> normalized teams, players, fixtures, histories, odds, and priors
+        -> team fixture goal intensities and clean-sheet probabilities
+        -> player rates and four-output minutes probabilities
+        -> deterministic expected FPL scoring
+        -> optional XGBoost plus Random Forest player-points ensemble
+        -> match-first Monte Carlo distributions
+        -> raw tables, snapshots, validation reports, and legacy website CSVs
+
+The live entry point is `fpl_xpts.cli:main`, which constructs `AppConfig` and calls `pipeline.run_live_projection`. The replay entry point is `scripts/retrospective_replay.py`, which reconstructs each historical gameweek using only shifted or pre-deadline information, applies season-specific scoring boundaries, and evaluates deterministic, ML, and Monte Carlo outputs against actual points.
+
+The installed package name and console command are `fpl-xpts`; the repository and this explainer call the overall system Modelyansh. [CURRENT REPOSITORY AUDIT, `pyproject.toml`]
+
+
+PART 2 - FILE-BY-FILE
+
+2.1 Configuration, documentation, and root-level operational files
+
+`pyproject.toml`
+Role: package metadata and dependency manifest.
+Logic: declares Python 3.10 or newer; runtime dependencies are DuckDB, joblib, NumPy, pandas, Pydantic, requests, scikit-learn, Streamlit, and XGBoost; pytest is the development extra; `fpl-xpts` maps to `fpl_xpts.cli:main`.
+Reads/writes/callers: read by pip/build tooling. DuckDB and Pydantic are declared but are not part of the current executed pipeline; `AppConfig.warehouse_path` is also unused. Flag these as planned or legacy dependencies, not active capabilities.
+
+`README.md`
+Role: concise setup, live-run, external-file, Solio-comparison, and output notes.
+Status: partly stale. Its absolute runtime path names another Windows user, and its examples default to the completed 2025-26 GW37-38 configuration. Use Part 8 of this document instead.
+
+`docs/model_blueprint.md`
+Role: design blueprint for the fixture, player-rate, scoring, simulation, output, and validation layers.
+Status: architectural context rather than an executable specification. Where it differs from code, the source modules and current tests govern.
+
+`audit/01_inventory.md`
+Role: an earlier inventory of repository modules and artifacts.
+Status: historical audit aid. It does not replace the 2026-06-13 full read certificate.
+
+`compare_models.py`
+Role: standalone comparison and reporting utility.
+Key logic: reads local validation files, optionally retrieves the latest Solio feed, aligns player names, calculates comparable descriptive metrics when the universes genuinely overlap, and writes external-comparison tables.
+Inputs/outputs: local model CSVs and Solio's latest JSON; writes `outputs/external_comparison/*`.
+Caveat: it does not scrape FPL Review, does not reconstruct a historical Solio archive, and cannot claim a direct head-to-head when season, deadline, player universe, or target differs.
+
+`app/streamlit_app.py`
+Role: small interactive front end.
+Logic: creates `AppConfig(n_sim=<UI value>)`, calls `run_live_projection`, and displays downloadable results.
+Caveat: it does not set `use_ml_predictions=True`, so the current app surfaces the default deterministic path unless code/config is changed. It also has no built-in next-season freshness guard.
+
+`elevenify.com 25_26 Subscriber Season Long Data - Sheet1.csv`
+Role: completed-season team-level projected-goals and clean-sheet input.
+Structure: two sectioned tables covering 20 teams by 38 gameweeks, yielding 760 goal rows and 760 clean-sheet rows after parsing. [STALE 2025-26 INPUT, `projections.load_elevenify_projection_tables` parse on 2026-06-13]
+Caveat: this file must be replaced for 2026-27. Its presence also matters to a configuration bug described below: `forecast_fixture_lambdas` can auto-find it even when the explicit pipeline Elevenify flag is disabled.
+
+`league-players - attack_projections (2).csv`
+Role: optional manual team attacking projections.
+Consumer: `projections.load_external_team_projection_files`.
+Status: disabled by default and stale. When enabled, external team files are applied after the odds and Elevenify layers and therefore become the final team projection override.
+
+`league-players - defense-projections (2).csv`
+Role: optional manual team defensive or clean-sheet projections.
+Consumer/status: same override path and caveats as the attack file.
+
+`league-players - league_teams.csv (2).csv`
+Role: team-name bridge for the optional league-player input set.
+Status: optional compatibility input, disabled by default.
+
+`Untitled spreadsheet - league_players (1).csv`
+Role: older/manual league-player mapping input.
+Status: legacy spreadsheet export; it is not read by the default live pipeline.
+
+`Untitled spreadsheet - player_inputs (1).csv`
+Role: older/manual player input sheet.
+Status: legacy spreadsheet export; it is not the configured minutes file and is not read by the default live pipeline.
+
+`player_minutes_inputs.csv`
+Role: editable player-week minutes override file.
+Consumer: `pipeline.run_live_projection` through `minute_overrides.load_player_minutes_inputs` and `apply_player_minutes_inputs`.
+Logic: rows can provide player identity and expected-minute/start/play fields; matching uses normalized player/team keys with validation and diagnostics.
+Status: its current rows belong to the completed 2025-26 data universe and must be regenerated or replaced before 2026-27.
+
+`player_minutes_inputs_gw37_to_38.csv`
+Role: a second, hard-coded late-season minutes override file.
+Consumer: `pipeline.run_live_projection`.
+Critical caveat: if this exact path exists, the pipeline applies it after the configured minutes file without checking `use_player_minutes_input_file`. It can therefore override new data even when `--no-minutes-inputs` is passed. Rename or archive it before the first 2026-27 run, or fix the pipeline.
+
+`minute_overrides.csv`
+Role: compact direct expected-minutes override.
+Consumer: `minute_overrides.apply_minute_overrides`.
+Caveat: this path changes expected minutes but does not fully rebuild all play/start/discrete-state probabilities used by Monte Carlo, so it is weaker than a complete `player_minutes_inputs` row.
+
+`mc_brackets_fixture_player_week.csv`, `mc_brackets_full_player_week.csv`, `mc_brackets_top50_by_week.csv`
+Role: root-level copies of Monte Carlo website outputs.
+Status: STALE 2025-26 OUTPUT. They are compatibility artifacts, not current predictions.
+
+`KFT_xPts_FORM_ZERO_MINS_PATCHED.ipynb`
+Role: generated deterministic live-run notebook.
+Structure: five cells generated by `scripts/build_notebooks.py`.
+Status: legacy GW37-38 compatibility surface; code generation, not hand-maintained source.
+
+`Kiba_Bracket_MonteCarlo_v6_upgraded_(3).ipynb`
+Role: generated Monte Carlo live-run notebook.
+Structure/status: five cells, generated by `scripts/build_notebooks.py`, retaining older naming for compatibility.
+
+`kiba_outputs.zip`
+Role: packaged legacy outputs.
+Contents: `six_week_totals.csv`, `weekly_player_week.csv`, `top50_xga.csv`, `qc_team_week.csv`, `form_weighting_audit.csv`, `fixture_player_week.csv`, `top50_p1_ga.csv`, and `qc_team_week_fixture.csv`.
+Status: STALE 2025-26 OUTPUT and redundant with unpacked output directories.
+
+2.2 Core package: `src/fpl_xpts`
+
+`src/fpl_xpts/__init__.py`
+Role: package marker and version-facing module. It contains no pipeline logic.
+
+`src/fpl_xpts/config.py`
+Role: central `AppConfig` dataclass.
+Important defaults: random seed 42; 10,000 Monte Carlo simulations; market odds enabled; projection gameweeks 37-38; Elevenify enabled; team assist factor 0.73; form blend weight 0.0; set-piece xA weight 0.3; FPL history enabled for at most 900 players; manual minutes enabled; external team files disabled; Understat enabled; big-chance profiles enabled; ML predictions disabled.
+Status: the GW37-38 defaults are stale and unsafe for 2026-27 until changed or overridden. [CURRENT REPOSITORY AUDIT, `AppConfig`]
+
+`src/fpl_xpts/data_sources.py`
+Role: official FPL HTTP client and raw-data snapshot helper.
+Key functions: `FplClient._get`, `bootstrap`, `fixtures`, `element_summary`, `event_live`, and `snapshot_raw`.
+Logic: first tries Windows `curl.exe --ssl-no-revoke`, then falls back to `requests` with certificate verification disabled. The workaround exists because this machine has encountered OpenSSL/Windows certificate failures.
+Reads/writes: calls `https://fantasy.premierleague.com/api`; optionally writes raw JSON snapshots.
+Caveat: disabling TLS verification is an operational fallback, not a desirable security default.
+
+`src/fpl_xpts/features.py`
+Role: builds player rates, priors, form, set-piece, penalty, assist, and Understat-enhanced features.
+Key decisions:
+* Observed per-90 rates are shrunk toward priors with 900 prior minutes.
+* Established players use Premier League positional evidence when at least 450 relevant minutes are available.
+* Foreign signings use their latest recognized league season, provisional league-strength factors, and another 900-minute shrink toward the latest Premier League positional median before current Premier League evidence is blended.
+* Provisional foreign factors are La Liga 0.9625, Bundesliga 0.9769, Serie A 0.9741, and Ligue 1 0.9352. They come from a Glicko-derived audit and are not proven causal transfer coefficients.
+* Recent form uses up to 10 matches with a four-match half-life, but the live blend weight is currently 0.0, so form is calculated for audit and has no default projection effect.
+* Understat evidence can receive up to 65 percent weight by 900 minutes.
+* Penalty event probabilities are represented as score 0.78, saved 0.17, missed wide/post 0.05.
+* The default team assist factor is empirically shrunk and clipped to 0.62-0.82 around the config value 0.73.
+* Per-90 xG caps are GK 0.01, DEF 0.18, MID 0.58, FWD 1.00; xA caps are GK 0.02, DEF 0.22, MID 0.70, FWD 0.45.
+Inputs: FPL players and histories, Understat player/shot profiles, optional set-piece and foreign-league data.
+Outputs: player profile/rate columns consumed by projections, xPts, ML features, and MC.
+[CURRENT REPOSITORY AUDIT, constants and transforms in `features.py`]
+
+`src/fpl_xpts/forecast.py`
+Role: team fixture goal and clean-sheet forecast.
+Key functions: `build_team_strength`, `forecast_fixture_lambdas`, `add_team_scoring_probabilities`.
+Baseline logic: starts from league goal average 1.51 and home advantage 1.10, combines normalized FPL team attack and opponent defence, and clips fixture lambdas to 0.15-4.00. Poisson clean-sheet probability is `exp(-opponent_lambda)`.
+Override logic: if an Elevenify file is discoverable, its projected goals replace the baseline lambdas and its direct clean-sheet probabilities are retained alongside Poisson trace values. Named scoring probabilities include P(0), P(1), P(2), P(2+), and P(3+).
+Critical caveat: the function searches for the root Elevenify sheet itself. Consequently, `--no-elevenify` does not guarantee that Elevenify is absent while the root sheet remains discoverable.
+
+`src/fpl_xpts/projections.py`
+Role: parsers and override application for Elevenify and optional external team projections.
+Key functions: team-name normalization, `load_elevenify_projection_tables`, `find_elevenify_projection_file`, `apply_elevenify_team_projections`, and external-file loaders.
+Logic: parses the two Elevenify sections into explicit `elevenify_goals` and `elevenify_cs` DataFrames indexed by normalized team and gameweek; applies direct goals and direct clean-sheet values rather than proportional rescaling.
+Caveat: current direct assignment treats a team-gameweek value as each fixture value. A double gameweek can therefore duplicate a weekly team projection rather than split it, despite an older docstring implying a split.
+
+`src/fpl_xpts/market_odds.py`
+Role: retrieves bookmaker markets and solves fixture goal intensities.
+Key functions: Odds API retrieval, team matching, devigging, Poisson market probabilities, and lambda fitting.
+Logic: requests `soccer_epl` head-to-head and totals markets from The Odds API; takes median bookmaker prices; converts inverse odds to probabilities and normalizes the overround away; grid-searches home and away lambdas from 0.10 to 4.50 in 0.05 steps. The objective weights 1X2 error by 3, over/under error by 2, and a fallback total-goals anchor by 0.35.
+Environment: reads `ODDS_API_KEY`.
+Caveat: this is an independent-Poisson market inversion, not Dixon-Coles. If the API key, market, team match, or event is unavailable, the baseline/Elevenify layer remains.
+
+`src/fpl_xpts/shot_profiles.py`
+Role: Understat acquisition and matching.
+Key functions: load/fetch team and player stats, match shots, build shot profiles, fetch foreign leagues.
+Logic: matches normalized full player name plus team first, then uses web name as a fallback. A big-chance proxy classifies a shot as large when xG is at least 0.30.
+Live scope: EPL profiles are integrated automatically. Foreign-league collection exists as a utility and cached-data path rather than a guaranteed live fetch on every run.
+
+`src/fpl_xpts/minutes.py`
+Role: heuristic minutes fallback and discrete-minute-state construction.
+Key functions: `estimate_start_and_minutes`, `minute_outcomes`, trained-model wrapper.
+Heuristic logic: appearances are historical rows with minutes above zero; starts use the FPL `starts` field or infer at least 60 minutes; average minutes per appearance is multiplied by `0.85 + 0.15 * start_rate` and then by availability. When a play probability is supplied, likely minutes mean minutes conditional on appearing.
+Discrete output: no appearance, sub appearance, start below 60, and start at least 60 states with probabilities and representative minutes.
+Use: deterministic xPts consumes expected minutes; Monte Carlo samples the discrete states.
+
+`src/fpl_xpts/minutes_model.py`
+Role: calibrated four-output trained minutes model.
+Outputs: `p_play`, `p_start_given_play`, `mins_if_start`, and `mins_if_sub`.
+Features: 47 columns containing shifted 1-, 3-, 5-, 6-, and 10-gameweek usage, availability/missingness, recency, fixture context, congestion, transfer episodes, standings, and season-phase/stakes interactions.
+Models: classifier outputs average XGBoost and Random Forest probabilities and apply team-disjoint out-of-fold isotonic calibration; regression outputs average XGBoost and Random Forest predictions.
+Composition: expected minutes are `p_play * (p_start_given_play * mins_if_start + (1-p_start_given_play) * mins_if_sub)`.
+Fallback: live and replay retain the rolling-history heuristic if the trained model or required features are unavailable.
+
+`src/fpl_xpts/minute_overrides.py`
+Role: schema validation, player matching, template creation, and application of manual minute inputs.
+Reads/writes: reads configured minutes CSVs; can write a template; returns match diagnostics and updated player/fixture rows.
+Decision: manual information is applied after trained estimates because injury, manager-news, suspension, and tactical knowledge are not fully represented in historical features.
+
+`src/fpl_xpts/scoring.py`
+Role: compact current live scoring helpers.
+Rules encoded: goal points GK 10, DEF 6, MID 5, FWD 4; clean-sheet and defensive-contribution thresholds, with DEF threshold 10 and MID/FWD threshold 12.
+Caveat: these are current live-oriented helpers, not intrinsically season-aware. Historical replay wraps their imported bindings with a season scoring context.
+
+`src/fpl_xpts/bonus.py`
+Role: deterministic expected-bonus approximation.
+Logic: maps expected attacking and defensive events to a capped expected bonus proxy.
+Caveat: it is not the official BPS algorithm and should not be described as one.
+
+`src/fpl_xpts/xpts.py`
+Role: deterministic player-fixture and player-week expected-points engine.
+Allocation:
+* Team xG and xA are conserved across players using each player's rate multiplied by expected-minute share.
+* Fixture minute capacity is capped at 90 goalkeeper minutes and 900 outfield minutes per team, with priority rules deciding who is reduced.
+* `P1_GA = 1 - exp(-(xG+xA))` is a Poisson at-least-one goal-or-assist approximation.
+Scoring components: appearance, goals, assists, clean sheets conditional on reaching 60 minutes, goalkeeper saves, defensive contributions, cards, conceded-goal penalties, penalty misses, and expected bonus.
+Aggregation: fixture rows become player-gameweek rows; weekly expected-point components are summed.
+Caveats: bonus is heuristic; own goals, penalty saves, exact BPS ties, and exact red-card concession timing are not fully represented.
+
+`src/fpl_xpts/ml_features.py`
+Role: creates the 103-column points-model feature schema.
+Logic: joins player, team, fixture, rate, price, form, role, minutes, and historical context; enforces stable feature ordering; fills downstream missing values through the model preprocessing contract.
+Use: both training and live/replay inference. A separate validation experiment added play-probability features to make 104 columns, but those bundles were not shipped.
+
+`src/fpl_xpts/ml_models.py`
+Role: position-specific points ensemble training, loading, validation, and prediction.
+Model design: one bundle for each of GK, DEF, MID, and FWD. Each bundle combines an XGBoost regressor with 350 trees, maximum depth 4, and learning rate 0.035, plus a Random Forest with 250 trees, maximum depth 12, and minimum leaf size 15. The ensemble is the simple average.
+Validation: team-disjoint grouped folds reduce leakage from teammates and shared fixtures.
+Live output: `ml_xpts_pre_minutes` retains the raw conditional model estimate; final `ml_xpts` composes it with calibrated play probability.
+
+`src/fpl_xpts/monte_carlo.py`
+Role: match-first simulation and distribution summaries.
+Key functions: minute draws, fixture simulation, bonus allocation, and `simulate_player_week`.
+Logic: groups all players in one fixture, draws shared home and away goals from Poisson lambdas, samples each player's discrete minute state, allocates scorers and assisters with normalized shares, draws saves, defensive contributions, cards, penalty misses, and proxy BPS, then applies FPL scoring. Shared fixture draws make opposing clean sheets and team goals internally coherent.
+Outputs: mean, standard deviation, floor, quartiles, upside, min/max, attacking-return counts, return and haul probabilities, and point brackets.
+Definitions: `P_return` means at least 6 FPL points; `P_haul` means at least 10 FPL points; `MC_P1_Return` means at least one simulated goal or assist, not six points.
+Caveat: fixed BPS-like weights are a simulation proxy, not official BPS.
+
+`src/fpl_xpts/historical_validation.py`
+Role: constructs historical training and replay-ready data.
+Coverage: football-data odds from 2014-15 through 2025-26; Vaastav player-gameweek data from 2016-17 through 2025-26; Understat historical data from 2014 onward where cached.
+Logic: prefers closing odds where available; normalizes team/player identities; creates shifted rolling features so the current gameweek cannot see its own outcome; uses direct Understat historical xG where older Vaastav rows lack xG; replaces the partial 2025-26 Vaastav cache with official cached FPL history only after completeness checks through GW38.
+Caveats: historical schemas vary, old season gameweek numbers can exceed 38 because of restart naming, and availability coverage is sparse.
+
+`src/fpl_xpts/backtest.py`
+Role: older standalone backtest and simple ridge/logistic approximation.
+Status: legacy/provisional. It does not reproduce the current deterministic, four-output minutes, position-ensemble, and match-first replay stack. Use `scripts/retrospective_replay.py` for authoritative current validation.
+
+`src/fpl_xpts/legacy_export.py`
+Role: converts raw pipeline tables into the fixed website/notebook file contract.
+Outputs: weekly, fixture, six-week, top-50, QC, form-audit, and Monte Carlo bracket CSVs.
+Important behavior: the legacy writer first runs the live pipeline without MC and then invokes MC for its own contract. Therefore `--format legacy --no-mc` does not currently suppress legacy MC generation.
+
+`src/fpl_xpts/solio_compare.py`
+Role: fetches and normalizes the current Solio API feed for descriptive comparison.
+Caveat: Solio exposes a latest feed, not the historical deadline archive needed for a fair completed-season head-to-head.
+
+`src/fpl_xpts/pipeline.py`
+Role: live orchestration.
+Actual order:
+1. Fetch official bootstrap, fixtures, player summaries, and event data.
+2. Build team and player features, including Understat profiles.
+3. Construct baseline fixture lambdas. This function can already auto-apply Elevenify.
+4. Apply market-odds lambdas when available.
+5. Apply the explicit Elevenify override again when enabled.
+6. Apply optional external team files last when enabled.
+7. Estimate minutes with the trained model or heuristic.
+8. Apply configured manual minutes.
+9. Apply the hard-coded `player_minutes_inputs_gw37_to_38.csv` if it exists.
+10. Apply compact minute overrides.
+11. Build deterministic fixture/week xPts.
+12. Optionally run Monte Carlo from the deterministic player-fixture rates and attach its tail probabilities.
+13. Optionally infer and attach position ML xPts to the weekly table.
+14. Always write a timestamped JSON snapshot and requested CSV outputs.
+This order, including the duplicate Elevenify opportunity and hard-coded minutes file, is the code's current behavior.
+
+`src/fpl_xpts/cli.py`
+Role: command-line interface.
+Flags: output directory, raw/legacy format, MC count and suppression, GW bounds, market odds, Elevenify path/suppression, minutes path/suppression, external team files, ML models, and Solio comparison.
+Callers: installed `fpl-xpts` command or `python -m fpl_xpts.cli`.
+
+2.3 Scripts
+
+`scripts/retrospective_replay.py`
+Role: authoritative gameweek-by-gameweek historical evaluator.
+Logic: performs its own full read unless `--skip-read-pass` is explicitly used; selects seasons; constructs pre-GW features; predicts minutes; applies season scoring context; generates deterministic, ML, baseline MC, and ML-weighted MC results; evaluates per-GW metrics; writes predictions, metrics, calibration, and findings.
+Season rules: before 2024-25 goalkeeper goals score 6; from 2024-25 they score 10; defensive-contribution points activate for 2025-26; BPS labels identify rule eras. The context patches replay bindings only and leaves live modules unchanged.
+Default: 1,000 simulations per gameweek and one worker unless overridden. GW1 is skipped when no shifted prior rows exist.
+
+`scripts/train_position_ml_models.py`
+Role: trains the four production points ensembles.
+Logic: loads the historical training set, generates rolling-origin/team-grouped validation, trains XGBoost and Random Forest bundles, evaluates holdouts and gates replacement.
+Writes: `models/position_models/*.pkl` and validation artifacts.
+
+`scripts/train_minutes_model.py`
+Role: trains the calibrated four-output minutes bundle.
+Logic: prepares shifted usage and context features, trains classifier/regressor pairs, performs team-disjoint calibration and holdout evaluation, and writes a joblib bundle.
+Writes: `models/minutes_model.pkl` and minutes validation tables.
+
+`scripts/build_full_historical_validation.py`
+Role: assembles historical deterministic validation and descriptive reports from local caches.
+Status: useful historical context, but not a substitute for the season-isolated replay.
+
+`scripts/build_historical_availability.py`
+Role: downloads/normalizes historical pre-deadline availability snapshots from supported GitHub repositories and the 2018-19 S3 archive.
+Writes: `data/availability/availability_by_gw.csv`.
+Caveat: only 2018-19, 2024-25, and 2025-26 are represented in the current file.
+
+`scripts/build_minutes_model_findings.py`
+Role: derives zero-minute gates, calibration, and segment findings from the minutes holdout and replay artifacts.
+Writes: `outputs/validation/minutes_model_findings.md` and associated CSVs.
+
+`scripts/build_replay_2025_26_findings.py`
+Role: produces focused 2025-26 replay comparisons, calibration interpretation, and external-benchmark caveats.
+Writes: `outputs/validation/replay_2025_26_findings.md` and related tables.
+
+`scripts/build_model_audit.py`
+Role: builds model-audit slices such as feature failures, high-haul error, goalkeeper components, and postmortems.
+Writes: `outputs/model_audit/*`.
+
+`scripts/build_notebooks.py`
+Role: programmatically regenerates the two five-cell compatibility notebooks at the repository root.
+
+2.4 Tests
+
+`tests/test_foreign_prior.py`
+Coverage: recognized foreign leagues, league factors, latest-season selection, normalization, heavy shrinkage, and current-PL evidence blending.
+
+`tests/test_historical_validation.py`
+Coverage: historical source mapping, shifts, odds normalization, feature completeness, and training-dataset construction.
+
+`tests/test_minutes.py`
+Coverage: heuristic and discrete minute outcomes, expected-value consistency, and availability behavior.
+
+`tests/test_ml_ensemble.py`
+Coverage: bundle loading, stable features, XGBoost/Random Forest averaging, position routing, and prediction columns.
+
+`tests/test_model_contracts.py`
+Coverage: cross-module schema and output contracts, including pipeline/legacy fields.
+
+`tests/test_retrospective_replay.py`
+Coverage: season-scoring boundaries, replay minutes, optional-column handling, metrics, and output metadata.
+
+`tests/test_scoring.py`
+Coverage: current goal-point and scoring helper values.
+
+Current result: all 41 collected tests passed. [CURRENT REPOSITORY AUDIT, pytest run 2026-06-13]
+
+2.5 Data files
+
+`data/fpl_history/` contains 844 JSON files: `bootstrap-static.json`, `fixtures.json`, `fetch_manifest.json`, and 841 `player_<element>_history.json` element-summary caches. They preserve the completed 2025-26 official player universe and histories. Total size is 42,191,996 bytes. [CURRENT REPOSITORY AUDIT, directory inventory 2026-06-13; STALE 2025-26 INPUT where football content is concerned]
+
+`data/understat/` contains 402 JSON files: one root file, 12 foreign-league files, 4 normalized historical files, 12 historical-raw files, 349 match/shot files, 12 player-stat files, and 12 team-stat files. Total size is 37,244,064 bytes. The folders are `foreign_leagues`, `historical`, `historical_raw`, `matches`, `player_stats`, and `team_stats`. [CURRENT REPOSITORY AUDIT, directory inventory 2026-06-13]
+
+`data/odds_historical/` contains 16 season CSVs plus `fetch_manifest.json`: `E0_1415.csv` through `E0_2526.csv`, with duplicate naming variants `2122_E0.csv`, `2223_E0.csv`, `2324_E0.csv`, and `2425_E0.csv` retained for source compatibility. Consumers select the mapped file, not every duplicate. Total size is 2,495,354 bytes. [CURRENT REPOSITORY AUDIT]
+
+`data/vaastav/` contains `2016-17_merged_gw.csv` through `2025-26_merged_gw.csv` plus `2025-26_merged_gw_vaastav_partial.csv`. The 2025-26 full file is a completed official-cache reconstruction used after completeness checks; the partial file preserves the source state. Total size is 47,833,385 bytes. [CURRENT REPOSITORY AUDIT; COMPLETED-SEASON HISTORICAL DATA]
+
+`data/modelling/full_dataset.csv` has 80,930 rows and 91 columns covering 2022-23 through 2024-25. It supports older model-audit work and is not the current complete training table. `data/modelling/full_training_dataset.csv` has 244,737 rows and 78 columns: 23,106 from 2016-17; 21,797 from 2017-18; 21,134 from 2018-19; 22,313 from 2019-20; 22,889 from 2020-21; 23,230 from 2021-22; 24,957 from 2022-23; 28,742 from 2023-24; 27,231 from 2024-25; and 29,338 from 2025-26. [CURRENT REPOSITORY AUDIT, CSV structure run 2026-06-13]
+
+`data/availability/availability_by_gw.csv` has 63,988 rows and 12 columns: 19,597 rows from the 2018-19 S3 archive, 14,745 from 2024-25, and 29,646 from 2025-26 GitHub-derived snapshots. Seasons 2019-20 through 2023-24 have no equivalent rows. [CURRENT REPOSITORY AUDIT, CSV structure run 2026-06-13]
+
+`data/snapshots/` contains three timestamped GW38 JSON snapshots and one CSV:
+* `gw38_snapshot_20260603T143542Z.json`
+* `gw38_snapshot_20260608T175602Z.json`
+* `gw38_snapshot_20260613T082415Z.json`
+* `live_gw38_predictions_20260603T143542Z.csv`
+The first two JSON snapshots contain 38 events, 20 teams, 841 players, 10 fixtures, 530 player profiles, 841 player-fixture rows, 841 weekly rows, and 841 MC rows. The 2026-06-13 snapshot has the same main entities but zero MC rows because that run omitted MC. Every football row is STALE 2025-26 OUTPUT. [snapshot files, inspected 2026-06-13]
+
+2.6 Model bundles
+
+`models/minutes_model.pkl`
+Role: production four-output minutes bundle.
+Metadata: 47 features; training seasons 2019-20 through 2024-25; unseen holdout 2025-26; 142,517 training rows. The play classifier used 142,517 rows, start-given-play classifier 62,516, start-minutes regressor 21,446, and substitute-minutes regressor 41,070. File size is 76,904,663 bytes. [CURRENT REPOSITORY AUDIT, bundle metadata 2026-06-13]
+
+`models/position_models/gk_model.pkl`, `def_model.pkl`, `mid_model.pkl`, `fwd_model.pkl`
+Role: production 103-feature points ensembles.
+Training/holdout: trained through 2023-24 with 2024-25 as the stored unseen holdout. Training row counts are GK 4,962; DEF 25,901; MID 28,143; FWD 10,493. [CURRENT REPOSITORY AUDIT, bundle metadata 2026-06-13]
+
+`models/position_models_minutes_validation/gk_model.pkl`, `def_model.pkl`, `mid_model.pkl`, `fwd_model.pkl`
+Role: 104-feature validation-only points bundles used to test direct play-probability stacking.
+Status: NOT SHIPPED. They were trained through 2024-25 and tested on 2025-26 but failed zero-minute gates and slightly reduced nonzero ranking, so production remains on the 103-feature bundles plus external play-probability composition.
+
+2.7 Output files
+
+Every output below is either validation evidence or a stale completed-season product. None is a live 2026-27 forecast.
+
+`outputs/audit/` contains eight Markdown audit reports, including the full repository audit, model state, model status, website plan, and zero-minutes diagnosis. They are historical reasoning artifacts and may cite earlier file counts or earlier test totals; this document's 2026-06-13 read certificate supersedes those operational counts.
+
+`outputs/backtest_latest/` contains 15 CSV/report files from the older backtest path. `outputs/backtest_vaastav/` contains 14 corresponding Vaastav-based files. Both are LEGACY VALIDATION because `backtest.py` is not the current replay engine.
+
+`outputs/external_comparison/` contains 10 Solio/OpenFPL/context tables and reports. These support methodology discussion but not a controlled direct head-to-head.
+
+`outputs/legacy_live/` contains the current 12-file legacy contract. Its `weekly_player_week.csv` has 841 GW38 rows and 37 columns; `mc_brackets_full_player_week.csv` has 841 rows and 42 columns. Of the 841 weekly players, 838 use manual minutes and 3 use the trained model. These are STALE 2025-26 OUTPUT from a completed GW38 run, even though the directory name says `live`. [directory files inspected 2026-06-13]
+
+`outputs/legacy_live_smoke/` contains 14 smoke-run products; `outputs/live_smoke/` contains 7 raw smoke-run products; `outputs/live_test/` contains 8 raw test-run products; `outputs/minutes_template_run/` contains 8 template-generation products. Two CSV placeholders in the template run contain only a newline and intentionally have no schema. All football outputs are STALE 2025-26 OUTPUT.
+
+`outputs/model_audit/` contains 11 files: feature-failure, importance, goalkeeper-component, haul-error, postmortem, and supporting audit tables/reports. They describe completed validation samples.
+
+`outputs/validation/` contains 61 files. Root-level files cover feature failure reasons, feature importance, form-weight sweep, historical predictions/metrics, goalkeeper breakdown, GW38 postmortem, minutes CV/holdout/calibration/gates/segments, ML CV/holdout/comparison, retraining comparisons, replay logs, unmatched players, and validation summaries. Six subdirectories each contain `retrospective_replay_predictions.csv`, `metrics_by_position.csv`, `mc_calibration.csv`, and `retrospective_replay_findings.md`: `retrospective_2024_season_rules`, `retrospective_2025_26`, `retrospective_minutes_2025_26`, `retrospective_minutes_final_2025_26`, `retrospective_minutes_points_2025_26`, and `retrospective_smoke`. The authoritative completed-season results used in Part 6 are explicitly named there.
+
+The 42 `.pyc` files and five `.pytest_cache` metadata files are generated caches. They contain no authoritative logic and can be recreated from source/tests. The repository also contains two log files, one tag file, and four cache files without extensions; they are execution metadata, not model inputs.
+
+
+PART 3 - FULL PIPELINE
+
+This trace describes one raw-format live invocation. It states actual code order, including behaviors that should be corrected before 2026-27.
+
+Stage 1: configuration and command parsing
+File/function: `src/fpl_xpts/cli.py:main`, `src/fpl_xpts/config.py:AppConfig`.
+Inputs: CLI flags and environment variables, especially `ODDS_API_KEY`.
+Transform: command-line values replace dataclass defaults.
+Output: one `AppConfig` passed to `run_live_projection`.
+Risk: defaults still target GW37-38 and ML is off.
+
+Stage 2: official FPL fetch
+File/function: `data_sources.FplClient`.
+Inputs: bootstrap-static, fixtures, element summaries, and event-live endpoints.
+Transform: curl-first JSON retrieval with requests fallback; normalization to DataFrames; optional raw snapshot.
+Outputs: 20-team table, player table, event table, fixture table, player histories, and live-event statistics.
+Failure mode: network/API failure prevents a genuinely live run. A cached historical run can continue only if code is explicitly pointed at cache-backed construction; the normal live path fetches the API.
+
+The endpoint on 2026-06-13 returned 841 players, 20 teams, and 38 events; GW38 had a 2026-05-24 deadline and was marked current even though it was finished and data-checked. [CURRENT EXTERNAL/API CHECK 2026-06-13, official FPL bootstrap] This is why the FPL `is_current` flag cannot by itself prove that an off-season output is live.
+
+Stage 3: team and player rate construction
+Files/functions: `features.py`, `shot_profiles.py`, `minutes.py`.
+Inputs: FPL season totals and histories, cached/fetched Understat EPL profiles, set-piece/penalty indicators, and foreign-league cache.
+Transform:
+* Normalize identities.
+* Convert goals, assists, xG, xA, saves, cards, defensive events, and appearances to per-90 rates.
+* Shrink noisy rates toward position priors.
+* Blend Understat evidence with FPL evidence by minutes.
+* Add penalties, set pieces, assist environment, and recent-form audit features.
+Output: one player-profile row per official FPL player.
+Why: raw per-90 values are unstable for low-minute and newly transferred players; shrinkage prevents tiny samples from dominating.
+
+Stage 4: foreign-signing priors
+File/function: `features._select_foreign_prior` and related helpers.
+Inputs: recognized foreign-league seasons, league factor, player position, minutes, and current Premier League evidence.
+Transform:
+1. Select the most recent recognized foreign season.
+2. Multiply attacking rates by the provisional league factor.
+3. Shrink those adjusted rates toward the latest Premier League positional median with 900 prior minutes.
+4. Blend current Premier League observations with that foreign prior using another 900 prior minutes.
+Output: stabilized xG/xA and related rates for a player with weak or absent EPL history.
+Failure mode: unrecognized leagues, bad name matching, or absent cache fall back toward positional priors. The system does not claim detailed league-specific defensive translation.
+
+Stage 5: baseline fixture lambdas
+File/function: `forecast.build_team_strength`, `forecast_fixture_lambdas`.
+Inputs: official team strength ratings and fixtures.
+Transform: combine league mean 1.51, home factor 1.10, attacking strength, and opponent defensive weakness; clip lambda to 0.15-4.00; derive Poisson clean-sheet and scoring probabilities.
+Output: home/away team lambda and probability columns for each selected fixture.
+
+Stage 6: Elevenify, market, and external overrides
+Files/functions: `forecast.py`, `market_odds.py`, `projections.py`, then `pipeline.py`.
+Actual precedence:
+1. Baseline forecast may auto-load Elevenify.
+2. Market odds replace fixture lambdas when a matched market solution exists.
+3. Explicit Elevenify application replaces them again when enabled.
+4. Optional external team CSVs replace them last.
+Output: final fixture lambdas and direct/derived clean-sheet probabilities, plus source/audit columns.
+Interpretation: with current defaults and the root sheet present, Elevenify normally wins over market odds. Market odds are not necessarily the final source despite being enabled.
+Example: Arsenal's completed 2025-26 GW38 away fixture at Crystal Palace used Elevenify lambda 1.63, direct clean-sheet probability 0.42, and `P(score at least 2)=1-exp(-1.63)-1.63*exp(-1.63)=0.484705`. [STALE 2025-26 INPUT/VERIFICATION, root Elevenify sheet and GW38 fixture-layer check] This is an audit example, not a current forecast.
+
+Stage 7: minutes model
+Files/functions: `minutes_model.predict_minutes_outputs`, `minutes.minute_outcomes`, `minute_overrides.py`.
+Inputs: shifted usage, official availability, fixture congestion, transfer/team context, player history, and manual CSV rows.
+Transform:
+* Predict play probability.
+* Predict start probability conditional on playing.
+* Predict minutes conditional on starting.
+* Predict minutes conditional on a substitute appearance.
+* Compose unconditional expected minutes and discrete simulation states.
+* Apply configured manual input, then the hard-coded GW37-38 file, then compact overrides.
+Outputs: play/start probabilities, expected and conditional minutes, source labels, and simulation states.
+Failure mode: unexpected injury/news absences remain hard; stale manual files can override a correct trained estimate.
+
+Stage 8: deterministic xPts
+File/function: `xpts.build_player_fixture_projection` and weekly aggregation.
+Inputs: final fixture lambda/CS, player rates, expected minutes, scoring rules, and role shares.
+Transform: enforce team-minute capacity; conserve team xG/xA across players; calculate each scoring component and sum it.
+Outputs: player-fixture and player-week tables with named components.
+Interpretation: this is a mathematical expectation, not a predicted integer score.
+
+Stage 9: match-first Monte Carlo
+File/function: `monte_carlo.simulate_player_week`.
+Inputs: all players in each fixture, lambdas, event shares/rates, minute states, scoring rules, simulation count, and seed.
+Transform: simulate common match outcomes and conditional player events, then aggregate each player's gameweek score distribution.
+Outputs: mean, spread, percentiles, floor/upside, brackets, `P_return`, and `P_haul`.
+Why match-first: independent player simulations can assign mutually impossible clean sheets, goal totals, and scorer shares; one shared match draw enforces fixture coherence.
+Live-path detail: `pipeline.py` runs this simulation from the deterministic player-fixture table before it attaches weekly ML predictions. The ordinary live path therefore does not produce the replay's experimental `MC ML-weighted` variant.
+
+Stage 10: ML ensemble
+Files/functions: `ml_features.py`, `ml_models.predict_position_models`.
+Inputs: 103 stable features and one position bundle.
+Transform: preprocessing, XGBoost prediction, Random Forest prediction, simple average, then play-probability composition.
+Outputs: `ml_xpts_xgb`, `ml_xpts_rf`, `ml_xpts_pre_minutes`, and final `ml_xpts`.
+Failure mode: if ML is disabled, a bundle is missing, or features are incomplete, deterministic xPts and baseline MC remain available.
+
+Stage 11: output and snapshot
+Files/functions: `pipeline.py` raw writers or `legacy_export.py`.
+Raw outputs: team/fixture/player profiles, fixture projections, weekly projections, MC table, diagnostics, and a timestamped JSON snapshot.
+Legacy outputs: the fixed 12-file website contract and MC brackets.
+Freshness requirement: output directory names must include season/gameweek/run time, and the site must reject a snapshot whose season/deadline does not match the intended live gameweek.
+
+
+PART 4 - DATA SOURCES AND WHY
+
+4.1 Official FPL API
+
+URLs: `https://fantasy.premierleague.com/api/bootstrap-static/`, `/fixtures/`, `/element-summary/{id}/`, and `/event/{gw}/live/`.
+Provides: canonical player IDs, names, teams, positions, prices, status/chance fields, season totals, team strength fields, fixture schedule/results, player histories, and actual gameweek points/events.
+Used by: `data_sources.py`, `pipeline.py`, `features.py`, `minutes.py`, `historical_validation.py`, and replay evaluation.
+Contribution: defines the live player universe and official target. Other sources must be mapped back to it.
+Without it: no trustworthy live player list, fixture set, availability state, prices, or official actual points. A cached completed-season reconstruction is possible but is not live.
+Gap: official status/chance fields do not encode every late injury, manager quote, tactical rotation, or likely benching.
+
+4.2 Understat EPL
+
+URL: `https://understat.com`.
+Provides: player and team xG/xA, shots, shot xG, and match-level event detail.
+Used by: `shot_profiles.py`, `features.py`, and historical dataset construction.
+Contribution: stabilizes attacking quality beyond raw goals/assists; supplies direct historical xG when older Vaastav rows do not contain it; enables the xG-at-least-0.30 big-chance proxy.
+Without it: the system falls back more heavily to FPL-derived and positional priors. Predictions still run, but attacking-rate quality and historical consistency degrade.
+Gap: name/team matching is heuristic; Understat coverage and schemas can change; the big-chance threshold is this repository's proxy, not an Understat categorical field.
+
+4.3 Understat foreign leagues
+
+URL: `https://understat.com`; local cache in `data/understat/foreign_leagues`.
+Provides: pre-Premier-League player attacking rates from La Liga, Bundesliga, Serie A, and Ligue 1.
+Used by: foreign-prior logic in `features.py`.
+Contribution: gives new signings a player-specific starting point instead of only a generic position mean.
+Without it: new foreign signings receive much more generic positional priors until EPL minutes accumulate.
+Gap: coverage is limited to recognized cached leagues/seasons; league factors are provisional; role, team dominance, age, and tactical transfer effects are not explicitly learned.
+
+4.4 Football-data.co.uk odds
+
+URL: `https://www.football-data.co.uk/englandm.php`.
+Provides: long-run match results and bookmaker opening/closing odds.
+Used by: `historical_validation.py` for 2014-15 through 2025-26.
+Contribution: reconstructs pre-match team expectation for historical training/replay, with closing odds preferred where present.
+Without it: historical fixture strength must rely on team ratings or incomplete external projections, reducing market context.
+Gap: columns and bookmaker availability vary by season; closing prices are not guaranteed to match the exact FPL deadline timestamp.
+
+4.5 The Odds API
+
+URL: `https://the-odds-api.com/liveapi/guides/v4/`.
+Provides: upcoming/live bookmaker head-to-head and totals markets for `soccer_epl`.
+Used by: `market_odds.py` when `ODDS_API_KEY` exists.
+Contribution: turns current market consensus into team goal intensities, reflecting injuries, lineups, venue, and team strength that a static rating may miss.
+Without it: baseline FPL strengths and/or Elevenify remain.
+Gap: the service does not promise a fixed preseason release date. Markets exist only after the EPL sport/event is active and bookmakers post suitable prices. The code does not use Asian handicaps or a correlated score model.
+
+4.6 Elevenify
+
+Source: subscriber CSV supplied outside the codebase; current file is the completed 2025-26 sheet.
+Provides: team projected goals and direct clean-sheet probabilities by gameweek.
+Used by: `forecast.py`, `projections.py`, and `pipeline.py`.
+Contribution: a ready-made fixture layer that can override coarse FPL strengths and odds inversion.
+Without it: the baseline and market-odds paths can still run.
+Gap: no public machine-readable release schedule is verified; future sheets must be checked for layout/team naming; double-gameweek semantics need correction; a stale root file can be auto-applied.
+
+4.7 Vaastav Fantasy Premier League archive
+
+URL: `https://github.com/vaastav/Fantasy-Premier-League`.
+Provides: historical player-gameweek rows across many seasons.
+Used by: `historical_validation.py`, ML training, minutes training, and replay.
+Contribution: the core long-run supervised table for actual minutes, points, starts, and rolling pre-GW features.
+Without it: the repository cannot reproduce its broad historical training set from current official endpoints alone.
+Gap: the archive README now says weekly updates stopped after 2024-25 in favor of major updates; some `xP` fields may be post-match or otherwise unsafe, so this repository shifts or excludes risky values. The local 2025-26 full file is reconstructed from cached official FPL data and is not an upstream weekly Vaastav feed.
+
+4.8 Historical availability
+
+Sources:
+* `https://github.com/olbauday/FPL-Core-Insights`
+* `https://github.com/Ayanab01/FPL_Stats`
+* `https://fpl-2018-19-data.s3.amazonaws.com/`
+Provides: timestamped or gameweek-level status/chance information before deadlines.
+Used by: `build_historical_availability.py`, minutes features, and retrospective availability analysis.
+Contribution: distinguishes genuine pre-deadline uncertainty from hindsight.
+Without it: historical injury/availability often becomes `historical_unknown`, making unexpected zero-minute rows difficult to model.
+Gap: current local coverage is only 2018-19, 2024-25, and 2025-26. For 2024-25, some deadlines are approximated as first kickoff minus 90 minutes when exact metadata is unavailable.
+
+4.9 Manual minutes CSVs
+
+Sources: analyst-maintained `player_minutes_inputs.csv`, the hard-coded late-season variant, and `minute_overrides.csv`.
+Provides: current injury/news/tactical corrections unavailable to structured historical models.
+Used by: `minute_overrides.py` and `pipeline.py`.
+Contribution: offers the fastest way to correct a likely absence, return from injury, expected benching, managed minutes, or uncertain start.
+Without it: the trained model remains a serviceable baseline but misses late qualitative information.
+Gap: manual inputs can be stale, mismatched, or internally inconsistent. They require a timestamp, source note, and gameweek-specific review.
+
+
+PART 5 - MODELLING DECISIONS AND WHY
+
+5.1 Market odds rather than a home-grown Dixon-Coles live model
+
+Problem: team scoring expectation must react to current strength, injuries, venue, and matchup. A historical score model needs careful decay, promotion handling, and parameter calibration.
+
+Choice: when current bookmaker markets are available, invert devigged 1X2 and totals consensus into independent-Poisson home/away lambdas. The market aggregates more information than the repository's FPL-strength baseline.
+
+Why not claim Dixon-Coles: the code does not estimate Dixon-Coles low-score correlation. FiveStat uses a multiplicative Dixon-Coles and bivariate-Poisson approach, but Modelyansh does not. [CURRENT EXTERNAL FACT, `https://www.fivestat.co.uk/methodology`, checked 2026-06-13]
+
+Evidence and limitation: market odds are a principled source and improve historical context, but the repository does not contain a clean odds-versus-no-odds ablation proving a universal gain. Moreover, current override order often lets Elevenify replace market lambdas. The correct claim is that odds solve an information problem, not that this exact implementation has isolated causal superiority.
+
+5.2 Match-first rather than independent player Monte Carlo
+
+Problem: independently simulating every player can create impossible joint states, such as both opposing teams keeping a clean sheet, player goals that do not sum to team goals, or assist/scorer combinations detached from the match.
+
+Choice: draw one result per fixture, then allocate events among participating players. Clean sheets, conceded goals, scorer shares, and opponent outcomes are shared.
+
+Evidence: internal coherence follows directly from construction. Completed 2025-26 replay does not show lower point MAE than deterministic rules: baseline MC MAE 1.819519 versus rules 1.815170, with per-GW Spearman 0.490025 versus 0.495986. [COMPLETED-SEASON VALIDATION, `outputs/validation/retrospective_minutes_final_2025_26/metrics_by_position.csv`] Its value is distributional coherence and probabilities, not a demonstrated mean-point accuracy win.
+
+5.3 Discrete minute outcomes rather than a continuous minute draw
+
+Problem: FPL scoring changes discontinuously at appearance and 60-minute thresholds. A smooth normal distribution around expected minutes misrepresents no-shows, substitute cameos, starts below 60, and full starts.
+
+Choice: model no appearance, substitute appearance, start below 60, and start at least 60. This preserves the appearance and clean-sheet thresholds and can represent a player with high minutes conditional on playing but material no-show risk.
+
+Evidence: the final play-probability composition reduced zero-minute-row MAE from 1.397793 to 0.891091 and reduced the share of zero-minute rows projected above 2 points from 22.6051 percent to 10.4964 percent, without reducing nonzero Spearman. [COMPLETED-SEASON VALIDATION, 2025-26 unseen minutes holdout/replay, `outputs/validation/minutes_model_findings.md`]
+
+5.4 XGBoost plus Random Forest rather than a neural network
+
+Problem: the points dataset is medium-sized, tabular, heterogeneous, missing-valued, nonlinear, and split by position. It does not have the volume or sequence/image structure that makes a neural network an obvious first choice.
+
+Choice: XGBoost handles nonlinear interactions and sparse/missing tabular structure; Random Forest provides a differently biased tree ensemble; averaging reduces dependence on one learner. Position-specific models avoid forcing one response surface across goalkeepers, defenders, midfielders, and forwards.
+
+Evidence: on the stored unseen 2024-25 holdout, the ensemble improved pooled Spearman from deterministic 0.340529 to 0.512374 and MAE from 1.940812 to 1.740577. [COMPLETED-SEASON VALIDATION, `outputs/validation/ml_model_comparison.csv`] The improvement is evidence for this ensemble over the current rules baseline, not proof that no neural network could do better.
+
+5.5 Four-output minutes model
+
+Problem: directly regressing expected minutes conflates four different questions: will the player appear, will he start if he appears, how long will he play when starting, and how long will his substitute cameo last.
+
+Choice: estimate those four conditional quantities separately, calibrate the two probabilities, then compose them. This makes manual adjustment and debugging possible.
+
+Evidence: full unseen 2025-26 holdout play-probability Brier score is 0.086821 and minutes MAE is 12.850099. On the complete-feature replay slice, Brier is worse at 0.131981. [COMPLETED-SEASON VALIDATION, `models/minutes_model.pkl` metadata and `outputs/validation/minutes_model_findings.md`] The model passes the defined zero-minute gates but remains weak for unexpected absences among recent regulars.
+
+5.6 Compose `ml_xpts` with play probability
+
+Problem: the points ranker learns most clearly from players who play and can over-project a talented player who is absent. Adding play probability as one more feature did not force the prediction to become an unconditional expectation.
+
+Choice: retain raw `ml_xpts_pre_minutes`, then scale/compose it with calibrated `pred_play_prob` in the production path. Keep the direct 104-feature stacking experiment out of production.
+
+Evidence: direct stacking reduced zero-minute MAE only to 1.236697, left 19.0009 percent of zero rows above 2 points, and reduced nonzero Spearman from 0.344326 to 0.341557. Final composition reached 0.891091 zero-minute MAE, 10.4964 percent above 2, and 0.345617 nonzero Spearman. [COMPLETED-SEASON VALIDATION, `outputs/validation/minutes_model_findings.md`]
+
+5.7 Heavy shrinkage for new players
+
+Problem: a player's first few hundred minutes can generate extreme per-90 values, while direct foreign-league translation ignores competition and team context.
+
+Choice: require meaningful evidence, use 900 prior minutes in both foreign-to-EPL shrinkage and current-EPL updating, cap position rates, and fall back toward Premier League positional medians.
+
+Evidence: tests verify mathematical behavior and prevent unshrunk small samples. The repository does not yet contain a clean new-signing-only holdout proving the 900-minute value is optimal. The factors and prior weight are defensible stabilizers but remain PROVISIONAL calibration choices.
+
+
+PART 6 - VALIDATION AND ACCURACY
+
+6.1 What is being measured
+
+Actual target: official FPL points for a player in a gameweek.
+
+MAE: mean absolute error between predicted and actual points. Lower is better. It measures numeric closeness but rewards conservative predictions because FPL scores are noisy and right-skewed.
+
+RMSE: root mean squared error. Lower is better. It penalizes large misses more heavily than MAE.
+
+Spearman correlation: rank correlation within the evaluated rows or gameweek. Higher is better. It measures whether the model orders players correctly, which is often more useful for selection than exact point error.
+
+Per-GW mean and standard deviation: the replay calculates a metric within each gameweek, then reports the mean and sample standard deviation across gameweeks. This prevents large gameweeks from silently dominating and exposes week-to-week volatility.
+
+`>2` subset: rows whose actual points exceed 2. It focuses on players who did more than appearance-only scoring. This is not the same as a haul.
+
+`P_return`: Monte Carlo probability that total FPL points are at least 6.
+
+`P_haul`: Monte Carlo probability that total FPL points are at least 10.
+
+Top-20 hit count: among the 20 players with the highest predicted `P_haul` in a gameweek, how many actually scored at least 10.
+
+Calibration gap: predicted probability or percentile statistic minus observed result inside a bucket; the reports summarize mean absolute gap across buckets. Probability gaps are in probability units; floor/upside gaps are in points, so they must not be compared on one common scale.
+
+6.2 Replay methodology
+
+The authoritative replay is `scripts/retrospective_replay.py`.
+
+For each selected season and gameweek it:
+
+1. Restricts inputs to rows available before that gameweek through shifted historical fields.
+2. Builds team fixture expectations from historical odds and available team context.
+3. Builds deterministic player features and minutes without using the target game's result.
+4. Applies the scoring rules for that historical season.
+5. Runs deterministic KFT, the stored position ML ensemble, baseline MC, and ML-weighted MC.
+6. Joins actual FPL points/minutes only after prediction.
+7. Writes row-level predictions, per-GW/per-position metrics, calibration buckets, and a findings report.
+
+GW1 is normally absent because shifted in-season features do not yet exist, so a conventional season replay contains 37 evaluated gameweeks. A model bundle's training cutoff still matters: a replay season that overlaps its training data is descriptive, not a clean unseen holdout.
+
+6.3 Unseen 2024-25 points-model holdout
+
+The production position bundles were trained through 2023-24 and stored 2024-25 as their unseen holdout. The following are pooled row metrics, not per-GW means.
+
+Source/status: COMPLETED-SEASON VALIDATION, unseen 2024-25 holdout, `outputs/validation/ml_model_comparison.csv`.
+
+Model/position | Rows | MAE | RMSE | Spearman
+KFT deterministic, all | 13,696 | 1.940812 | 2.856935 | 0.340529
+ML ensemble, all | 13,696 | 1.740577 | 2.580670 | 0.512374
+ML ensemble, DEF | 4,625 | 1.727273 | 2.470167 | 0.457897
+ML ensemble, FWD | 1,471 | 2.118650 | 3.035092 | 0.542743
+ML ensemble, GK | 873 | 2.044478 | 2.696932 | 0.415997
+ML ensemble, MID | 6,727 | 1.627611 | 2.530995 | 0.523665
+
+Interpretation: the ensemble's pooled gain is 0.200235 lower MAE and 0.171845 higher Spearman than the deterministic baseline. Midfielders have the lowest ML MAE; forwards have the strongest ranking but highest MAE; goalkeeper ranking remains the weakest position except for defenders' slightly higher absolute Spearman comparison context.
+
+For actual-points-above-2 rows, deterministic MAE is 3.954031 and ML MAE is 3.615214 across 3,139 rows, but pooled Spearman falls from 0.192314 to 0.178652. [same source/status] This shows a recurring tradeoff: ML improves overall ranking and error, but the highest-return slice is still difficult.
+
+6.4 Season-aware unseen 2024-25 replay
+
+This run applies 2024-25 scoring metadata, predicts gameweek by gameweek, and reports the mean and standard deviation of each GW metric.
+
+Source/status: COMPLETED-SEASON VALIDATION, 2024-25-only replay, `outputs/validation/retrospective_2024_season_rules/metrics_by_position.csv`.
+
+Model | GWs | Rows | MAE mean +/- std | Spearman mean +/- std | Actual >2 MAE mean +/- std
+KFT rules | 37 | 13,696 | 1.786177 +/- 0.123955 | 0.440149 +/- 0.048798 | 3.768547 +/- 0.337536
+KFT ML ensemble | 37 | 13,696 | 1.738427 +/- 0.115393 | 0.513115 +/- 0.044368 | 3.621161 +/- 0.313231
+MC baseline | 37 | 13,696 | 1.789001 +/- 0.124804 | 0.437178 +/- 0.049435 | 3.750332 +/- 0.345310
+MC ML-weighted | 37 | 13,696 | 1.785559 +/- 0.124522 | 0.449083 +/- 0.048908 | 3.746507 +/- 0.343118
+
+The replay rows carry `scoring_gk_goal_points=10`, `scoring_defcon_active=False`, and `scoring_bps_version=2024_25_updated_bps`. [same replay's `retrospective_replay_predictions.csv`]
+
+A replay-only season-boundary correction changed those audit semantics but did not change the KFT metrics: rules remained MAE 1.786177/Spearman 0.440149, and ML remained MAE 1.738427/Spearman 0.513115. [COMPLETED-SEASON VALIDATION, dedicated before/after check associated with `retrospective_2024_season_rules`] The correction was valid but was not the cause of the 2024-25 performance gap.
+
+6.5 Unseen 2025-26 minutes holdout and final replay
+
+The minutes bundle was trained through 2024-25, making 2025-26 its unseen holdout. The points bundles themselves were trained only through 2023-24, but their final 2025-26 replay remains out of their training period. The final run composes the production points ranker with the newly trained play probability.
+
+Source/status: COMPLETED-SEASON VALIDATION, final unseen 2025-26 replay, `outputs/validation/retrospective_minutes_final_2025_26/metrics_by_position.csv`.
+
+Model | GWs | Rows | MAE mean +/- std | Spearman mean +/- std | Actual >2 MAE mean +/- std
+KFT rules | 37 | 13,533 | 1.815170 +/- 0.101429 | 0.495986 +/- 0.064354 | 3.345043 +/- 0.205165
+KFT ML ensemble | 37 | 13,533 | 1.740982 +/- 0.107212 | 0.513515 +/- 0.059961 | 3.741100 +/- 0.193227
+MC baseline | 37 | 13,533 | 1.819519 +/- 0.102496 | 0.490025 +/- 0.063039 | 3.345738 +/- 0.203212
+MC ML-weighted | 37 | 13,533 | 1.824807 +/- 0.106851 | 0.496402 +/- 0.061352 | 3.346614 +/- 0.205016
+
+There are 3,989 actual-points-above-2 rows in this run. [same source/status]
+
+Position | Rows | ML MAE mean | ML Spearman mean | ML actual >2 MAE mean
+DEF | 4,763 | 1.868916 | 0.477457 | 4.090654
+FWD | 1,629 | 1.727564 | 0.567426 | 4.838602
+GK | 829 | 1.908945 | 0.411489 | 2.744703
+MID | 6,312 | 1.626433 | 0.525939 | 3.415511
+
+Source/status: COMPLETED-SEASON VALIDATION, same final 2025-26 `metrics_by_position.csv`.
+
+Interpretation:
+
+* ML again gives the best overall MAE and Spearman.
+* Deterministic rules and baseline MC outperform ML on the actual-above-2 MAE slice. The play-probability composition suppresses absent/low-play rows well, but it can pull down players who then return heavily.
+* ML-weighted MC does not beat baseline MC on point MAE or calibration. It slightly improves some selection behavior but should not replace the baseline distribution without recalibration.
+* Forward ranking is strongest, but high forward returns are hardest to predict numerically.
+
+6.6 Minutes model before and after
+
+Source/status: COMPLETED-SEASON VALIDATION, unseen 2025-26 holdout/replay, `outputs/validation/minutes_model_findings.md` and `outputs/validation/minutes_model_gate_comparison.csv`.
+
+Variant | Rows | Zero-minute rows | Zero-row MAE | Zero rows predicted >2 | Share >2 | Nonzero Spearman
+Before minutes composition | 13,533 | 3,163 | 1.397793 | 715 | 22.6051% | 0.344326
+Minutes model without points composition | 13,533 | 3,163 | 1.392523 | 713 | 22.5419% | 0.342251
+104-feature stacking, not shipped | 13,533 | 3,163 | 1.236697 | 601 | 19.0009% | 0.341557
+Final play-probability composition | 13,533 | 3,163 | 0.891091 | 332 | 10.4964% | 0.345617
+
+Defined gates and results:
+
+* Zero-minute MAE below 0.90: pass at 0.891091.
+* Zero rows projected above 2 below 12 percent: pass at 10.4964 percent.
+* No nonzero Spearman regression: pass, 0.344326 to 0.345617.
+* Mean per-GW nonzero Spearman: 0.342691 before and 0.344553 after.
+
+[COMPLETED-SEASON VALIDATION, same minutes findings]
+
+The full 2025-26 holdout play classifier has Brier score 0.086821; the complete-feature replay slice has Brier score 0.131981. The bundle's expected-minutes MAE is 12.850099. [COMPLETED-SEASON VALIDATION, `outputs/validation/minutes_model_findings.md` and `models/minutes_model.pkl` metadata]
+
+Zero-minute segment results:
+
+Segment | Zero-row MAE after | Zero share projected >2 after
+Fringe | 0.312491 | 0.3350%
+Recent regulars | 2.010060 | 44.5131%
+Rotation ambiguous | 0.866036 | 3.0257%
+Goalkeepers | 1.177460 | 26.3158%
+Multi-team players | 0.769332 | 6.1856%
+
+Source/status: COMPLETED-SEASON VALIDATION, unseen 2025-26, `outputs/validation/minutes_model_findings.md`.
+
+The main residual weakness is clear: recent regulars who unexpectedly miss the game. Historical availability and structured features often cannot observe the late injury or tactical decision that caused the zero.
+
+6.7 P_haul selection and Monte Carlo calibration
+
+Source/status: COMPLETED-SEASON VALIDATION, final 2025-26 replay, `outputs/validation/retrospective_minutes_final_2025_26/retrospective_replay_findings.md`.
+
+Version | GWs | Top-20 P_haul mean actual hauls | Hit rate among 20 | Top-20 MC-mean actual hauls | Random expected hauls
+MC baseline | 37 | 2.702703 | 13.5135% | 2.459459 | 0.754108
+MC ML-weighted | 37 | 2.783784 | 13.9189% | 2.729730 | 0.754108
+
+The baseline `P_haul` ranking finds about 3.58 times the random expected count; ML weighting adds only 0.081081 hits per GW. [derived from the same completed-season table; descriptive, not a new run]
+
+Version/stat | Rows | Mean absolute calibration gap
+MC baseline floor | 13,533 | 0.785714 points
+MC ML-weighted floor | 13,533 | 0.842857 points
+MC baseline upside | 13,533 | 2.995455 points
+MC ML-weighted upside | 13,533 | 5.153846 points
+MC baseline P_haul | 13,533 | 0.017316 probability
+MC ML-weighted P_haul | 13,533 | 0.037040 probability
+MC baseline P_return | 13,533 | 0.015879 probability
+MC ML-weighted P_return | 13,533 | 0.020677 probability
+
+Source/status: COMPLETED-SEASON VALIDATION, same final 2025-26 findings and `mc_calibration.csv`.
+
+ML weighting worsens every listed calibration summary. The baseline probabilities are usable as descriptive risk signals, but no post-simulation isotonic calibration is applied in live code.
+
+6.8 Other validation artifacts and what they mean
+
+Form sweep: default recent-form weight 0.0 produced Spearman 0.340574 in the sweep, versus 0.340529 at weight 0.3. [COMPLETED-SEASON VALIDATION, `outputs/validation/form_weight_sweep.csv`] The tiny difference does not prove form is useless, but it does not justify enabling the current form blend.
+
+Retraining experiment: on the pre-final 2025-26 replay, old versus newly retrained points models changed Spearman from 0.477478 to 0.477368 and MAE from 1.851414 to 1.848929. [COMPLETED-SEASON VALIDATION, `outputs/validation/retrain_holdout_comparison.csv`] The negligible ranking change did not justify replacing production bundles.
+
+Older-season rolling checks: the same retrain reduced Spearman from 0.651607 to 0.640810 on 2022-23 and from 0.655520 to 0.644623 on 2023-24. [COMPLETED-SEASON VALIDATION, `outputs/validation/retrain_older_season_comparison.csv`] This is why "more recent training rows" was not treated as automatically better.
+
+Old six-season replay: 84,271 rows across 221 gameweeks report ML MAE about 1.493 with standard deviation about 0.200 and Spearman about 0.652 with standard deviation about 0.081. [COMPLETED-SEASON DESCRIPTIVE VALIDATION, `outputs/validation/retrospective_replay_predictions.csv` and root `metrics_by_position.csv`] Most seasons overlap model training, so these are not unseen generalization estimates.
+
+Old historical deterministic validation: an older report has 131,064 complete rows out of 215,399 candidate rows. [STALE HISTORICAL VALIDATION, `outputs/validation/full_historical_validation.csv` and `historical_findings.md`] The current training file has since been refreshed, so use that report only for coverage history.
+
+High-haul audit: among 1,392 rows with actual points at least 10, actual mean is 12.537356, predicted mean is 2.998588, MAE is 9.538769, and Spearman is 0.148883. [COMPLETED-SEASON MODEL AUDIT, `outputs/model_audit` haul-error table/report] Large individual hauls are intrinsically hard because rare goals, assists, saves, cards, and bonus dominate.
+
+Defender haul bonus audit: among 282 defender-haul rows, actual mean bonus is 2.166667 while deterministic expected bonus is 0.118130. [COMPLETED-SEASON MODEL AUDIT, `outputs/model_audit` bonus/haul tables] This quantifies the weakness of a smooth expected-bonus proxy on realized high-return events.
+
+6.9 OpenFPL and FPL Review benchmark context
+
+OpenFPL paper: `https://arxiv.org/abs/2508.09992`.
+
+The paper reports category-specific cells formatted as RMSE (MAE) for zeros, blanks, tickers, and haulers over a specific 2024-25 prospective slice. It does not report one directly comparable overall MAE/Spearman row for this repository's full-season replay. Some repository reports inherited a misleading "overall MAE +/- std" interpretation of those cells; that interpretation should not be repeated.
+
+The local comparison file includes OpenFPL category numbers by position and a corrected 2024-25 GW32-38 context slice. One local pre-fix zero-return slice has 621 rows and KFT ML MAE 1.330365, while the paper table gives lower category MAEs for OpenFPL and FPL Review. [COMPLETED-SEASON CONTEXT, `outputs/validation/ml_model_comparison.csv` and `outputs/validation/retrospective_replay_predictions.csv`; external paper table] This is not a direct head-to-head because row construction, deadlines, availability, source versions, and player universe are not proven identical.
+
+The correct conclusion is:
+
+* OpenFPL demonstrates a strong public methodology and prospective evaluation.
+* FPL Review provides useful public methodology descriptions but not the exact historical prediction archive needed here.
+* Modelyansh has clean internal unseen-season evidence on its own rows.
+* No claim that Modelyansh beats either service is supported by the current repository.
+
+6.10 Honest accuracy summary
+
+Strongest evidence:
+
+* The position ML ensemble consistently improves full-sample ranking over deterministic rules on unseen 2024-25 and 2025-26.
+* Play-probability composition materially fixes zero-minute overprediction.
+* Baseline Monte Carlo `P_haul` ranking concentrates actual hauls far above random.
+* Explicit replay scoring metadata makes season-boundary audits possible.
+
+Weakest areas:
+
+* Exact high scores and hauls.
+* Unexpected absences among recent regulars and goalkeepers.
+* Exact bonus/BPS.
+* Calibrated upside and ML-weighted MC.
+* New-signing and promoted-team validation as isolated cohorts.
+* Source availability and exact pre-deadline timestamps in older seasons.
+
+Expected accuracy will drift when the player pool, scoring rules, promoted teams, managers, tactical roles, schedule, or data-generating process changes. The current evidence supports using ML ranking plus audited minutes and baseline MC risk, while retaining deterministic components for explanation and failure diagnosis.
+
+
+PART 7 - BIG QUESTIONS
+
+7.1 Is this a neural network?
+
+No. The points model is an average of XGBoost and Random Forest regressors, trained separately by position. The minutes model uses XGBoost and Random Forest classifiers/regressors plus isotonic calibration. The deterministic and Monte Carlo layers are rules/probability code. No neural-network library, architecture, embedding, or learned deep sequence model is present.
+
+7.2 What makes a prediction correct or incorrect?
+
+A point prediction is numerically better when its absolute error is smaller. A ranking is better when players are ordered more like actual results, measured here by Spearman. A probability is better when observed frequencies match predicted frequencies, measured through Brier score and calibration buckets.
+
+One player scoring 15 after a 4-point projection does not by itself prove the model was irrational. A 15-point outcome may be rare but plausible. The model is wrong in a useful engineering sense when repeated comparable cases are biased, misranked, or miscalibrated. Examples in this repository are zero-minute recent regulars, high-haul bonus, and ML-weighted upside.
+
+7.3 Why cannot deterministic xPts exceed about 7?
+
+It can. There is no hard 7-point cap.
+
+The saved completed 2025-26 GW38 legacy file has a maximum deterministic value of 7.153601 for Erling Haaland. [STALE 2025-26 OUTPUT, `outputs/legacy_live/weekly_player_week.csv`]
+
+The final 2025-26 replay has a deterministic maximum of 13.023829 for Haaland in GW36, where actual points were 11. [COMPLETED-SEASON VALIDATION, `outputs/validation/retrospective_minutes_final_2025_26/retrospective_replay_predictions.csv`]
+
+The same replay has an ML maximum of 11.756929 for Marc Guehi in GW36, where actual points were 15. [same source/status]
+
+Single-fixture expected values often cluster below 7 because an expectation averages many score outcomes. A forward with a 40 percent chance of scoring does not receive full goal points; he receives 0.4 times the goal value before other components. Double gameweeks, extreme lambdas, near-certain minutes, penalty duty, and strong clean-sheet/bonus expectation can raise the mean well above 7.
+
+7.4 How are new and promoted players predicted?
+
+New player already in the Premier League: use prior EPL per-90 evidence when sufficient, shrink it toward the position prior, then update with current-season minutes.
+
+Foreign signing from a recognized league: use the latest foreign season, apply a provisional league factor, shrink heavily toward the EPL positional median, then update as EPL evidence arrives.
+
+Player with no matched history: use position/team/role defaults and manual minutes until evidence accumulates.
+
+Promoted player with Championship history: the current code has no full Championship event-rate integration comparable to Understat's recognized foreign leagues. It therefore leans on generic positional/team priors, FPL price/role, team projection, and manual minutes. This is a genuine capability gap.
+
+Promoted team: the team fixture layer can use market odds or Elevenify once available, which is safer than pretending the previous EPL strength field exists. Before markets/external projections exist, a manually set conservative attack/defence prior is required. The repository does not yet expose a polished promoted-team prior configuration file, so this step is operational/manual.
+
+7.5 Why does accuracy drift on unseen seasons, and what fixes it?
+
+Sources of drift:
+
+* Scoring rules change, such as goalkeeper goal points, BPS, or defensive contributions.
+* New teams and players lack the same history distribution.
+* Team managers, tactics, roles, transfers, and penalty takers change.
+* Availability data quality changes.
+* FPL/Understat/Vaastav schemas and update timing change.
+* Model training optimizes older patterns.
+* Manual files or fixture projections remain stale.
+
+Fixes:
+
+* Make season rules explicit and test boundaries.
+* Save pre-deadline snapshots every gameweek.
+* Retrain only after rolling-origin gates pass on unseen seasons.
+* Recalibrate play and MC probabilities.
+* Add better injury/news availability.
+* Build Championship/promoted-team priors.
+* Keep source and feature failure reports.
+* Compare old and new models on identical rows before replacement.
+
+The retraining experiment shows why blind annual retraining is not enough: new rows slightly improved MAE but weakened ranking in both the new and older checks.
+
+7.6 Rules-based versus ML: why keep both?
+
+Rules-based strengths:
+
+* Every point can be decomposed into football/scoring causes.
+* It works for players with sparse labels if team, role, rates, and minutes are supplied.
+* It provides stable inputs for Monte Carlo.
+* It exposes whether a miss came from minutes, lambda, event share, or scoring.
+
+ML strengths:
+
+* It learns nonlinear interactions and systematic residuals omitted by the rules.
+* It materially improves overall ranking and MAE on unseen holdouts.
+
+Keeping both enables triangulation. When ML and deterministic xPts disagree, the difference is itself an audit signal. Removing the rules model would sacrifice explanation and new-player fallback; removing ML would discard demonstrated ranking gains.
+
+7.7 How does Modelyansh differ from Solio, FPL Review, OpenFPL, and FiveStat?
+
+Solio:
+Publicly accessible here through a latest JSON API. Modelyansh can normalize that feed for current descriptive comparison. It cannot reproduce historical same-deadline Solio predictions without an archive, so no fair accuracy claim is made.
+
+FPL Review:
+Its public Massive Data Model description indicates a sophisticated proprietary projection process. Modelyansh is local, inspectable, and exposes source code, intermediate tables, replay rows, and every scoring component. That transparency is a capability difference, not proof of better forecasts.
+
+OpenFPL:
+OpenFPL is a published public ensemble using FPL and Understat data with a prospective 2024-25 evaluation. Modelyansh adds an explicit match-first simulator, direct Elevenify/odds fixture overrides, a four-output calibrated minutes model, foreign-signing priors, manual minutes workflow, season-aware replay metadata, and a legacy website contract. OpenFPL's paper has cleaner published benchmark context; Modelyansh should not claim superiority without an identical evaluation slice.
+
+FiveStat:
+FiveStat publicly documents team attack/defence, recency, Dixon-Coles/bivariate-Poisson score modelling, and player share allocation. Modelyansh currently uses independent-Poisson lambdas, often supplied by markets/Elevenify, and then a richer player-event simulation. FiveStat is a methodology reference, not a code or data dependency.
+
+What Modelyansh can do that the compared public surfaces do not all expose:
+
+* Run entirely in the user's local repository.
+* Show deterministic point-component decomposition.
+* Swap or audit fixture-lambda sources.
+* Apply explicit player minutes overrides.
+* Produce shared-match Monte Carlo distributions.
+* Replay historical gameweeks with row-level season-rule metadata.
+* Export an existing website's fixed CSV contract.
+
+These are verified local capabilities, not a statement that competitors lack internal equivalents.
+
+
+PART 8 - HOW TO RUN IT
+
+8.1 Environment setup
+
+Recommended Windows PowerShell setup from the repository root:
+
+    py -3.11 -m venv .venv
+    .\.venv\Scripts\Activate.ps1
+    python -m pip install --upgrade pip
+    python -m pip install -e ".[dev]"
+    $env:PYTHONPATH = "src"
+
+The currently verified bundled runtime is:
+
+    C:\Users\iamdi\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe
+
+[CURRENT REPOSITORY AUDIT, runtime/test execution 2026-06-13]
+
+For current market odds:
+
+    $env:ODDS_API_KEY = "<your-the-odds-api-key>"
+
+Prerequisites:
+
+* Network access to official FPL and optional external APIs.
+* A new 2026-27 Elevenify sheet if that source is to be used.
+* Correct GW bounds.
+* Current manual minutes.
+* Production model bundles in `models`.
+* Enough memory for the large joblib bundles and historical CSVs.
+
+8.2 Mandatory cleanup before a 2026-27 live run
+
+The following steps prevent stale completed-season files from silently entering a future run:
+
+    Rename-Item -LiteralPath "player_minutes_inputs_gw37_to_38.csv" `
+      -NewName "player_minutes_inputs_gw37_to_38.stale-2025-26.csv"
+
+    Rename-Item -LiteralPath "elevenify.com 25_26 Subscriber Season Long Data - Sheet1.csv" `
+      -NewName "elevenify.com 25_26 Subscriber Season Long Data - Sheet1.csv.disabled"
+
+Then provide explicit new file paths. The Elevenify file must no longer end in `.csv`: the fallback discovery scans root/data CSVs for names containing both `elevenify` and `season long`, so a renamed stale CSV could still be loaded. Renaming is an operational workaround for the current auto-discovery/hard-coded-input bugs; a code fix is preferable.
+
+Also change or override `projection_start_gw=37` and `projection_end_gw=38`. Do not trust the API's `is_current` field during the off-season.
+
+8.3 Live raw prediction
+
+After the official 2026-27 bootstrap, fixtures, new Elevenify file, and manual minutes exist:
+
+    $py = "C:\Users\iamdi\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
+    $env:PYTHONPATH = "src"
+    & $py -B -m fpl_xpts.cli `
+      --out "outputs\live_2026_27_gw1" `
+      --format raw `
+      --n-sim 10000 `
+      --start-gw 1 `
+      --end-gw 6 `
+      --minutes-input "player_minutes_inputs_2026_27.csv" `
+      --elevenify-projections "elevenify.com 26_27 Subscriber Season Long Data.csv" `
+      --use-ml-predictions `
+      --ml-model-dir "models\position_models"
+
+Status: command reflects the current CLI. It is a FUTURE RUN TEMPLATE, not executed 2026-27 output.
+
+Use a narrower end GW if the external team projection has only one reliable week. The live pipeline writes a timestamped snapshot automatically.
+
+8.4 Live run without optional sources
+
+No market API and no Elevenify:
+
+    & $py -B -m fpl_xpts.cli `
+      --out "outputs\live_2026_27_gw1_baseline" `
+      --format raw `
+      --n-sim 10000 `
+      --start-gw 1 `
+      --end-gw 1 `
+      --no-market-odds `
+      --no-elevenify `
+      --minutes-input "player_minutes_inputs_2026_27.csv" `
+      --use-ml-predictions
+
+Current caveat: `--no-elevenify` is only reliable after the stale root Elevenify file is renamed, because `forecast_fixture_lambdas` has its own discovery path.
+
+8.5 Regenerate website/legacy files
+
+    & $py -B -m fpl_xpts.cli `
+      --out "outputs\legacy_2026_27_gw1" `
+      --format legacy `
+      --n-sim 10000 `
+      --start-gw 1 `
+      --end-gw 6 `
+      --minutes-input "player_minutes_inputs_2026_27.csv" `
+      --elevenify-projections "elevenify.com 26_27 Subscriber Season Long Data.csv" `
+      --use-ml-predictions `
+      --ml-model-dir "models\position_models"
+
+Current caveats:
+
+* The legacy column contract exposes deterministic `xPts` but does not consistently surface `ml_xpts` as the primary website value.
+* Legacy export runs its own MC even if `--no-mc` is supplied.
+* Publish only after checking the snapshot season/GW/deadline and output source columns.
+
+8.6 Streamlit app
+
+    & $py -B -m streamlit run "app\streamlit_app.py"
+
+The current app uses default `AppConfig`, so it is not 2026-27-ready without code/config changes. In particular, it leaves ML disabled and inherits stale GW defaults.
+
+8.7 Historical replay
+
+Exact final-style 2025-26 replay:
+
+    & $py -B "scripts\retrospective_replay.py" `
+      --seasons "2025-26" `
+      --n-sim 1000 `
+      --workers 1 `
+      --model-dir "models\position_models" `
+      --minutes-model "models\minutes_model.pkl" `
+      --out-dir "outputs\validation\retrospective_minutes_final_2025_26"
+
+Status: reproduces the current script's authoritative configuration shape. Existing output in that directory is COMPLETED-SEASON VALIDATION, not live output.
+
+The script performs a full repository read by default. `--skip-read-pass` exists only for local debugging and should not be used for an audited final replay.
+
+8.8 Retrain the minutes model
+
+    & $py -B "scripts\train_minutes_model.py" `
+      --model-path "models\minutes_model_candidate.pkl"
+
+Evaluate the candidate against:
+
+* full holdout Brier and minutes MAE;
+* zero-minute MAE;
+* zero rows predicted above 2;
+* nonzero Spearman;
+* recent-regular and goalkeeper segments;
+* row/feature schema parity.
+
+Do not overwrite `models/minutes_model.pkl` until the candidate passes the same or stronger gates.
+
+8.9 Retrain the position points models
+
+    & $py -B "scripts\train_position_ml_models.py" `
+      --model-dir "models\position_models"
+
+The script must point at the current bundle directory because it loads those bundles to lock the feature schema and build the old-model comparison. It trains rolling-origin candidates in memory, compares candidate and production on identical unseen rows and older-season checks, and replaces the supplied production files only when its holdout and older-season gates pass. On a passing run it archives the old bundles before saving replacements. The repository's previous retrain did not improve ranking enough to ship, so no replacement occurred. To stage outside production, first copy all four current bundles into a complete alternate directory and point `--model-dir` there.
+
+8.10 Rebuild historical data and reports
+
+    & $py -B "scripts\build_full_historical_validation.py"
+    & $py -B "scripts\build_historical_availability.py"
+    & $py -B "scripts\build_minutes_model_findings.py"
+    & $py -B "scripts\build_replay_2025_26_findings.py"
+    & $py -B "scripts\build_model_audit.py"
+    & $py -B "scripts\build_notebooks.py"
+
+These commands have different network and source prerequisites. Rebuilding availability requires the external archives to remain reachable. Rebuilding notebooks changes generated compatibility artifacts, not model weights.
+
+8.11 Tests
+
+    $env:PYTHONPATH = "src"
+    & $py -B -m pytest -q -p no:cacheprovider
+
+Expected current result: 41 passed. [CURRENT REPOSITORY AUDIT, test run 2026-06-13]
+
+8.12 OpenSSL/Windows workaround
+
+The FPL client itself tries:
+
+    curl.exe --ssl-no-revoke -L <url>
+
+before using Python requests with TLS verification disabled. If direct Python HTTPS fails, verify that Windows `curl.exe` exists:
+
+    Get-Command curl.exe
+
+Prefer fixing the local certificate store/runtime when possible. `verify=False` trades certificate authenticity for availability and should not be treated as a general security recommendation.
+
+8.13 Updating the manual minutes file
+
+For each upcoming gameweek:
+
+1. Generate or copy a template whose players match the current bootstrap.
+2. Use stable player ID where supported; keep player and team names for audit.
+3. Enter `p_play`, `p_start_given_play`, `mins_if_start`, and `mins_if_sub`, or the accepted expected-minute fields used by the current schema.
+4. Base overrides on timestamped injury, suspension, manager, lineup, and return-from-injury evidence.
+5. Add a note/source/timestamp outside or alongside the model fields if the schema allows.
+6. Check duplicates, unmatched players, probabilities outside 0-1, and minutes outside 0-90.
+7. Run one raw projection and inspect `minutes_model_source`, expected minutes, play/start probabilities, and MC minute-state fields.
+8. Never carry the file into another gameweek without explicit review.
+
+The manual file is applied after the trained model because it is intended to override it. That power makes stale rows dangerous.
+
+
+PART 9 - NEXT SEASON PLAN
+
+9.1 Confirmed calendar and unknown release dates
+
+The Premier League has confirmed that 2026-27 starts Saturday, 22 August 2026 and ends Sunday, 30 May 2027, with 33 weekends and five midweek rounds. [CURRENT EXTERNAL FACT checked 2026-06-13, `https://www.premierleague.com/en/news/4468487/dates-for-202627-premier-league-season-confirmed`]
+
+As of 2026-06-13, the current official Premier League season-dates page does not state a fixture-release date. Secondary schedules report Friday, 19 June 2026 at 10:00 BST, but that should remain PROVISIONAL until confirmed on an official Premier League fixture-release page. [CURRENT EXTERNAL CHECK 2026-06-13; secondary context `https://en.wikipedia.org/wiki/2026%E2%80%9327_Premier_League`]
+
+No official 2026-27 FPL launch/player-list date was found as of 2026-06-13. Treat the API transition, not a guessed date, as the trigger: `bootstrap-static` must show the 2026-27 teams, players, rules-era fields, and future event deadlines.
+
+Elevenify has no verified public release schedule in the sources checked. Ask the supplier and validate the new sheet when delivered.
+
+The Odds API has no fixed EPL preseason market date. Begin polling only after `soccer_epl` is active and upcoming events with head-to-head and totals prices appear.
+
+9.2 Timeline
+
+Now through official fixture release:
+
+* Freeze all completed 2025-26 outputs as stale archives.
+* Rename the auto-discovered 2025-26 Elevenify and hard-coded GW37-38 minutes files.
+* Fix the stale default GW range and add an explicit season/freshness guard.
+* Fix `--no-elevenify`, `--no-minutes-inputs`, and legacy `--no-mc` semantics.
+* Decide how weekly team values should split across double-gameweek fixtures.
+* Add promoted-team prior configuration and tests.
+* Record the 2025-26 validation artifacts as immutable baselines.
+
+At official fixture release:
+
+* Import the 380 fixtures and normalize all 20 team names.
+* Verify promoted/relegated team mappings in FPL, Understat, odds, Elevenify, and external CSV aliases.
+* Build fixture congestion, blanks, doubles, and six-week windows.
+* Do not yet publish player predictions if the official FPL player list is still old.
+
+At official FPL launch/player-list transition:
+
+* Save the first 2026-27 bootstrap and fixture snapshot with UTC timestamp.
+* Diff teams, players, positions, prices, status fields, and scoring-rule documentation.
+* Add new players to identity mappings.
+* Validate all 2025-26 scoring assumptions against the new official rules before retaining them.
+* Generate a fresh manual minutes template.
+
+When Elevenify arrives:
+
+* Parse it in isolation.
+* Confirm two tables, 20 teams, expected gameweek range, numeric units, and no duplicate team/GW keys.
+* Cross-check at least one home and one away fixture by hand.
+* Verify whether a value is per fixture or per team-gameweek, especially for doubles.
+* Pass the file explicitly instead of relying on auto-discovery.
+
+When odds appear:
+
+* Confirm `soccer_epl` events map one-to-one to official fixtures.
+* Inspect bookmaker count, overround, head-to-head, and totals availability.
+* Compare fitted lambda totals against market totals.
+* Log unmatched and suspicious fixtures.
+* Decide and document whether odds or Elevenify is authoritative; current code makes Elevenify later and therefore dominant.
+
+Seven to three days before GW1:
+
+* Set promoted-team priors.
+* Build new-signing priors.
+* Populate manual minutes from preseason lineups, injuries, suspensions, and manager evidence.
+* Run baseline, odds, Elevenify, deterministic, ML, and MC diagnostics separately.
+* Confirm no row is sourced from a 2025-26 manual or external file.
+
+Final 24 hours before deadline:
+
+* Refresh bootstrap, fixtures, odds, availability, and manual minutes.
+* Save a timestamped pre-deadline snapshot.
+* Run the final projection into a new immutable directory.
+* Inspect unmatched players, lambda-source coverage, extreme minutes, top xPts/ML discrepancies, and probability calibration sanity.
+* Publish only the run whose timestamp and deadline are recorded.
+
+9.3 Promoted-team priors
+
+Current gap: there is no dedicated promoted-team prior module.
+
+Practical first-season method:
+
+1. Create an explicit config table for each promoted team with attacking strength, defensive strength, home adjustment, and evidence source.
+2. Prefer current bookmaker season/match markets and a new Elevenify sheet once available.
+3. Before markets exist, regress Championship performance strongly toward a newly promoted EPL baseline rather than translating it one-for-one.
+4. Keep the prior separate from observed EPL updates.
+5. Increase EPL evidence weight gradually as matches accumulate.
+6. Report the prior source in every fixture row.
+
+Do not infer a precise prior from this repository's current code; that capability is not implemented.
+
+9.4 New-signing priors
+
+For recognized foreign-league players:
+
+* Confirm identity, position, prior team, season, minutes, and role.
+* Use the latest cached foreign season.
+* Apply the existing provisional league factor.
+* Retain 900-minute shrinkage unless a new-signing cohort validation justifies changing it.
+* Manually set expected minutes and likely role.
+
+For Championship, Eredivisie, Portugal, non-Understat, academy, or long-inactive players:
+
+* Use a position/team prior.
+* Add manual role, set-piece, penalty, and minutes information.
+* Flag the row as weak/provisional.
+* Avoid presenting player-specific precision unsupported by source data.
+
+9.5 First run of 2026-27 checklist
+
+[ ] Official bootstrap contains the new season's 20 teams and player list.
+[ ] Official fixtures contain future GW1 deadlines and match times.
+[ ] Scoring/BPS/DEFCON rules were rechecked against official FPL documentation.
+[ ] Config GW range is not 37-38.
+[ ] Root 2025-26 Elevenify file cannot be auto-discovered.
+[ ] Hard-coded GW37-38 minutes file cannot be applied.
+[ ] New Elevenify sheet passes 20-team/GW uniqueness checks, or Elevenify is deliberately disabled.
+[ ] Odds source coverage and unmatched fixtures are reviewed.
+[ ] Promoted-team priors are explicit and labeled.
+[ ] New signings have matched or fallback priors.
+[ ] Manual minutes file contains only the target season/GW and has been reviewed.
+[ ] Production minutes and points bundles load with exact feature schemas.
+[ ] Deterministic team xG/xA conservation and minute caps pass.
+[ ] MC uses the intended simulation count and seed.
+[ ] Raw output includes source, minutes, xPts, ML, and MC audit columns.
+[ ] Snapshot timestamp, season, target GW, and deadline are recorded.
+[ ] No completed 2025-26 output is published as current.
+
+9.6 Every-gameweek workflow
+
+Immediately after the previous deadline:
+
+* Save actual points/minutes/event-live data for the closed gameweek.
+* Do not overwrite the pre-deadline prediction snapshot.
+* Join predictions to actuals and calculate MAE, Spearman, zero-minute errors, top-20 `P_haul` hits, and calibration buckets.
+
+Early week:
+
+* Refresh fixtures, postponements, player/team data, and external source availability.
+* Update rolling features only with completed matches.
+* Review transfers, suspensions, new managers, and role changes.
+
+Before deadline:
+
+* Update the manual minutes file.
+* Refresh odds and Elevenify.
+* Run the raw pipeline.
+* Save a timestamped prediction snapshot.
+* Save a separate availability snapshot before the deadline.
+* Review top discrepancies between deterministic and ML.
+* Review top-20 `P_haul`, high-upside, and low-play-probability players.
+* Export and publish the legacy/site files only after freshness checks.
+
+After matches:
+
+* Store actual outcomes separately.
+* Append gameweek validation without changing the old prediction.
+* Diagnose misses by minutes, team lambda, player share, scoring event, bonus, or calibration.
+* Retrain only on a scheduled cadence and only with gate comparisons.
+
+9.7 Why snapshots matter
+
+Without a pre-deadline snapshot, later API values can contain the result, updated minutes, final availability, or corrected fixtures. A model can then appear more accurate through hindsight leakage.
+
+Snapshots provide:
+
+* The exact player/fixture universe seen by the model.
+* The availability state known before deadline.
+* The exact odds/Elevenify/manual inputs used.
+* Reproducible feature values and model versions.
+* Fair weekly calibration and hit-rate tracking.
+* Evidence that a cached completed-season file was not presented as live.
+
+Use immutable directory names containing season, GW, UTC timestamp, and model/config version.
+
+
+PART 10 - RESOURCES
+
+10.1 Official FPL API and rules
+
+FPL home/API:
+`https://fantasy.premierleague.com/`
+`https://fantasy.premierleague.com/api/bootstrap-static/`
+`https://fantasy.premierleague.com/api/fixtures/`
+
+Contribution: canonical live players, teams, fixtures, prices, availability fields, histories, actual points, and scoring-era fields.
+
+Official rules:
+`https://fantasy.premierleague.com/help/rules`
+
+Contribution: canonical scoring and Bonus Points System rules. The page is dynamically rendered and must be rechecked at each season launch. Current code/tests confirm the repository's encoded live values, but code is not a substitute for the new season's official rules.
+
+10.2 Premier League 2026-27 dates
+
+`https://www.premierleague.com/en/news/4468487/dates-for-202627-premier-league-season-confirmed`
+
+Contribution: official start date 22 August 2026, final date 30 May 2027, and 33-weekend/five-midweek structure. [CURRENT EXTERNAL FACT checked 2026-06-13]
+
+10.3 OpenFPL
+
+Paper:
+`https://arxiv.org/abs/2508.09992`
+
+Contribution: public FPL projection methodology, position-specific ensemble context, prospective 2024-25 evaluation, and category-specific RMSE/MAE benchmark values. It is a comparison reference, not a dependency.
+
+10.4 FiveStat
+
+Methodology:
+`https://www.fivestat.co.uk/methodology`
+
+FPL page:
+`https://www.fivestat.co.uk/fpl`
+
+Contribution: an external example of walk-forward validation, recent-form weighting, team attack/defence, multiplicative Dixon-Coles, bivariate Poisson low-score handling, score matrices, and allocation of team xG to players. Modelyansh does not implement that exact method.
+
+10.5 Solio Analytics
+
+Latest API:
+`https://fpl.solioanalytics.com/api/data/latest.json`
+
+Contribution: current external player projections for descriptive comparison through `solio_compare.py`. Lack of a local historical deadline archive prevents a controlled season replay comparison.
+
+10.6 FPL Review
+
+Massive Data Model:
+`https://docs.fplreview.com/the-model/projections/massive-data-model/`
+
+Contribution: public methodology context for a proprietary projection service. The repository has no scraper or exact historical prediction archive and therefore makes no direct accuracy claim.
+
+10.7 Vaastav historical FPL data
+
+`https://github.com/vaastav/Fantasy-Premier-League`
+
+Contribution: historical player-gameweek rows used to build training/replay data. The current upstream update policy and potentially post-event fields require careful shifting and source audits.
+
+10.8 Football-data.co.uk
+
+`https://www.football-data.co.uk/englandm.php`
+
+Contribution: historical Premier League results and bookmaker odds, including closing prices where available, used to reconstruct team expectation for old gameweeks.
+
+10.9 Understat
+
+`https://understat.com`
+
+Contribution: EPL and recognized foreign-league xG/xA, shots, teams, players, and match events. It supplies attacking-quality evidence and historical xG gaps.
+
+10.10 Historical availability
+
+`https://github.com/olbauday/FPL-Core-Insights`
+`https://github.com/Ayanab01/FPL_Stats`
+`https://fpl-2018-19-data.s3.amazonaws.com/`
+
+Contribution: pre-deadline or gameweek availability/status snapshots for the limited seasons represented in `data/availability/availability_by_gw.csv`.
+
+10.11 The Odds API
+
+`https://the-odds-api.com/liveapi/guides/v4/`
+
+Contribution: current head-to-head and totals markets. The code uses the `soccer_epl` sport key and `uk,eu,us` regions by default.
+
+10.12 League-strength background
+
+Paper:
+`https://arxiv.org/abs/2310.11459`
+
+Implementation:
+`https://github.com/andreyshelopugin/GlickoSoccer`
+
+Contribution: background for the league-strength ratios used in the foreign-signing audit. The repository's factors remain provisional translation multipliers rather than validated causal equivalence.
+
+
+FINAL OPERATING POSITION
+
+Modelyansh is a working, tested, auditable FPL projection stack with deterministic, machine-learning, minutes, and match-first simulation layers. Its strongest verified value is transparent decomposition plus improved unseen-season ranking from the position ensemble and a materially better treatment of no-show risk from the four-output minutes model.
+
+It is not currently ready to publish a live 2026-27 forecast because the official new-season player universe is not yet present and the checkout still contains auto-discoverable completed-season inputs and stale GW defaults. The next live result becomes valid only after those inputs are replaced, new scoring rules are confirmed, promoted/new-player priors are set, manual minutes are refreshed, and a timestamped pre-deadline snapshot is saved.
+
+No cached GW38 row in this repository is a live prediction.

@@ -1,0 +1,124 @@
+name: kibasfpltreats
+
+# Production topology (Phase 15): Caddy is the ONLY service with host ports.
+# Everything else is internal-only, reached via compose-network DNS by the
+# names the Caddyfile routes to (landing / dashboard / admin / backend).
+# Local development: docker-compose.override.yml (auto-merged by `docker
+# compose up`) re-exposes the dev ports; production deploys use
+# `docker compose -f docker-compose.yml up -d --build` to skip it.
+
+services:
+  # ------------------------------------------------------------------ db
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-fpl}
+      POSTGRES_USER: ${POSTGRES_USER:-fpl}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-fpl}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Apply the projection persistence schema on first boot of a fresh
+      # volume (files run in lexical order, once, by the postgres entrypoint).
+      - ./backend/db/migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-fpl} -d ${POSTGRES_DB:-fpl}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  # ---------------------------------------------------------------- redis
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ------------------------------------------------------------- backend
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-fpl}:${POSTGRES_PASSWORD:-fpl}@db:5432/${POSTGRES_DB:-fpl}
+      ADMIN_API_TOKEN: ${ADMIN_API_TOKEN:?set ADMIN_API_TOKEN in .env or the shell}
+      # Clerk JWT verification for the public router (Phase 13).
+      CLERK_JWKS_URL: ${CLERK_JWKS_URL:-}
+      CLERK_AUDIENCE: ${CLERK_AUDIENCE:-}
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health', timeout=3)"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ---------------------------------------------------- admin (Next.js panel)
+  # Renamed from `frontend` in Phase 15 so the Caddyfile upstream
+  # (admin.<domain> -> admin:3000) matches the service name exactly.
+  admin:
+    build: ./apps/admin
+    restart: unless-stopped
+    environment:
+      # Server-side BFF proxy target (service DNS on the compose network).
+      FPL_BACKEND_URL: http://backend:8000
+      # The BFF attaches this token to upstream admin calls.
+      ADMIN_API_TOKEN: ${ADMIN_API_TOKEN:?set ADMIN_API_TOKEN in .env or the shell}
+    depends_on:
+      - backend
+
+  # ------------------------------------------------ dashboard (public SaaS)
+  dashboard:
+    build: ./apps/dashboard
+    restart: unless-stopped
+    environment:
+      FPL_BACKEND_URL: http://backend:8000
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:?set NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY in .env}
+      CLERK_SECRET_KEY: ${CLERK_SECRET_KEY:?set CLERK_SECRET_KEY in .env}
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      - backend
+
+  # ------------------------------------------------------------- landing
+  landing:
+    build: ./landing
+    restart: unless-stopped
+
+  # ------------------------------------------------- caddy (ingress + TLS)
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp" # HTTP/3 (QUIC)
+    environment:
+      DOMAIN: ${DOMAIN:-kibasfpltreats.com}
+      ACME_EMAIL: ${ACME_EMAIL:-admin@kibasfpltreats.com}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      # caddy_data persists Let's Encrypt certificates + ACME account keys
+      # across restarts -- deleting it triggers full re-issuance (rate limits!).
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - landing
+      - dashboard
+      - admin
+      - backend
+
+volumes:
+  pgdata:
+  redisdata:
+  caddy_data:
+  caddy_config:

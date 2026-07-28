@@ -1,0 +1,17 @@
+# Local development override -- auto-merged by plain `docker compose up`.
+# Re-exposes the pre-Phase-15 host ports for direct access without Caddy/DNS.
+# Production MUST skip this file:
+#   docker compose -f docker-compose.yml up -d --build
+services:
+  backend:
+    ports:
+      - "8000:8000"
+  admin:
+    ports:
+      - "3000:3000"
+  dashboard:
+    ports:
+      - "3001:3000"
+  landing:
+    ports:
+      - "8080:80"

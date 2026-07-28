@@ -1,0 +1,30 @@
+# ----------------------------------------------------------- secrets / env
+.env
+.env.local
+.env*.local
+
+# ---------------------------------------------------------------- python
+backend/.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+
+# ------------------------------------------------------------ node / next
+node_modules/
+.next/
+tsconfig.tsbuildinfo
+npm-debug.log*
+
+# ------------------------------------- generated artifacts (regenerable)
+# outputs/: validation runs, backtests (contains >100MB files)
+backend/outputs/
+# training matrix (133MB, > GitHub 100MB hard limit; rebuilt by
+# scripts/build_full_historical_validation.py)
+backend/data/modelling/full_training_dataset.csv
+
+# ------------------------------------------------------------------ misc
+.DS_Store
+.vercel/
+.serena/
+.claude/

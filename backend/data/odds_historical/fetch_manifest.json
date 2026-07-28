@@ -1,0 +1,22 @@
+{
+  "source": "https://www.football-data.co.uk/mmz4281",
+  "seasons": {
+    "2122": {
+      "path": "data\\odds_historical\\2122_E0.csv",
+      "rows": 381
+    },
+    "2223": {
+      "path": "data\\odds_historical\\2223_E0.csv",
+      "rows": 381
+    },
+    "2324": {
+      "path": "data\\odds_historical\\2324_E0.csv",
+      "rows": 381
+    },
+    "2425": {
+      "path": "data\\odds_historical\\2425_E0.csv",
+      "rows": 381
+    }
+  },
+  "errors": []
+}

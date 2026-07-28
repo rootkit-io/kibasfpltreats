@@ -1,0 +1,39 @@
+[project]
+name = "fpl-xpts"
+version = "0.1.0"
+description = "Live FPL expected-points and Monte Carlo projection engine"
+requires-python = ">=3.10"
+dependencies = [
+  "duckdb>=0.10",
+  "joblib>=1.5",
+  "numpy>=1.24",
+  "pandas>=2.0",
+  "pydantic>=2.0",
+  "requests>=2.31",
+  "scikit-learn>=1.4",
+  "streamlit>=1.33",
+  "xgboost>=2.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "httpx>=0.27", "pytest-postgresql>=6.0"]
+api = ["fastapi>=0.110", "uvicorn>=0.30", "PyJWT[crypto]>=2.8", "redis[hiredis]>=4.6,<5"]
+db = ["psycopg[binary,pool]>=3.1"]
+
+[project.scripts]
+fpl-xpts = "fpl_xpts.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Make `pytest` work from a clean checkout of backend/ (and from any CWD)
+# without requiring an editable install: the src layout plus the backend root
+# (for `scripts.*` / `tests.fakes` imports) go on sys.path directly. Entries
+# are resolved relative to this file's directory (the pytest rootdir).
+pythonpath = ["src", "."]

@@ -1,0 +1,45 @@
+# ---------------------------------------------------------------------------
+# Caddy reverse proxy (Phase 15) -- automatic HTTPS via Let's Encrypt.
+#
+# Domain is parameterized: set DOMAIN in .env (defaults to kibasfpltreats.com).
+# Upstream names are Docker Compose service names resolved over the internal
+# network -- none of them expose host ports; Caddy is the only ingress.
+#
+# Certificates + ACME account persist in the caddy_data volume; do NOT
+# delete it casually or Let's Encrypt duplicate-certificate rate limits
+# (5/week) will bite on re-issue.
+# ---------------------------------------------------------------------------
+
+{
+	# ACME registration email (expiry notices, revocation contact).
+	email {$ACME_EMAIL:admin@kibasfpltreats.com}
+}
+
+# ------------------------------------------------------------ landing (root)
+{$DOMAIN:kibasfpltreats.com} {
+	encode zstd gzip
+	reverse_proxy landing:80
+}
+
+# www -> apex redirect
+www.{$DOMAIN:kibasfpltreats.com} {
+	redir https://{$DOMAIN:kibasfpltreats.com}{uri} permanent
+}
+
+# ----------------------------------------------------- public SaaS dashboard
+app.{$DOMAIN:kibasfpltreats.com} {
+	encode zstd gzip
+	reverse_proxy dashboard:3000
+}
+
+# ----------------------------------------------------------------- admin UI
+admin.{$DOMAIN:kibasfpltreats.com} {
+	encode zstd gzip
+	reverse_proxy admin:3000
+}
+
+# -------------------------------------------------------------- FastAPI API
+api.{$DOMAIN:kibasfpltreats.com} {
+	encode zstd gzip
+	reverse_proxy backend:8000
+}

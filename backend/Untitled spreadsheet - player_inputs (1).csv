@@ -1,0 +1,522 @@
+player,team,defcon90,saves90,rc_rate,yc_rate,pen_share,xMINS_W1,xMINS_W2,xMINS_W3,xMINS_W4,xMINS_W5,xMINS_W6,player_key,Pos
+Viktor Gyokeres,Arsenal,3.3,0,0.01,0.2,0.25,75,75,75,75,0,0,viktor gyokeres|arsenal,FWD
+Bukayo Saka,Arsenal,7.5,0,0.01,0.06,0.65,60,90,90,90,0,0,bukayo saka|arsenal,MID
+Martín Zubimendi,Arsenal,9.1,0,0.02,0.14,0,90,90,90,90,0,0,martín zubimendi|arsenal,MID
+Leandro Trossard,Arsenal,6.1,0,0.02,0.67,0,60,60,60,60,0,0,leandro trossard|arsenal,MID
+Mikel Merino,Arsenal,10,0,0.02,0.2,0,0,0,0,0,0,0,mikel merino|arsenal,MID
+Declan Rice,Arsenal,11.2,0,0.02,0.2,0,90,90,90,90,0,0,declan rice|arsenal,MID
+Gabriel,Arsenal,8.9,0,0.02,0.14,0,90,90,90,90,0,0,gabriel|arsenal,DEF
+Jurriën Timber,Arsenal,5,0,0.02,0.2,0,0,0,0,0,0,0,jurriën timber|arsenal,DEF
+Gabriel Jesus,Arsenal,7.7,0,0.02,0.5,0,15,15,15,15,0,0,gabriel jesus|arsenal,FWD
+Martin Odegaard,Arsenal,6.8,0,0.01,0.03,0.1,75,75,75,75,0,0,martin odegaard|arsenal,MID
+William Saliba,Arsenal,6.3,0,0.02,0.06,0,90,90,90,90,0,0,william saliba|arsenal,DEF
+Gabriel Martinelli,Arsenal,7.1,0,0.02,0.2,0,30,30,30,30,0,0,gabriel martinelli|arsenal,MID
+Riccardo Calafiori,Arsenal,6.1,0,0.02,0.33,0,15,15,15,15,0,0,riccardo calafiori|arsenal,DEF
+Piero Hincapié,Arsenal,7.9,0,0.02,0.14,0,75,75,75,75,0,0,piero hincapié|arsenal,DEF
+Noni Madueke,Arsenal,5,0,0.01,0.03,0,30,15,5,5,0,0,noni madueke|arsenal,MID
+Max Dowman,Arsenal,0,0,0.02,0.06,0,0,0,0,0,0,0,max dowman|arsenal,MID
+Kai Havertz,Arsenal,6.4,0,0.02,0.03,0,0,0,0,0,0,0,kai havertz|arsenal,FWD
+Christian Nørgaard,Arsenal,7.5,0,0.02,0.06,0,0,0,0,0,0,0,christian nørgaard|arsenal,MID
+Ben White,Arsenal,7.9,0,0.02,0.06,0,15,15,15,15,0,0,ben white|arsenal,DEF
+David Raya,Arsenal,0,1.6,0.01,0.03,0,90,90,90,90,0,0,david raya|arsenal,GK
+Cristhian Mosquera,Arsenal,9,0,0.02,0.33,0,75,75,75,75,0,0,cristhian mosquera|arsenal,DEF
+Ethan Nwaneri,Arsenal,7.1,0,0.01,0.03,0,0,0,0,0,0,0,ethan nwaneri|arsenal,MID
+Myles Lewis-Skelly,Arsenal,4.1,0,0.02,0.5,0,0,0,0,0,0,0,myles lewis-skelly|arsenal,DEF
+Eberechi Eze,Arsenal,5.8,0,0.01,0.06,0,60,60,60,60,0,0,eberechi eze|arsenal,MID
+Ollie Watkins,Aston Villa,3.1,0,0.01,0.1,0.25,75,75,75,75,0,0,ollie watkins|aston villa,FWD
+Morgan Rogers,Aston Villa,6.2,0,0.01,0.14,0.25,90,90,90,90,0,0,morgan rogers|aston villa,MID
+Emiliano Buendía,Aston Villa,9.7,0,0.02,0.33,0,75,75,75,75,0,0,emiliano buendía|aston villa,MID
+Donyell Malen,Aston Villa,2.3,0,0.01,0.06,0,0,0,0,0,0,0,donyell malen|aston villa,MID
+John McGinn,Aston Villa,7.1,0,0.02,0.2,0,60,60,60,60,0,0,john mcginn|aston villa,MID
+Matthew Cash,Aston Villa,5.8,0,0.03,0.33,0,90,90,90,90,0,0,matthew cash|aston villa,DEF
+Ross Barkley,Aston Villa,10.8,0,0.02,0.1,0,0,0,0,0,0,0,ross barkley|aston villa,MID
+Amadou Onana,Aston Villa,11.7,0,0.02,0.1,0,75,75,75,75,0,0,amadou onana|aston villa,MID
+Tammy Abraham,Aston Villa,3.5,0,0.01,0.06,0,15,15,15,15,0,0,tammy abraham|aston villa,FWD
+Boubacar Kamara,Aston Villa,9.5,0,0.02,0.33,0,0,0,0,0,0,0,boubacar kamara|aston villa,MID
+Tyrone Mings,Aston Villa,7.5,0,0.02,0.1,0,0,0,0,0,0,0,tyrone mings|aston villa,DEF
+Lucas Digne,Aston Villa,5.2,0,0.03,0.2,0,30,30,30,30,0,0,lucas digne|aston villa,DEF
+Emiliano Martinez,Aston Villa,0,2.9,0.02,0.14,0,90,90,90,90,0,0,emiliano martinez|aston villa,GK
+Leon Bailey,Aston Villa,9.8,0,0.01,0.2,0,60,60,60,60,0,0,leon bailey|aston villa,MID
+Youri Tielemans,Aston Villa,9.6,0,0.02,0.06,0.25,75,90,90,90,0,0,youri tielemans|aston villa,MID
+Victor Lindelöf,Aston Villa,5.7,0,0.02,0.14,0,0,0,0,0,0,0,victor lindelöf|aston villa,DEF
+Pau Torres,Aston Villa,6.5,0,0.02,0.06,0,60,60,60,60,0,0,pau torres|aston villa,DEF
+Jadon Sancho,Aston Villa,4.8,0,0.02,0.1,0,0,0,0,0,0,0,jadon sancho|aston villa,MID
+Ezri Konsa Ngoyo,Aston Villa,6.1,0,0.02,0.03,0,90,90,90,90,0,0,ezri konsa ngoyo|aston villa,DEF
+Marco Bizot,Aston Villa,0,0,0.01,0.03,0,0,0,0,0,0,0,marco bizot|aston villa,GK
+Lamare Bogarde,Aston Villa,5.3,0,0.02,0.5,0,30,30,30,30,0,0,lamare bogarde|aston villa,MID
+Ian Maatsen,Aston Villa,7.2,0,0.02,0.2,0,60,60,60,60,0,0,ian maatsen|aston villa,DEF
+Jamaldeen Jimoh,Aston Villa,2,0,0.01,0.06,0,0,0,0,0,0,0,jamaldeen jimoh|aston villa,MID
+Andrés García,Aston Villa,0,0,0.01,0.06,0,0,0,0,0,0,0,andrés garcía|aston villa,DEF
+Bradley Burrowes,Aston Villa,0,0,0.01,0.06,0,0,0,0,0,0,0,bradley burrowes|aston villa,MID
+George Hemmings,Aston Villa,0,0,0.01,0.06,0,0,0,0,0,0,0,george hemmings|aston villa,MID
+Alysson Edward,Aston Villa,0,0,0.01,0.06,0,0,0,0,0,0,0,alysson edward|aston villa,FWD
+Harvey Elliott,Aston Villa,5.5,0,0.02,0.06,0,0,0,0,0,0,0,harvey elliott|aston villa,MID
+Douglas Luiz,Aston Villa,10.7,0,0.02,0.2,0.25,90,90,90,90,0,0,douglas luiz|aston villa,MID
+Eli Junior Kroupi,Bournemouth,6.2,0,0.02,0.33,0.2,60,60,60,60,0,0,eli junior kroupi|bournemouth,FWD
+Evanilson,Bournemouth,3.7,0,0.01,0.06,0,75,75,75,75,0,0,evanilson|bournemouth,FWD
+Marcus Tavernier,Bournemouth,8.3,0,0.02,0.2,0.8,90,90,90,90,0,0,marcus tavernier|bournemouth,MID
+Amine Adli,Bournemouth,10.4,0,0.01,0.2,0,15,15,15,15,0,0,amine adli|bournemouth,MID
+Justin Kluivert,Bournemouth,6.1,0,0.01,0.5,0,0,0,0,0,0,0,justin kluivert|bournemouth,MID
+Tyler Adams,Bournemouth,11.6,0,0.03,0.5,0,75,75,75,75,0,0,tyler adams|bournemouth,MID
+Alex Scott,Bournemouth,11.9,0,0.02,0.1,0,90,90,90,90,0,0,alex scott|bournemouth,MID
+Rayan,Bournemouth,4.5,0,0.01,0.1,0,75,75,75,75,0,0,rayan|bournemouth,MID
+Enes Ünal,Bournemouth,0,0,0.01,0.2,0,0,0,0,0,0,0,enes ünal|bournemouth,FWD
+David Brooks,Bournemouth,7,0,0.03,0.5,0,15,15,15,15,0,0,david brooks|bournemouth,MID
+Ryan Christie,Bournemouth,10.7,0,0.02,0.33,0,15,15,15,15,0,0,ryan christie|bournemouth,MID
+Alejandro Jiménez,Bournemouth,5.6,0,0.03,0.5,0,90,90,90,90,0,0,alejandro jiménez|bournemouth,DEF
+Adam Smith,Bournemouth,5.1,0,0.02,0.2,0,15,15,15,15,0,0,adam smith|bournemouth,DEF
+Lewis Cook,Bournemouth,14.8,0,0.02,0.1,0,15,15,15,15,0,0,lewis cook|bournemouth,DEF
+Hamed Junior Traore,Bournemouth,0,0,0.02,0.03,0,0,0,0,0,0,0,hamed junior traore|bournemouth,MID
+Bafode Diakite,Bournemouth,8.3,0,0.02,0.1,0,0,0,0,0,0,0,bafode diakite|bournemouth,DEF
+Adrien Truffert,Bournemouth,8.4,0,0.02,0.1,0,90,90,90,90,0,0,adrien truffert|bournemouth,DEF
+James Hill,Bournemouth,10.9,0,0.02,0.14,0,90,90,90,90,0,0,james hill|bournemouth,DEF
+Marcos Senesi,Bournemouth,12.2,0,0.02,0.2,0,90,90,90,90,0,0,marcos senesi|bournemouth,DEF
+Ben Doak,Bournemouth,0,0,0.01,0.06,0,0,0,0,0,0,0,ben doak|bournemouth,FWD
+Djordje Petrovic,Bournemouth,0,3.1,0.01,0.06,0,90,90,90,90,0,0,djordje petrovic|bournemouth,GK
+Ben Winterburn,Bournemouth,0,0,0.01,0.06,0,0,0,0,0,0,0,ben winterburn|bournemouth,MID
+Julio Soler,Bournemouth,0,0,0.01,0.06,0,0,0,0,0,0,0,julio soler|bournemouth,DEF
+Veljko Milosavljevic,Bournemouth,9.6,0,0.01,0.06,0,0,0,0,0,0,0,veljko milosavljevic|bournemouth,DEF
+Alex Tóth,Bournemouth,0,0,0.01,0.06,0,0,0,0,0,0,0,alex tóth|bournemouth,MID
+Thiago,Brentford,5.4,0,0.02,0.2,0.9,90,90,90,90,0,0,thiago|brentford,FWD
+Kevin Schade,Brentford,6.9,0,0.01,0.33,0.1,75,75,75,75,0,0,kevin schade|brentford,MID
+Dango Ouattara,Brentford,7.7,0,0.01,0.2,0,75,75,75,75,0,0,dango ouattara|brentford,MID
+Mikkel Damsgaard,Brentford,10.1,0,0.02,0.33,0,75,75,75,75,0,0,mikkel damsgaard|brentford,MID
+Keane Lewis-Potter,Brentford,3.2,0,0.02,0.06,0,15,15,15,15,0,0,keane lewis-potter|brentford,DEF
+Mathias Jensen,Brentford,7.5,0,0.02,0.33,0,75,75,75,75,0,0,mathias jensen|brentford,MID
+Jordan Henderson,Brentford,8.4,0,0.02,0.33,0,60,60,60,60,0,0,jordan henderson|brentford,MID
+Fabio Carvalho,Brentford,0,0,0.01,0.06,0,0,0,0,0,0,0,fabio carvalho|brentford,MID
+Vitaly Janelt,Brentford,11.8,0,0.02,0.5,0,60,60,60,60,0,0,vitaly janelt|brentford,MID
+Nathan Collins,Brentford,10.3,0,0.02,0.2,0,15,15,15,15,0,0,nathan collins|brentford,DEF
+Michael Kayode,Brentford,6.5,0,0.03,0.2,0,90,90,90,90,0,0,michael kayode|brentford,DEF
+Yehor Yarmolyuk,Brentford,11.3,0,0.01,0.33,0,0,0,0,0,0,0,yehor yarmolyuk|brentford,MID
+Reiss Nelson,Brentford,30.6,0,0.01,0.06,0,0,0,0,0,0,0,reiss nelson|brentford,MID
+Caoimhin Kelleher,Brentford,0,2.7,0.01,0.03,0,90,90,90,90,0,0,caoimhin kelleher|brentford,GK
+Aaron Hickey,Brentford,6.4,0,0.01,0.2,0,75,75,75,75,0,0,aaron hickey|brentford,DEF
+Kristoffer Ajer,Brentford,9.3,0,0.02,0.1,0,90,90,90,90,0,0,kristoffer ajer|brentford,DEF
+Ethan Pinnock,Brentford,11.4,0,0.02,0.14,0,0,0,0,0,0,0,ethan pinnock|brentford,DEF
+Rico Henry,Brentford,4.6,0,0.02,0.1,0,15,15,15,15,0,0,rico henry|brentford,DEF
+Frank Onyeka,Brentford,0,0,0.02,0.06,0,0,0,0,0,0,0,frank onyeka|brentford,MID
+Myles Peart-Harris,Brentford,0,0,0.02,0.03,0,0,0,0,0,0,0,myles peart-harris|brentford,MID
+Sepp van den Berg,Brentford,9.1,0,0.02,0.06,0,90,90,90,90,0,0,sepp van den berg|brentford,DEF
+Hákon Valdimarsson,Brentford,0,0,0,0,0,0,0,0,0,0,0,hákon valdimarsson|brentford,GK
+Antoni Milambo,Brentford,0,0,0.02,0.03,0,0,0,0,0,0,0,antoni milambo|brentford,MID
+Romelle Donovan,Brentford,0,0,0.01,0.03,0,0,0,0,0,0,0,romelle donovan|brentford,MID
+Danny Welbeck,Brighton,4.3,0,0.01,0.2,0.5,60,60,60,60,0,0,danny welbeck|brighton,FWD
+Diego Gómez,Brighton,9.5,0,0.02,0.5,0,0,0,0,0,0,0,diego gómez|brighton,MID
+Jan Paul van Hecke,Brighton,8.5,0,0.03,0.2,0,90,90,90,90,0,0,jan paul van hecke|brighton,DEF
+Yasin Ayari,Brighton,10.6,0,0.02,0.06,0,15,15,15,15,0,0,yasin ayari|brighton,MID
+Georginio Rutter,Brighton,5,0,0.02,0.1,0,30,30,30,30,0,0,georginio rutter|brighton,MID
+Kaoru Mitoma,Brighton,5.2,0,0.01,0.2,0,75,75,75,75,0,0,kaoru mitoma|brighton,MID
+Yankuba Minteh,Brighton,6.9,0,0.01,0.03,0,60,60,60,60,0,0,yankuba minteh|brighton,MID
+Maxim De Cuyper,Brighton,4,0,0.02,0.2,0,15,15,15,15,0,0,maxim de cuyper|brighton,DEF
+Charalampos Kostoulas,Brighton,11.7,0,0.01,0.33,0,15,15,15,15,0,0,charalampos kostoulas|brighton,FWD
+Pascal Groß,Brighton,8.2,0,0.01,0.2,0.5,90,90,90,90,0,0,pascal groß|brighton,MID
+James Milner,Brighton,9.2,0,0.01,0.33,0,15,15,15,15,0,0,james milner|brighton,MID
+Joël Veltman,Brighton,9.3,0,0.02,0.5,0,90,90,90,90,0,0,joël veltman|brighton,DEF
+Jack Hinshelwood,Brighton,8,0,0.01,0.06,0,80,80,80,80,0,0,jack hinshelwood|brighton,MID
+Brajan Gruda,Brighton,7.4,0,0.01,0.1,0,0,0,0,0,0,0,brajan gruda|brighton,MID
+Matt O'Riley,Brighton,0,0,0.01,0.06,0,0,0,0,0,0,0,matt o'riley|brighton,DEF
+Stefanos Tzimas,Brighton,10.2,0,0.01,0.06,0,0,0,0,0,0,0,stefanos tzimas|brighton,FWD
+Olivier Boscagli,Brighton,8.5,0,0.02,0.5,0,90,90,90,90,0,0,olivier boscagli|brighton,DEF
+Lewis Dunk,Brighton,7.6,0,0.03,0.33,0,0,0,0,0,0,0,lewis dunk|brighton,DEF
+Solly March,Brighton,4,0,0.03,0.2,0,0,0,0,0,0,0,solly march|brighton,MID
+Diego Coppola,Brighton,8.4,0,0.01,0.5,0,0,0,0,0,0,0,diego coppola|brighton,DEF
+Carlos Baleba,Brighton,10.8,0,0.03,0.5,0,60,60,60,60,0,0,carlos baleba|brighton,MID
+Bart Verbruggen,Brighton,0,2.8,0.01,0.06,0,90,90,90,90,0,0,bart verbruggen|brighton,GK
+Mats Wieffer,Brighton,13.6,0,0.01,0.33,0,0,0,0,0,0,0,mats wieffer|brighton,MID
+Ferdi Kadioglu,Brighton,4.8,0,0.02,0.2,0,90,90,90,90,0,0,ferdi kadioglu|brighton,DEF
+Joe Knight,Brighton,0,0,0.01,0.06,0,0,0,0,0,0,0,joe knight|brighton,MID
+Harry Howell,Brighton,0,0,0.01,0.03,0,0,0,0,0,0,0,harry howell|brighton,MID
+Tom Watson,Brighton,0,0,0.01,0.03,0,0,0,0,0,0,0,tom watson|brighton,FWD
+Nehemiah Oriola,Brighton,0,0,0.01,0.03,0,0,0,0,0,0,0,nehemiah oriola|brighton,FWD
+Jaidon Anthony,Burnley,8.2,0,0.01,0.2,0,90,90,90,90,0,0,jaidon anthony|burnley,MID
+Zian Flemming,Burnley,4.9,0,0.01,0.33,0.5,15,15,15,15,0,0,zian flemming|burnley,FWD
+Lyle Foster,Burnley,5.3,0,0.02,0.33,0,15,15,15,15,0,0,lyle foster|burnley,FWD
+Chimuanya Ugochukwu,Burnley,8.8,0,0.02,0.14,0,90,90,90,90,0,0,chimuanya ugochukwu|burnley,MID
+Josh Cullen,Burnley,10.3,0,0.01,0.14,0,0,0,0,0,0,0,josh cullen|burnley,MID
+Axel Tuanzebe,Burnley,9.4,0,0.02,0.1,0,75,75,75,75,0,0,axel tuanzebe|burnley,DEF
+Armando Broja,Burnley,4.6,0,0.01,0.03,0,60,60,60,60,0,0,armando broja|burnley,FWD
+Hannibal Mejbri,Burnley,8.5,0,0.02,0.5,0,60,60,60,60,0,0,hannibal mejbri|burnley,MID
+Loum Tchaouna,Burnley,5.3,0,0.03,0.1,0,15,15,15,15,0,0,loum tchaouna|burnley,MID
+Oliver Sonne,Burnley,0,0,0.03,0.03,0,0,0,0,0,0,0,oliver sonne|burnley,DEF
+Josh Laurent,Burnley,9.5,0,0.01,0.33,0,15,15,15,15,0,0,josh laurent|burnley,MID
+Marcus Edwards,Burnley,5.3,0,0.01,0.06,0,75,75,75,75,0,0,marcus edwards|burnley,MID
+Kyle Walker,Burnley,6,0,0.02,0.33,0,90,90,90,90,0,0,kyle walker|burnley,DEF
+Ashley Barnes,Burnley,5,0,0.01,0.2,0.1,15,15,15,15,0,0,ashley barnes|burnley,FWD
+Jacob Bruun Larsen,Burnley,5.7,0,0.01,,0.4,30,30,30,30,0,0,jacob bruun larsen|burnley,FWD
+Martin Dubravka,Burnley,0,3.7,0.01,0.03,0,90,90,90,90,0,0,martin dubravka|burnley,GK
+Florentino Luís,Burnley,13.5,0,0.01,0.2,0,60,60,60,60,0,0,florentino luís|burnley,MID
+Maxime Estève,Burnley,9.9,0,0.03,0.03,0,90,90,90,90,0,0,maxime estève|burnley,DEF
+Joe Worrall,Burnley,12.7,0,0.02,0.06,0,15,15,15,15,0,0,joe worrall|burnley,DEF
+Bashir Humphreys,Burnley,8.5,0,0.02,0.5,0,15,15,15,15,0,0,bashir humphreys|burnley,DEF
+Hjalmar Ekdal,Burnley,10.1,0,0.01,0.03,0,15,15,15,15,0,0,hjalmar ekdal|burnley,DEF
+Lucas Pires,Burnley,6.4,0,0.01,0.06,0,0,0,0,0,0,0,lucas pires|burnley,DEF
+Mike Trésor,Burnley,0,0,0.01,0.03,0,0,0,0,0,0,0,mike trésor|burnley,FWD
+Quilindschy Hartman,Burnley,7,0,0.01,0.06,0,30,30,30,30,0,0,quilindschy hartman|burnley,DEF
+Jaydon Banel,Burnley,0,0,0.01,0.03,0,0,0,0,0,0,0,jaydon banel|burnley,FWD
+James Ward-Prowse,Burnley,5.6,0,0.01,0.06,0,30,30,30,30,0,0,james ward-prowse|burnley,MID
+João Pedro,Chelsea,5,0,0.02,0.2,0,90,90,90,90,0,0,joão pedro|chelsea,FWD
+Cole Palmer,Chelsea,6.6,0,0.01,0.33,0.8,75,90,90,90,0,0,cole palmer|chelsea,MID
+Enzo Fernández,Chelsea,7.4,0,0.02,0.33,0.2,90,90,90,90,0,0,enzo fernández|chelsea,MID
+Pedro Neto,Chelsea,4.3,0,0.01,0.2,0,75,75,75,75,0,0,pedro neto|chelsea,MID
+Trevoh Chalobah,Chelsea,9.1,0,0.02,0.1,0,90,90,90,90,0,0,trevoh chalobah|chelsea,DEF
+Moisés Caicedo,Chelsea,13.1,0,0.02,0.33,0,90,90,90,90,0,0,moisés caicedo|chelsea,MID
+Reece James,Chelsea,6.2,0,0.01,0.2,0,0,0,0,0,0,0,reece james|chelsea,DEF
+Malo Gusto,Chelsea,5.2,0,0.02,0.2,0,75,75,75,75,0,0,malo gusto|chelsea,DEF
+Estêvão,Chelsea,6.2,0,0.01,0.1,0,15,15,15,15,0,0,estêvão|chelsea,MID
+Marc Cucurella,Chelsea,6.7,0,0.02,0.2,0,90,90,90,90,0,0,marc cucurella|chelsea,DEF
+Liam Delap,Chelsea,3.1,0,0.01,0.2,0,15,15,15,15,0,0,liam delap|chelsea,FWD
+Alejandro Garnacho,Chelsea,4.9,0,0.02,0.1,0,15,15,15,15,0,0,alejandro garnacho|chelsea,MID
+Josh Acheampong,Chelsea,6.3,0,0.02,0.2,0,15,15,15,15,0,0,josh acheampong|chelsea,DEF
+Tosin Adarabioyo,Chelsea,11.3,0,0.02,0.2,0,15,15,15,15,0,0,tosin adarabioyo|chelsea,DEF
+Benoit Badiashile Mukinayi,Chelsea,9.2,0,0.02,0.33,0,0,0,0,0,0,0,benoit badiashile mukinayi|chelsea,DEF
+Wesley Fofana,Chelsea,11.6,0,0.02,0.33,0,15,15,15,15,0,0,wesley fofana|chelsea,DEF
+Robert Sánchez,Chelsea,0,2.7,0.02,0.1,0,90,90,90,90,0,0,robert sánchez|chelsea,GK
+Filip Jorgensen,Chelsea,0,0,0.01,0.03,0,0,0,0,0,0,0,filip jorgensen|chelsea,GK
+Romeo Lavia,Chelsea,5,0,0.02,0.06,0,0,0,0,0,0,0,romeo lavia|chelsea,MID
+Jamie Bynoe-Gittens,Chelsea,4,0,0.02,0.03,0,0,0,0,0,0,0,jamie bynoe-gittens|chelsea,MID
+Mamadou Sarr,Chelsea,5,0,0.02,0.06,0,0,0,0,0,0,0,mamadou sarr|chelsea,DEF
+Andrey Santos,Chelsea,9.7,0,0.02,0.33,0,60,60,60,60,0,0,andrey santos|chelsea,MID
+Jorrel Hato,Chelsea,9,0,0.02,0.5,0,15,15,15,15,0,0,jorrel hato|chelsea,DEF
+Marc Guiu,Chelsea,2,0,0.01,0.06,0,0,0,0,0,0,0,marc guiu|chelsea,FWD
+Jean-Philippe Mateta,Crystal Palace,5.2,0,0.02,0.1,0,30,30; 60,30,30,0,0,jean-philippe mateta|crystal palace,FWD
+Ismaila Sarr,Crystal Palace,6.2,0,0.01,0.1,0.8,30,30; 60,30,30,0,0,ismaila sarr|crystal palace,MID
+Daniel Muñoz,Crystal Palace,7.1,0,0.02,0.33,0,90,90; 90,90,90,0,0,daniel muñoz|crystal palace,DEF
+Eddie Nketiah,Crystal Palace,8.3,0,0.01,0.2,0,0,0; 0,0,0,0,0,eddie nketiah|crystal palace,FWD
+Evann Guessand,Crystal Palace,9.1,0,0.01,0.06,0,15,0; 0,15,15,0,0,evann guessand|crystal palace,MID
+Yeremi Pino,Crystal Palace,6.6,0,0.01,0.2,0,60,60; 60,60,60,0,0,yeremi pino|crystal palace,MID
+Tyrick Mitchell,Crystal Palace,6.7,0,0.02,0.2,0,90,90; 90,90,90,0,0,tyrick mitchell|crystal palace,DEF
+Chris Richards,Crystal Palace,10,0,0.02,0.14,0,90,90; 90,90,90,0,0,chris richards|crystal palace,DEF
+Maxence Lacroix,Crystal Palace,10.5,0,0.03,0.14,0,90,90; 90,90,90,0,0,maxence lacroix|crystal palace,DEF
+Justin Devenny,Crystal Palace,7.3,0,0.02,0.06,0,0,0,0,0,0,0,justin devenny|crystal palace,MID
+Nathaniel Clyne,Crystal Palace,7.3,0,0.02,0.06,0,0,0,0,0,0,0,nathaniel clyne|crystal palace,DEF
+Jefferson Lerma,Crystal Palace,11.4,0,0.02,0.06,0,0,0,0,0,0,0,jefferson lerma|crystal palace,MID
+Odsonne Edouard,Crystal Palace,0,0,0.01,0.03,0,0,0,0,0,0,0,odsonne edouard|crystal palace,DEF
+Walter Benítez,Crystal Palace,0,0,0,0,0,0,0,0,0,0,0,walter benítez|crystal palace,MID
+Will Hughes,Crystal Palace,8.8,0,0.02,0.5,0,60,60; 60,60,60,0,0,will hughes|crystal palace,MID
+Daichi Kamada,Crystal Palace,10,0,0.02,0.14,0,15,30; 60,15,15,0,0,daichi kamada|crystal palace,MID
+Borna Sosa,Crystal Palace,5,0,0.01,0.06,0,0,0,0,0,0,0,borna sosa|crystal palace,DEF
+Dean Henderson,Crystal Palace,0,3,0.01,0.1,0,90,90; 90,90,90,0,0,dean henderson|crystal palace,GK
+Kaden Rodney,Crystal Palace,0,0,0.01,0.06,0,0,0,0,0,0,0,kaden rodney|crystal palace,MID
+Chadi Riad,Crystal Palace,4.5,0,0.02,0.33,0,60,60; 60,60,60,0,0,chadi riad|crystal palace,DEF
+Adam Wharton,Crystal Palace,10.5,0,0.03,0.33,0,75,75; 75,75,75,0,0,adam wharton|crystal palace,MID
+Christantus Uche,Crystal Palace,7.2,0,0.01,0.06,0,0,0; 0,0,0,0,0,christantus uche|crystal palace,MID
+Jaydee Canvot,Crystal Palace,12.3,0,0.02,0.2,0,15,15; 15,15,15,0,0,jaydee canvot|crystal palace,DEF
+Romain Esse,Crystal Palace,3.3,0,0.01,0.06,0,0,0; 0,0,0,0,0,romain esse|crystal palace,MID
+Joél Drakes-Thomas,Crystal Palace,0,0,0.01,0.06,0,0,0; 0,0,0,0,0,joél drakes-thomas|crystal palace,FWD
+Brennan Johnson,Crystal Palace,5.9,0,0.01,0.2,0,75,60; 60,75,75,0,0,brennan johnson|crystal palace,MID
+Jørgen Strand Larsen,Crystal Palace,3.7,0,0.01,0.14,0.2,30,60; 30,75,75,0,0,jørgen strand larsen|crystal palace,FWD
+Kiernan Dewsbury-Hall,Everton,7.8,0,0.02,0.33,0.2,90,90,90,90,0,0,kiernan dewsbury-hall|everton,MID
+Thierno Barry,Everton,3.1,0,0.01,0.2,0,30,30,30,30,0,0,thierno barry|everton,FWD
+Iliman Ndiaye,Everton,9.9,0,0.01,0.1,0.8,90,90,90,90,0,0,iliman ndiaye|everton,MID
+Beto,Everton,5.6,0,0.01,0.2,0,60,60,60,60,0,0,beto|everton,FWD
+Tyrique George,Everton,3,0,0.01,0.1,0,15,15,15,15,0,0,tyrique george|everton,FWD
+Michael Keane,Everton,10.3,0,0.03,0.06,0,90,90,90,90,0,0,michael keane|everton,DEF
+Idrissa Gueye,Everton,9.3,0,0.02,0.1,0,90,90,90,90,0,0,idrissa gueye|everton,MID
+Jack Grealish,Everton,7.5,0,0.01,0.33,0,0,0,0,0,0,0,jack grealish|everton,MID
+James Garner,Everton,12.3,0,0.02,0.2,0,90,90,90,90,0,0,james garner|everton,MID
+James Tarkowski,Everton,10.7,0,0.02,0.2,0,90,90,90,90,0,0,james tarkowski|everton,DEF
+Jarrad Branthwaite,Everton,8.4,0,0.03,0.14,0,90,90,90,90,0,0,jarrad branthwaite|everton,DEF
+Seamus Coleman,Everton,3,0,0.02,0.14,0,0,0,0,0,0,0,seamus coleman|everton,DEF
+Jordan Pickford,Everton,0,2.7,0.02,0.06,0,90,90,90,90,0,0,jordan pickford|everton,GK
+Dwight McNeil,Everton,8.3,0,0.02,0.2,0,60,60,60,60,0,0,dwight mcneil|everton,MID
+Tim Iroegbunam,Everton,11.8,0,0.03,0.5,0,0,0,0,0,0,0,tim iroegbunam|everton,MID
+Vitalii Mykolenko,Everton,6.9,0,0.03,0.2,0,90,90,90,90,0,0,vitalii mykolenko|everton,DEF
+Nathan Patterson,Everton,11.4,0,0.01,0.1,0,0,0,0,0,0,0,nathan patterson|everton,DEF
+Tyler Dibling,Everton,10.3,0,0.01,0.14,0,0,0,0,0,0,0,tyler dibling|everton,MID
+Carlos Alcaraz,Everton,8.6,0,0.02,0.33,0,15,15,15,15,0,0,carlos alcaraz|everton,MID
+Merlin Röhl,Everton,11,0,0.02,0.06,0,15,15,15,15,0,0,merlin röhl|everton,MID
+Jake O'Brien,Everton,6.9,0,0.02,0.06,0,90,90,90,90,0,0,jake o'brien|everton,DEF
+Harrison Armstrong,Everton,9.2,0,0.01,0.06,0,15,15,15,15,0,0,harrison armstrong|everton,MID
+Harry Wilson,Fulham,6,0,0.01,0.2,0.2,90,90,90,90,0,0,harry wilson|fulham,MID
+Raúl Jiménez,Fulham,5.4,0,0.01,0.2,0.8,60,60,60,60,0,0,raúl jiménez|fulham,FWD
+Alex Iwobi,Fulham,6.6,0,0.01,0.1,0,90,90,90,90,0,0,alex iwobi|fulham,MID
+Samuel Chukwueze,Fulham,7.6,0,0.01,0.06,0,60,60,60,60,0,0,samuel chukwueze|fulham,MID
+Emile Smith-Rowe,Fulham,7.1,0,0.01,0.06,0,75,75,75,75,0,0,emile smith-rowe|fulham,MID
+Ryan Sessegnon,Fulham,10.6,0,0.02,0.06,0,30,30,30,30,0,0,ryan sessegnon|fulham,MID
+Harrison Reed,Fulham,5,0,0.02,0.1,0,15,15,15,15,0,0,harrison reed|fulham,MID
+Sasa Lukic,Fulham,9.5,0,0.02,0.5,0,0,0,0,0,0,0,sasa lukic|fulham,MID
+Kenny Tete,Fulham,8.4,0,0.02,0.1,0,75,75,75,75,0,0,kenny tete|fulham,DEF
+Tom Cairney,Fulham,7.2,0,0.02,0.5,0,0,0,0,0,0,0,tom cairney|fulham,MID
+Rodrigo Muniz,Fulham,5.6,0,0.01,0.14,0,30,30,30,30,0,0,rodrigo muniz|fulham,FWD
+Calvin Bassey,Fulham,8.2,0,0.02,0.2,0,90,90,90,90,0,0,calvin bassey|fulham,DEF
+Kevin,Fulham,7.5,0,0.02,0.1,0,60,60,60,60,0,0,kevin|fulham,MID
+Bernd Leno,Fulham,0,2.4,0.01,0.1,0,90,90,90,90,0,0,bernd leno|fulham,GK
+Issa Diop,Fulham,7.9,0,0.02,0.33,0,15,15,15,15,0,0,issa diop|fulham,DEF
+Timothy Castagne,Fulham,7.9,0,0.02,0.2,0,0,0,0,0,0,0,timothy castagne|fulham,DEF
+Joachim Andersen,Fulham,10.4,0,0.02,0.14,0,90,90,90,90,0,0,joachim andersen|fulham,DEF
+Sander Berge,Fulham,8.8,0,0.02,0.14,0,90,90,90,90,0,0,sander berge|fulham,MID
+Jorge Cuenca,Fulham,6,0,0.01,0.5,0,0,0,0,0,0,0,jorge cuenca|fulham,DEF
+Antonee Robinson,Fulham,7.6,0,0.02,0.1,0,90,90,90,90,0,0,antonee robinson|fulham,DEF
+Joshua King,Fulham,7.5,0,0.01,0.33,0,0,0,0,0,0,0,joshua king|fulham,MID
+Jonah Kusi-Asare,Fulham,3,0,0.01,0.1,0,0,0,0,0,0,0,jonah kusi-asare|fulham,FWD
+Oscar Bobb,Fulham,7,0,0.01,0.14,0,15,15,15,15,0,0,oscar bobb|fulham,MID
+Dominic Calvert-Lewin,Leeds,3,0,0.01,0.06,0.8,90,90,90,90,0,0,dominic calvert-lewin|leeds,FWD
+Lukas Nmecha,Leeds,4.6,0,0.01,0.1,0.2,30,30,30,30,0,0,lukas nmecha|leeds,FWD
+Anton Stach,Leeds,10.2,0,0.02,0.14,0,75,90,90,90,0,0,anton stach|leeds,MID
+Brenden Aaronson,Leeds,8.2,0,0.01,0.06,0,75,75,75,75,0,0,brenden aaronson|leeds,MID
+Noah Okafor,Leeds,6.2,0,0.02,0.2,0,0,75,75,75,0,0,noah okafor|leeds,MID
+Joe Rodon,Leeds,8.6,0,0.02,0.06,0,90,90,90,90,0,0,joe rodon|leeds,DEF
+Ao Tanaka,Leeds,10.1,0,0.02,0.1,0,60,60,60,60,0,0,ao tanaka|leeds,MID
+Ethan Ampadu,Leeds,12.3,0,0.02,0.33,0,90,90,90,90,0,0,ethan ampadu|leeds,MID
+Jaka Bijol,Leeds,9.2,0,0.02,0.33,0,0,15,15,15,0,0,jaka bijol|leeds,DEF
+Sean Longstaff,Leeds,9.5,0,0.02,0.2,0,0,0,0,0,0,0,sean longstaff|leeds,MID
+James Justin,Leeds,8.2,0,0.02,0.33,0,75,75,75,75,0,0,james justin|leeds,DEF
+Jayden Bogle,Leeds,5.7,0,0.02,0.2,0,75,75,75,75,0,0,jayden bogle|leeds,DEF
+Karl Darlow,Leeds,0,2.8,0.01,0.03,0,90,90,90,90,0,0,karl darlow|leeds,GK
+Sam Byram,Leeds,3,0,0.02,0.06,0,0,0,0,0,0,0,sam byram|leeds,DEF
+Daniel James,Leeds,4.7,0,0.01,0.1,0,15,15,15,15,0,0,daniel james|leeds,MID
+Sebastiaan Bornauw,Leeds,11.3,0,0.02,0.2,0,0,0,0,0,0,0,sebastiaan bornauw|leeds,DEF
+Ilia Gruev,Leeds,8.1,0,0.01,0.33,0,60,60,60,60,0,0,ilia gruev|leeds,MID
+Facundo Buonanotte,Leeds,3,0,0.01,0.33,0,0,0,0,0,0,0,facundo buonanotte|leeds,MID
+Pascal Struijk,Leeds,9.5,0,0.02,0.14,0,90,90,90,90,0,0,pascal struijk|leeds,DEF
+Jack Harrison,Leeds,8.2,0,0.02,0.14,0,0,0,0,0,0,0,jack harrison|leeds,MID
+Gabriel Gudmundsson,Leeds,6.3,0,0.02,0.14,0,0,90,90,90,0,0,gabriel gudmundsson|leeds,DEF
+Wilfried Gnonto,Leeds,9.5,0,0.02,0.33,0,0,0,0,0,0,0,wilfried gnonto|leeds,MID
+Lucas Perri,Leeds,0,2.4,0.01,0.1,0,0,0,0,0,0,0,lucas perri|leeds,GK
+Joël Piroe,Leeds,2,0,0.01,0.1,0,15,15,15,15,0,0,joël piroe|leeds,FWD
+Hugo Ekitike,Liverpool,4.1,0,0.01,0.06,0,0,0,0,0,0,0,hugo ekitike|liverpool,FWD
+Cody Gakpo,Liverpool,5.3,0,0.01,0.1,0,75,75,75,75,0,0,cody gakpo|liverpool,MID
+Mohamed Salah,Liverpool,3.9,0,0.01,0.06,0.8,0,0,0,0,0,0,mohamed salah|liverpool,MID
+Dominik Szoboszlai,Liverpool,9.2,0,0.02,0.2,0.2,90,90,90,90,0,0,dominik szoboszlai|liverpool,MID
+Florian Wirtz,Liverpool,6.5,0,0.01,0.06,0,85,90,90,90,0,0,florian wirtz|liverpool,MID
+Ryan Gravenberch,Liverpool,9.6,0,0.02,0.2,0,75,75,75,75,0,0,ryan gravenberch|liverpool,MID
+Virgil van Dijk,Liverpool,9.5,0,0.01,0.14,0,90,90,90,90,0,0,virgil van dijk|liverpool,DEF
+Federico Chiesa,Liverpool,9.6,0,0.01,0.2,0,15,15,15,15,0,0,federico chiesa|liverpool,MID
+Alexander Isak,Liverpool,4,0,0.01,0.06,0,75,75,75,75,0,0,alexander isak|liverpool,FWD
+Alexis Mac Allister,Liverpool,7.7,0,0.02,0.2,0,75,75,75,75,0,0,alexis mac allister|liverpool,MID
+Ibrahima Konaté,Liverpool,9.2,0,0.02,0.2,0,90,90,90,90,0,0,ibrahima konaté|liverpool,DEF
+Milos Kerkez,Liverpool,5.8,0,0.02,0.2,0,75,75,75,75,0,0,milos kerkez|liverpool,DEF
+Rio Ngumoha,Liverpool,3,0,0.01,0.06,0,30,30,30,30,0,0,rio ngumoha|liverpool,MID
+Joseph Gomez,Liverpool,7.3,0,0.02,0.33,0,90,90,90,90,0,0,joseph gomez|liverpool,DEF
+Alisson,Liverpool,0,2.1,0.01,0.03,0,0,0,0,0,0,0,alisson|liverpool,GK
+Andrew Robertson,Liverpool,4.7,0,0.02,0.1,0,15,15,15,15,0,0,andrew robertson|liverpool,DEF
+Curtis Jones,Liverpool,9.8,0,0.02,0.06,0,15,15,15,15,0,0,curtis jones|liverpool,MID
+Wataru Endo,Liverpool,12.2,0,0.02,0.33,0,0,0,0,0,0,0,wataru endo|liverpool,MID
+Jeremie Frimpong,Liverpool,2.9,0,0.02,0.1,0,60,60,60,60,0,0,jeremie frimpong|liverpool,DEF
+Giorgi Mamardashvili,Liverpool,0,0,0.01,0.06,0,0,0,0,0,0,0,giorgi mamardashvili|liverpool,GK
+Conor Bradley,Liverpool,6.3,0,0.02,0.5,0,0,0,0,0,0,0,conor bradley|liverpool,DEF
+Treymaurice Nyoni,Liverpool,4,0,0.01,0.1,0,0,0,0,0,0,0,treymaurice nyoni|liverpool,MID
+Erling Haaland,Manchester City,3.2,0,0.01,0.06,0.8,90,90; 90,90,90,0,0,erling haaland|manchester city,FWD
+Phil Foden,Manchester City,6.7,0,0.01,0.2,0,15,15; 30,15,15,0,0,phil foden|manchester city,MID
+Antoine Semenyo,Manchester City,7.3,0,0.02,0.1,0.1,90,90; 75,90,90,0,0,antoine semenyo|manchester city,MID
+Tijjani Reijnders,Manchester City,5.6,0,0.02,0.1,0,15,15; 15,15,15,0,0,tijjani reijnders|manchester city,MID
+Nico O'Reilly,Manchester City,6.1,0,0.02,0.2,0,90,90; 90,90,90,0,0,nico o'reilly|manchester city,DEF
+Rayan Cherki,Manchester City,7.3,0,0.02,0.1,0,80,75; 75,80,80,0,0,rayan cherki|manchester city,MID
+Bernardo Silva,Manchester City,8.1,0,0.02,0.33,0,75,75; 75,75,75,0,0,bernardo silva|manchester city,MID
+Rúben Dias,Manchester City,7.4,0,0.02,0.14,0,0,0,0,0,0,0,rúben dias|manchester city,DEF
+Josko Gvardiol,Manchester City,6.8,0,0.01,0.14,0,0,0,0,0,0,0,josko gvardiol|manchester city,DEF
+Rodri,Manchester City,12.7,0,0.02,0.2,0,75,75; 75,75,75,0,0,rodri|manchester city,MID
+Omar Marmoush,Manchester City,5.3,0,0.01,0.14,0.1,30,0; 0,0,0,0,0,omar marmoush|manchester city,FWD
+Marc Guehi,Manchester City,8.3,0,0.02,0.14,0,90,90; 90,90,90,0,0,marc guehi|manchester city,DEF
+Jéremy Doku,Manchester City,6,0,0.01,0.06,0,60,60; 60,60,60,0,0,jéremy doku|manchester city,MID
+Nico González,Manchester City,12,0,0.02,0.33,0,15,15; 15,15,15,0,0,nico gonzález|manchester city,MID
+Matheus Nunes,Manchester City,6.7,0,0.02,0.14,0,90,90; 90,90,90,0,0,matheus nunes|manchester city,DEF
+Nathan Aké,Manchester City,7,0,0.02,0.14,0,15,15; 15,15,15,0,0,nathan aké|manchester city,DEF
+John Stones,Manchester City,4.9,0,0.02,0.14,0,0,0; 0,0,0,0,0,john stones|manchester city,DEF
+Gianluigi Donnarumma,Manchester City,0,2.5,0.02,0.2,0,90,90; 90,90,90,0,0,gianluigi donnarumma|manchester city,GK
+Mateo Kovacic,Manchester City,3,0,0.02,0.14,0,0,0; 0,0,0,0,0,mateo kovacic|manchester city,MID
+Rayan Ait Nouri,Manchester City,7.1,0,0.02,0.2,0,75,75; 75,75,75,0,0,rayan ait nouri|manchester city,DEF
+James Trafford,Manchester City,0,0,0.01,0.1,0,0,0; 0,0,0,0,0,james trafford|manchester city,GK
+Rico Lewis,Manchester City,4,0,0.02,0.2,0,0,0; 0,0,0,0,0,rico lewis|manchester city,DEF
+Sávio,Manchester City,7.5,0,0.01,0.2,0,15,15; 15,15,15,0,0,sávio|manchester city,MID
+Abduqodir Khusanov,Manchester City,8.4,0,0.02,0.2,0,75,75; 75,75,75,0,0,abduqodir khusanov|manchester city,DEF
+Max Alleyne,Manchester City,7.3,0,0.02,0.1,0,0,0,0,0,0,0,max alleyne|manchester city,DEF
+Divine Mukasa,Manchester City,2,0,0.01,0.06,0,0,0,0,0,0,0,divine mukasa|manchester city,MID
+Bryan Mbeumo,Manchester United,4.7,0,0.01,0.14,0.2,80,80,80,80,0,0,bryan mbeumo|manchester united,MID
+Benjamin Sesko,Manchester United,3.9,0,0.01,0.06,0,60,60,60,60,0,0,benjamin sesko|manchester united,FWD
+Bruno Fernandes,Manchester United,8.9,0,0.01,0.14,0.8,90,90,90,90,0,0,bruno fernandes|manchester united,MID
+Casemiro,Manchester United,11.9,0,0.03,0.33,0,75,75,75,75,0,0,casemiro|manchester united,MID
+Matheus Cunha,Manchester United,7.4,0,0.02,0.06,0,80,80,80,80,0,0,matheus cunha|manchester united,MID
+Mason Mount,Manchester United,7,0,0.02,0.1,0,0,0,0,0,0,0,mason mount|manchester united,MID
+Patrick Dorgu,Manchester United,6.4,0,0.02,0.14,0,15,15,15,15,0,0,patrick dorgu|manchester united,DEF
+Joshua Zirkzee,Manchester United,6.5,0,0.01,0.33,0,15,15,15,15,0,0,joshua zirkzee|manchester united,FWD
+Amad Diallo Traore,Manchester United,7.9,0,0.01,0.1,0,30,30,30,30,0,0,amad diallo traore|manchester united,MID
+Harry Maguire,Manchester United,7.5,0,0.02,0.2,0,90,90,90,90,0,0,harry maguire|manchester united,DEF
+Diogo Dalot,Manchester United,6,0,0.02,0.2,0,90,90,90,90,0,0,diogo dalot|manchester united,DEF
+Matthijs de Ligt,Manchester United,8.2,0,0.02,0.06,0,0,0,0,0,0,0,matthijs de ligt|manchester united,DEF
+Luke Shaw,Manchester United,5.5,0,0.02,0.2,0,90,90,90,90,0,0,luke shaw|manchester united,DEF
+Leny Yoro,Manchester United,7.5,0,0.02,0.06,0,60,45,45,45,0,0,leny yoro|manchester united,DEF
+Noussair Mazraoui,Manchester United,9.1,0,0.02,0.5,0,75,75,75,75,0,0,noussair mazraoui|manchester united,DEF
+Lisandro Martínez,Manchester United,7.5,0,0.02,0.1,0,0,0,0,0,0,0,lisandro martínez|manchester united,DEF
+Tyrell Malacia,Manchester United,0,0,0.02,0.03,0,0,0,0,0,0,0,tyrell malacia|manchester united,DEF
+Kobbie Mainoo,Manchester United,9.5,0,0.02,0.06,0,90,90,90,90,0,0,kobbie mainoo|manchester united,MID
+Manuel Ugarte,Manchester United,14.7,0,0.03,0.2,0,15,15,15,15,0,0,manuel ugarte|manchester united,MID
+Altay Bayindir,Manchester United,0,0,0.01,0.03,0,0,0,0,0,0,0,altay bayindir|manchester united,GK
+Ayden Heaven,Manchester United,10.1,0,0.02,0.2,0,15,15,15,15,0,0,ayden heaven|manchester united,DEF
+Jack Fletcher,Manchester United,9.3,0,0.02,0.06,0,0,0,0,0,0,0,jack fletcher|manchester united,MID
+Tyler Fredricson,Manchester United,4,0,0.02,0.14,0,0,0,0,0,0,0,tyler fredricson|manchester united,DEF
+Senne Lammens,Manchester United,0,2.3,0.01,0.03,0,90,90,90,90,0,0,senne lammens|manchester united,GK
+Shea Lacey,Manchester United,3,0,0.01,0.1,0,0,0,0,0,0,0,shea lacey|manchester united,MID
+Bendito Mantato,Manchester United,2,0,0.01,0.1,0,0,0,0,0,0,0,bendito mantato|manchester united,MID
+Tyler Fletcher,Manchester United,3,0,0.01,0.1,0,0,0,0,0,0,0,tyler fletcher|manchester united,MID
+Bruno Guimarães,Newcastle United,8.9,0,0.02,0.2,0.2,90,90,90,90,0,0,bruno guimarães|newcastle united,MID
+Nick Woltemade,Newcastle United,4.6,0,0.01,0.06,0,30,30,30,30,0,0,nick woltemade|newcastle united,FWD
+Harvey Barnes,Newcastle United,4.9,0,0.01,0.06,0,60,60,60,60,0,0,harvey barnes|newcastle united,MID
+Anthony Gordon,Newcastle United,4.2,0,0.01,0.2,0.8,0,30,75,75,0,0,anthony gordon|newcastle united,MID
+Malick Thiaw,Newcastle United,9,0,0.02,0.14,0,90,90,90,90,0,0,malick thiaw|newcastle united,DEF
+Jacob Murphy,Newcastle United,4.5,0,0.02,0.06,0,30,30,30,30,0,0,jacob murphy|newcastle united,MID
+Joelinton,Newcastle United,11,0,0.03,0.5,0,60,60,60,60,0,0,joelinton|newcastle united,MID
+Jacob Ramsey,Newcastle United,9.1,0,0.01,0.5,0,60,60,60,60,0,0,jacob ramsey|newcastle united,MID
+William Osula,Newcastle United,3,0,0.01,0.06,0,15,15,15,15,0,0,william osula|newcastle united,FWD
+Yoane Wissa,Newcastle United,3.8,0,0.01,0.1,0,15,15,15,15,0,0,yoane wissa|newcastle united,FWD
+Sven Botman,Newcastle United,8.9,0,0.02,0.06,0,60,60,60,60,0,0,sven botman|newcastle united,DEF
+Lewis Hall,Newcastle United,8,0,0.01,0.14,0,90,90,90,90,0,0,lewis hall|newcastle united,DEF
+Lewis Miley,Newcastle United,9.8,0,0.02,0.06,0,60,60,60,60,0,0,lewis miley|newcastle united,MID
+Fabian Schär,Newcastle United,9.5,0,0.02,0.1,0,0,0,0,0,0,0,fabian schär|newcastle united,DEF
+Kieran Trippier,Newcastle United,4,0,0.02,0.2,0,0,0,0,15,0,0,kieran trippier|newcastle united,DEF
+Jamaal Lascelles,Newcastle United,3,0,0.01,0.14,0,0,0,0,0,0,0,jamaal lascelles|newcastle united,DEF
+Emil Krafth,Newcastle United,3,0,0.02,0.33,0,0,0,0,0,0,0,emil krafth|newcastle united,DEF
+Nick Pope,Newcastle United,0,3.1,0.01,0.03,0,90,90,90,90,0,0,nick pope|newcastle united,GK
+Aaron Ramsdale,Newcastle United,0,0,0.01,0.03,0,0,0,0,0,0,0,aaron ramsdale|newcastle united,GK
+Joe Willock,Newcastle United,9.2,0,0.01,0.33,0,30,30,30,30,0,0,joe willock|newcastle united,MID
+Dan Burn,Newcastle United,9,0,0.02,0.5,0,75,75,75,75,0,0,dan burn|newcastle united,DEF
+Sandro Tonali,Newcastle United,9.3,0,0.02,0.14,0,75,75,75,75,0,0,sandro tonali|newcastle united,MID
+Valentino Livramento,Newcastle United,5,0,0.01,0.06,0,0,0,0,0,0,0,valentino livramento|newcastle united,DEF
+Anthony Elanga,Newcastle United,3.6,0,0.01,0.06,0,60,60,60,60,0,0,anthony elanga|newcastle united,MID
+Alex Murphy,Newcastle United,4,0,0.01,0.06,0,0,0,0,0,0,0,alex murphy|newcastle united,DEF
+Morgan Gibbs-White,Nottingham Forest,5,0,0.01,0.06,0.8,90,90,90,90,0,0,morgan gibbs-white|nottingham forest,MID
+Callum Hudson-Odoi,Nottingham Forest,5.3,0,0.01,0.06,0,60,60,60,60,0,0,callum hudson-odoi|nottingham forest,MID
+Chris Wood,Nottingham Forest,2.3,0,0.01,0.1,0,0,0,0,0,0,0,chris wood|nottingham forest,FWD
+Ibrahim Sangare,Nottingham Forest,10.7,0,0.01,0.33,0,75,75,75,75,0,0,ibrahim sangare|nottingham forest,MID
+Elliot Anderson,Nottingham Forest,14,0,0.02,0.2,0.2,90,90,90,90,0,0,elliot anderson|nottingham forest,MID
+Nicolò Savona,Nottingham Forest,5,0,0.02,0.2,0,0,0,0,0,0,0,nicolò savona|nottingham forest,DEF
+Igor Jesus,Nottingham Forest,4.4,0,0.02,0.06,0,75,75,75,75,0,0,igor jesus|nottingham forest,FWD
+Taiwo Awoniyi,Nottingham Forest,5.5,0,0.01,0.1,0,30,30,30,30,0,0,taiwo awoniyi|nottingham forest,FWD
+Neco Williams,Nottingham Forest,7,0,0.02,0.14,0,90,90,90,90,0,0,neco williams|nottingham forest,DEF
+Nicolás Domínguez,Nottingham Forest,9.4,0,0.02,0.2,0,30,30,30,30,0,0,nicolás domínguez|nottingham forest,DEF
+Dan Ndoye,Nottingham Forest,7.6,0,0.01,0.06,0,60,60,60,60,0,0,dan ndoye|nottingham forest,MID
+Omari Hutchinson,Nottingham Forest,7,0,0.01,0.06,0,15,15,15,15,0,0,omari hutchinson|nottingham forest,MID
+Lorenzo Lucca,Nottingham Forest,3,0,0.01,0.06,0,15,15,15,15,0,0,lorenzo lucca|nottingham forest,FWD
+Murillo,Nottingham Forest,9.5,0,0.02,0.2,0,90,90,90,90,0,0,murillo|nottingham forest,DEF
+Ola Aina,Nottingham Forest,6.8,0,0.02,0.2,0,90,90,90,90,0,0,ola aina|nottingham forest,DEF
+Oleksandr Zinchenko,Nottingham Forest,6.1,0,0.02,0.14,0,0,0,0,0,0,0,oleksandr zinchenko|nottingham forest,DEF
+Angus Gunn,Nottingham Forest,0,0,0.01,0.06,0,0,0,0,0,0,0,angus gunn|nottingham forest,GK
+Nikola Milenkovic,Nottingham Forest,8.2,0,0.02,0.2,0,90,90,90,90,0,0,nikola milenkovic|nottingham forest,DEF
+Matz Sels,Nottingham Forest,0,3.1,0.01,0.06,0,0,0,0,0,0,0,matz sels|nottingham forest,GK
+Arnaud Kalimuendo Muinga,Nottingham Forest,3,0,0.01,0.1,0,0,0,0,0,0,0,arnaud kalimuendo muinga|nottingham forest,FWD
+Luca Netz,Nottingham Forest,3,0,0.01,0.14,0,0,0,0,0,0,0,luca netz|nottingham forest,DEF
+Stefan Ortega Moreno,Nottingham Forest,0,3.1,0.01,0.06,0,90,90,90,90,0,0,stefan ortega moreno|nottingham forest,GK
+Dilane Bakwa,Nottingham Forest,6.8,0,0.01,0.14,0,0,0,0,0,0,0,dilane bakwa|nottingham forest,MID
+James McAtee,Nottingham Forest,5.8,0,0.01,0.33,0,0,0,0,0,0,0,james mcatee|nottingham forest,MID
+Ryan Yates,Nottingham Forest,8.8,0,0.02,0.2,0,30,30,30,30,0,0,ryan yates|nottingham forest,MID
+Jota Silva,Nottingham Forest,4,0,0.01,0.14,0,0,0,0,0,0,0,jota silva|nottingham forest,MID
+Morato,Nottingham Forest,9.4,0,0.02,0.33,0,30,30,30,30,0,0,morato|nottingham forest,DEF
+Zach Abbott,Nottingham Forest,3,0,0.02,0.1,0,0,0,0,0,0,0,zach abbott|nottingham forest,DEF
+Jair,Nottingham Forest,10.2,0,0.02,0.14,0,0,0,0,0,0,0,jair|nottingham forest,DEF
+John Victor,Nottingham Forest,0,0,0.01,0.06,0,0,0,0,0,0,0,john victor|nottingham forest,GK
+Brian Brobbey,Sunderland,3.8,0,0.01,0.2,0,60,60,60,60,0,0,brian brobbey|sunderland,FWD
+Wilson Isidor,Sunderland,3.8,0,0.01,0.06,0,30,30,30,30,0,0,wilson isidor|sunderland,FWD
+Enzo Le Fée,Sunderland,9.5,0,0.02,0.2,0.8,90,90,90,90,0,0,enzo le fée|sunderland,MID
+Chemsdine Talbi,Sunderland,5.6,0,0.02,0.14,0,75,75,75,75,0,0,chemsdine talbi|sunderland,MID
+Habib Diarra,Sunderland,5.3,0,0.02,0.33,0.2,75,75,75,75,0,0,habib diarra|sunderland,MID
+Dan Ballard,Sunderland,11,0,0.02,0.14,0,90,90,90,90,0,0,dan ballard|sunderland,DEF
+Eliezer Mayenda,Sunderland,3.3,0,0.03,0.1,0,15,15,15,15,0,0,eliezer mayenda|sunderland,FWD
+Granit Xhaka,Sunderland,11.1,0,0.02,0.14,0,90,90,90,90,0,0,granit xhaka|sunderland,MID
+Bertrand Traoré,Sunderland,5.7,0,0.02,0.14,0,0,0,0,0,0,0,bertrand traoré|sunderland,MID
+Nordi Mukiele,Sunderland,9.4,0,0.02,0.14,0,90,90,90,90,0,0,nordi mukiele|sunderland,DEF
+Omar Alderete,Sunderland,9.9,0,0.02,0.2,0,75,75,75,75,0,0,omar alderete|sunderland,DEF
+Simon Adingra,Sunderland,6.2,0,0.02,0.2,0,0,0,0,0,0,0,simon adingra|sunderland,MID
+Patrick Roberts,Sunderland,3,0,0.02,0.2,0,0,0,0,0,0,0,patrick roberts|sunderland,MID
+Arthur Masuaku,Sunderland,1,0,0.02,0.2,0,0,0,0,0,0,0,arthur masuaku|sunderland,FWD
+Reinildo,Sunderland,7.7,0,0.02,0.33,0,60,60,60,60,0,0,reinildo|sunderland,DEF
+Dennis Cirkin,Sunderland,7.9,0,0.02,0.2,0,15,15,15,15,0,0,dennis cirkin|sunderland,DEF
+Romaine Mundle,Sunderland,7.4,0,0.01,0.2,0,30,30,30,30,0,0,romaine mundle|sunderland,MID
+Lutsharel Geertruida,Sunderland,6.6,0,0.02,0.06,0,30,30,30,30,0,0,lutsharel geertruida|sunderland,DEF
+Robin Roefs,Sunderland,0,3,0.01,0.1,0,90,90,90,90,0,0,robin roefs|sunderland,GK
+Trai Hume,Sunderland,6.2,0,0.02,0.33,0,90,90,90,90,0,0,trai hume|sunderland,DEF
+Jenson Seelt,Sunderland,8.1,0,0.02,0.33,0,0,0,0,0,0,0,jenson seelt|sunderland,DEF
+Noah Sadiki,Sunderland,7.9,0,0.01,0.2,0,60,60,60,60,0,0,noah sadiki|sunderland,MID
+Chris Rigg,Sunderland,6.5,0,0.01,0.1,0,15,15,15,15,0,0,chris rigg|sunderland,MID
+Dan Neil,Sunderland,3,0,0.01,0.14,0,0,0,0,0,0,0,dan neil|sunderland,MID
+Luke O'Nien,Sunderland,3,0,0.01,0.5,0,0,0,0,0,0,0,luke o'nien|sunderland,MID
+Nilson Angulo,Sunderland,7,0,0.01,0.2,0,0,0,0,0,0,0,nilson angulo|sunderland,FWD
+Melker Ellborg,Sunderland,0,0,0,0,0,0,0,0,0,0,0,melker ellborg|sunderland,MID
+Djiamgone Jocelin Ta Bi,Sunderland,1,0,0.01,0.1,0,0,0,0,0,0,0,djiamgone jocelin ta bi|sunderland,FWD
+Richarlison,Tottenham,6.8,0,0.01,0.33,0,60,60,60,60,0,0,richarlison|tottenham,FWD
+Cristian Romero,Tottenham,9.6,0,0.05,0.5,0,0,0,0,0,0,0,cristian romero|tottenham,DEF
+Micky van de Ven,Tottenham,6.7,0,0.02,0.33,0,0,0,0,0,0,0,micky van de ven|tottenham,DEF
+Dominic Solanke,Tottenham,6.3,0,0.01,0.1,0.8,0,30,60,90,0,0,dominic solanke|tottenham,FWD
+Mathys Tel,Tottenham,8.3,0,0.01,0.06,0,30,60,60,60,0,0,mathys tel|tottenham,MID
+João Palhinha,Tottenham,12.4,0,0.02,0.33,0,75,75,75,75,0,0,joão palhinha|tottenham,MID
+Pape Sarr,Tottenham,12.3,0,0.02,0.1,0,60,60,60,60,0,0,pape sarr|tottenham,MID
+Archie Gray,Tottenham,8.2,0,0.02,0.33,0,75,75,75,75,0,0,archie gray|tottenham,MID
+Mohammed Kudus,Tottenham,7.8,0,0.01,0.14,0,0,0,0,0,0,0,mohammed kudus|tottenham,MID
+Ben Davies,Tottenham,9.3,0,0.02,0.2,0,0,0,0,0,0,0,ben davies|tottenham,DEF
+Randal Kolo Muani,Tottenham,6.1,0,0.01,0.14,0,60,60,60,60,0,0,randal kolo muani|tottenham,FWD
+Rodrigo Bentancur,Tottenham,13.2,0,0.02,0.33,0,0,0,0,0,0,0,rodrigo bentancur|tottenham,MID
+Xavi Simons,Tottenham,7.8,0,0.01,0.33,0,0,0,0,0,0,0,xavi simons|tottenham,MID
+Lucas Bergvall,Tottenham,7.7,0,0.01,0.2,0,0,0,0,0,0,0,lucas bergvall|tottenham,MID
+Kevin Danso,Tottenham,12.7,0,0.02,0.5,0,90,90,90,90,0,0,kevin danso|tottenham,DEF
+Yves Bissouma,Tottenham,13.3,0,0.02,0.33,0,30,30,30,30,0,0,yves bissouma|tottenham,MID
+Pedro Porro,Tottenham,6.8,0,0.02,0.33,0,90,90,90,90,0,0,pedro porro|tottenham,DEF
+Iyenoma Destiny Udogie,Tottenham,4.5,0,0.02,0.2,0,30,30,30,30,0,0,iyenoma destiny udogie|tottenham,DEF
+Guglielmo Vicario,Tottenham,0,2.7,0.01,0.03,0,90,90,90,90,0,0,guglielmo vicario|tottenham,GK
+Conor Gallagher,Tottenham,9.5,0,0.02,0.14,0,60,60,60,60,0,0,conor gallagher|tottenham,MID
+Radu Dragusin,Tottenham,12.1,0,0.02,0.14,0,15,15,15,15,0,0,radu dragusin|tottenham,DEF
+Dane Scarlett,Tottenham,1,0,0.01,0.06,0,0,0,0,0,0,0,dane scarlett|tottenham,FWD
+Djed Spence,Tottenham,4.8,0,0.02,0.2,0,75,75,75,75,0,0,djed spence|tottenham,DEF
+Wilson Odobert,Tottenham,4,0,0.01,0.06,0,15,15,15,15,0,0,wilson odobert|tottenham,MID
+Callum Olusesi,Tottenham,0,0,0,0,0,0,0,0,0,0,0,callum olusesi|tottenham,DEF
+Jun'ai Byfield,Tottenham,1,0,0.02,0.06,0,0,0,0,0,0,0,jun'ai byfield|tottenham,DEF
+James Rowswell,Tottenham,0,0,0,0,0,0,0,0,0,0,0,james rowswell|tottenham,MID
+Souza,Tottenham,1,0,0.02,0.2,0,60,60,60,60,0,0,souza|tottenham,DEF
+Jarrod Bowen,West Ham,7.3,0,0.01,0.14,0.8,90,90,90,90,0,0,jarrod bowen|west ham,FWD
+Callum Wilson,West Ham,3.1,0,0.01,0.06,0,15,15,15,15,0,0,callum wilson|west ham,FWD
+Crysencio Summerville,West Ham,7.8,0,0.01,0.2,0,75,75,75,75,0,0,crysencio summerville|west ham,MID
+Lucas Paquetá,West Ham,8.7,0,0.02,0.2,0,0,0,0,0,0,0,lucas paquetá|west ham,MID
+Tomas Soucek,West Ham,9.3,0,0.02,0.14,0,75,75,75,75,0,0,tomas soucek|west ham,MID
+Mateus Fernandes,West Ham,11.7,0,0.02,0.2,0,90,90,90,90,0,0,mateus fernandes|west ham,MID
+Valentín Castellanos,West Ham,6,0,0.01,0.2,0,75,75,75,75,0,0,valentín castellanos|west ham,FWD
+Kyle Walker-Peters,West Ham,6.8,0,0.02,0.2,0,30,30,30,30,0,0,kyle walker-peters|west ham,DEF
+Adama Traoré,West Ham,4.4,0,0.02,0.33,0,15,15,15,15,0,0,adama traoré|west ham,MID
+Konstantinos Mavropanos,West Ham,10.6,0,0.03,0.1,0,90,90,90,90,0,0,konstantinos mavropanos|west ham,DEF
+Soungoutou Magassa,West Ham,2,0,0.02,0.33,0,0,0,0,0,0,0,soungoutou magassa|west ham,MID
+Alphonse Areola,West Ham,0,3.8,0.01,0.03,0,0,0,0,0,0,0,alphonse areola|west ham,GK
+Aaron Wan-Bissaka,West Ham,7.8,0,0.02,0.14,0,90,90,90,90,0,0,aaron wan-bissaka|west ham,DEF
+Niclas Füllkrug,West Ham,4.2,0,0.01,0.1,0,0,0,0,0,0,0,niclas füllkrug|west ham,FWD
+Jean-Clair Todibo,West Ham,8.2,0,0.02,0.2,0,15,15,15,15,0,0,jean-clair todibo|west ham,DEF
+Axel Disasi,West Ham,6.3,0,0.03,0.14,0,90,90,90,90,0,0,axel disasi|west ham,DEF
+Naif Aguerd,West Ham,2,0,0.02,0.2,0,15,15,15,15,0,0,naif aguerd|west ham,DEF
+Max Kilman,West Ham,9.2,0,0.02,0.2,0,15,15,15,15,0,0,max kilman|west ham,DEF
+Igor Julio,West Ham,6.6,0,0.02,0.33,0,0,0,0,0,0,0,igor julio|west ham,DEF
+Guido Rodríguez,West Ham,7.7,0,0.01,0.33,0,,,,,0,0,guido rodríguez|west ham,MID
+Oliver Scarles,West Ham,9.9,0,0.02,0.14,0,15,15,15,15,0,0,oliver scarles|west ham,DEF
+Callum Marshall,West Ham,1,0,0.01,0.14,0,0,0,0,0,0,0,callum marshall|west ham,FWD
+George Earthy,West Ham,1,0,0.01,0.06,0,0,0,0,0,0,0,george earthy|west ham,MID
+Andy Irving,West Ham,12.7,0,0.01,0.14,0,0,0,0,0,0,0,andy irving|west ham,MID
+Mads Hermansen,West Ham,0,2.9,0.01,0.1,0,90,90,90,90,0,0,mads hermansen|west ham,GK
+Luis Guilherme,West Ham,8.2,0,0.01,0.1,0,0,0,0,0,0,0,luis guilherme|west ham,MID
+Ezra Mayers,West Ham,2,0,0.02,0.14,0,0,0,0,0,0,0,ezra mayers|west ham,DEF
+El Hadji Malick Diouf,West Ham,7.6,0,0.02,0.2,0,90,90,90,90,0,0,el hadji malick diouf|west ham,DEF
+Freddie Potts,West Ham,9.2,0,0.03,0.06,0,75,75,75,75,0,0,freddie potts|west ham,MID
+Mohamadou Kanté,West Ham,3,0,0.02,0.14,0,0,0,0,0,0,0,mohamadou kanté|west ham,MID
+Pablo,West Ham,9,0,0.01,0.14,0,0,0,0,0,0,0,pablo|west ham,FWD
+Tolu Arokodare,Wolverhampton Wanderers,3,0,0.01,0.06,0,60,60,60,60,0,0,tolu arokodare|wolverhampton wanderers,FWD
+Rodrigo Gomes,Wolverhampton Wanderers,5.3,0,0.02,0.1,0,90,90,90,90,0,0,rodrigo gomes|wolverhampton wanderers,DEF
+Hee-Chan Hwang,Wolverhampton Wanderers,5.3,0,0.01,0.2,0.8,30,30,30,30,0,0,hee-chan hwang|wolverhampton wanderers,MID
+Santiago Bueno,Wolverhampton Wanderers,7.5,0,0.02,0.2,0,90,90,90,90,0,0,santiago bueno|wolverhampton wanderers,DEF
+Ladislav Krejcí,Wolverhampton Wanderers,7,0,0.02,0.2,0,90,90,90,90,0,0,ladislav krejcí|wolverhampton wanderers,DEF
+Mateus Mané,Wolverhampton Wanderers,4,0,0.01,0.06,0,90,90,90,90,0,0,mateus mané|wolverhampton wanderers,FWD
+Adam Armstrong,Wolverhampton Wanderers,4,0,0.01,0.06,0,60,60,60,60,0,0,adam armstrong|wolverhampton wanderers,FWD
+Jean-Ricner Bellegarde,Wolverhampton Wanderers,7.5,0,0.02,0.33,0,60,60,60,60,0,0,jean-ricner bellegarde|wolverhampton wanderers,MID
+Marshall Munetsi,Wolverhampton Wanderers,5,0,0.01,0.14,0,0,0,0,0,0,0,marshall munetsi|wolverhampton wanderers,MID
+Hugo Bueno,Wolverhampton Wanderers,6.8,0,0.03,0.06,0,90,90,90,90,0,0,hugo bueno|wolverhampton wanderers,DEF
+João Gomes,Wolverhampton Wanderers,12.6,0,0.02,0.33,0,90,90,90,90,0,0,joão gomes|wolverhampton wanderers,MID
+André,Wolverhampton Wanderers,12.5,0,0.02,0.5,0,75,75,75,75,0,0,andré|wolverhampton wanderers,MID
+Tom Edozie,Wolverhampton Wanderers,2,0,0.01,0.14,0,0,0,0,0,0,0,tom edozie|wolverhampton wanderers,MID
+Jhon Arias,Wolverhampton Wanderers,5,0,0.02,0.06,0,0,0,0,0,0,0,jhon arias|wolverhampton wanderers,MID
+Sam Johnstone,Wolverhampton Wanderers,0,3.3,0.02,0.03,0,0,0,0,0,0,0,sam johnstone|wolverhampton wanderers,GK
+Angel Gomes,Wolverhampton Wanderers,4,0,0.01,0.2,0,60,60,60,60,0,0,angel gomes|wolverhampton wanderers,MID
+Matt Doherty,Wolverhampton Wanderers,7.3,0,0.02,0.5,0,15,15,15,15,0,0,matt doherty|wolverhampton wanderers,DEF
+Ki-Jana Hoever,Wolverhampton Wanderers,8.5,0,0.02,0.1,0,15,15,15,15,0,0,ki-jana hoever|wolverhampton wanderers,DEF
+Sasa Kalajdzic,Wolverhampton Wanderers,2,0,0.01,0.1,0,0,0,0,0,0,0,sasa kalajdzic|wolverhampton wanderers,FWD
+José Sá,Wolverhampton Wanderers,0,2.6,0.01,0.03,0,90,90,90,90,0,0,josé sá|wolverhampton wanderers,GK
+Yerson Mosquera,Wolverhampton Wanderers,9,0,0.03,0.5,0,90,90,90,90,0,0,yerson mosquera|wolverhampton wanderers,DEF
+Toti,Wolverhampton Wanderers,8.3,0,0.02,0.14,0,0,0,0,0,0,0,toti|wolverhampton wanderers,DEF
+Emmanuel Agbadou,Wolverhampton Wanderers,10.2,0,0.02,0.06,0,0,0,0,0,0,0,emmanuel agbadou|wolverhampton wanderers,DEF
+Jackson Tchatchoua,Wolverhampton Wanderers,3,0,0.02,0.2,0,0,0,0,0,0,0,jackson tchatchoua|wolverhampton wanderers,DEF
+Tawanda Chirewa,Wolverhampton Wanderers,4,0,0.01,0.06,0,0,0,0,0,0,0,tawanda chirewa|wolverhampton wanderers,MID
+Pedro Lima,Wolverhampton Wanderers,5,0,0.01,0.1,0,0,0,0,0,0,0,pedro lima|wolverhampton wanderers,DEF
+Fernando López,Wolverhampton Wanderers,4.7,0,0.01,0.2,0,0,0,0,0,0,0,fernando lópez|wolverhampton wanderers,FWD
+David Møller Wolfe,Wolverhampton Wanderers,2,0,0.02,0.1,0,15,15,15,15,0,0,david møller wolfe|wolverhampton wanderers,DEF

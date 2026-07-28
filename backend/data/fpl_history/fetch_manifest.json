@@ -1,0 +1,9 @@
+{
+  "source": "https://fantasy.premierleague.com/api",
+  "note": "The public FPL API exposes current-season element-summary histories only. Archived per-GW element-summary histories for prior seasons are not available from these endpoints.",
+  "bootstrap_players": 841,
+  "summary_files": 841,
+  "history_rows": 29747,
+  "history_past_rows": 3187,
+  "errors": []
+}
