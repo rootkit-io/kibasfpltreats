@@ -85,3 +85,60 @@ export async function proxyToBackend(
 export async function proxyGetFromBackend(path: string): Promise<NextResponse> {
   return forwardToBackend(path, { method: "GET", timeoutMs: READ_TIMEOUT_MS });
 }
+
+/**
+ * Multipart proxy: precomputed-CSV ingestion.
+ *
+ * Kept separate from `forwardToBackend` because that path JSON-stringifies its
+ * payload, which cannot carry files. The parsed `FormData` is handed to
+ * `fetch` as-is and the Content-Type header is deliberately NOT set: the
+ * runtime regenerates it with a fresh, correct multipart boundary. Forwarding
+ * the browser's original Content-Type would pin a boundary that no longer
+ * matches the re-encoded body and the upstream parse would fail.
+ *
+ * As everywhere else in this module, `ADMIN_API_TOKEN` is injected server-side
+ * and never reaches the client.
+ */
+export async function proxyMultipartToBackend(
+  path: string,
+  form: FormData,
+): Promise<NextResponse> {
+  const token = process.env.ADMIN_API_TOKEN;
+  if (!token) {
+    return NextResponse.json(
+      { error: "admin token not configured on the server" },
+      { status: 503 },
+    );
+  }
+
+  try {
+    const upstream = await fetch(`${BACKEND_URL}${path}`, {
+      method: "POST",
+      headers: { "X-Admin-Token": token },
+      body: form,
+      cache: "no-store",
+      signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
+    });
+
+    const body = await upstream.json().catch(() => null);
+    if (body === null) {
+      return NextResponse.json(
+        { error: "invalid response from projection backend" },
+        { status: 502 },
+      );
+    }
+    // Pass status AND body through so the UI can surface the preflight
+    // errors (400 contract, 409 dimensions, 422 unmatched) verbatim.
+    return NextResponse.json(body, { status: upstream.status });
+  } catch (error) {
+    const timedOut = error instanceof Error && error.name === "TimeoutError";
+    return NextResponse.json(
+      {
+        error: timedOut
+          ? "csv ingestion exceeded the request timeout"
+          : "projection backend unreachable",
+      },
+      { status: timedOut ? 504 : 502 },
+    );
+  }
+}

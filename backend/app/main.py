@@ -24,3 +24,13 @@ except ModuleNotFoundError:  # pragma: no cover - source checkout without instal
     from fpl_xpts.api import create_app
 
 app = create_app()
+
+# Precomputed-CSV ingestion lives outside ``fpl_xpts`` (that package stays a
+# pure modelling library), so it is mounted here rather than inside
+# ``create_app``.
+try:
+    from app.routers.admin_projections import router as ingest_router
+except ImportError:  # pragma: no cover - executed as a top-level module
+    from .routers.admin_projections import router as ingest_router
+
+app.include_router(ingest_router)
