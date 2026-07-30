@@ -30,7 +30,15 @@ app = create_app()
 # ``create_app``.
 try:
     from app.routers.admin_projections import router as ingest_router
+    from app.routers.public_fixtures import router as fixtures_router
+    from app.routers.public_simulations import router as simulations_router
 except ImportError:  # pragma: no cover - executed as a top-level module
     from .routers.admin_projections import router as ingest_router
+    from .routers.public_fixtures import router as fixtures_router
+    from .routers.public_simulations import router as simulations_router
 
 app.include_router(ingest_router)
+# Public Monte Carlo read surface (Clerk-gated + rate limited, same as the
+# projections route it sits beside).
+app.include_router(simulations_router)
+app.include_router(fixtures_router)

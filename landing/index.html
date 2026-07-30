@@ -52,7 +52,9 @@
     <a href="#projections" data-scroll class="nav__link"><span>xPts</span></a>
     <a href="#range"       data-scroll class="nav__link"><span>Range</span></a>
     <a href="#ticker"      data-scroll class="nav__link"><span>Ticker</span></a>
-    <a href="#newsletter"  data-scroll class="nav__cta" data-magnetic><span>Newsletter</span><i>→</i></a>
+    <span class="nav__sep" aria-hidden="true"></span>
+    <a href="https://app.kibasfpltreats.com" data-app-link class="nav__link nav__link--auth"><span>Log in</span></a>
+    <a href="https://app.kibasfpltreats.com" data-app-link class="nav__cta" data-magnetic><span>Sign up</span><i>→</i></a>
   </nav>
   <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false">
     <span></span><span></span>
@@ -92,8 +94,8 @@
     </h1>
     <p class="hero__sub" data-reveal>Kiba's FPL Treats turns raw weekly data into projected <b>xGI</b>, six-gameweek <b>xPts</b> forecasts, Monte-Carlo <b>points ranges</b> and a color-coded <b>fixture ticker</b> — so your transfer, captaincy and bench calls take minutes, not hours.</p>
     <div class="hero__ctas" data-reveal>
-      <a href="#toolkit" data-scroll class="btn btn--fill" data-magnetic data-cursor="explore"><span>Explore the toolkit</span><i class="btn__orb"></i></a>
-      <a href="#newsletter" data-scroll class="btn btn--ghost" data-magnetic><span>Get the newsletter</span></a>
+      <a href="https://app.kibasfpltreats.com" data-app-link class="btn btn--fill" data-magnetic data-cursor="enter"><span>Access the Data</span><i class="btn__orb"></i></a>
+      <a href="#toolkit" data-scroll class="btn btn--ghost" data-magnetic data-cursor="explore"><span>Explore the toolkit</span></a>
     </div>
     <ul class="hero__chips" data-reveal>
       <li><b data-count="600">0</b><span>+ players modelled</span></li>
@@ -322,14 +324,11 @@
   <p class="kicker kicker--center" data-reveal>07 — The weekly treat</p>
   <h2 class="news__title" data-split>Your gameweek,<br><em>pre-digested.</em></h2>
   <p class="lead lead--center" data-reveal>xG + xA rankings, fixture notes and transfer targets — one email before every deadline. No spam, ever.</p>
-  <form class="news__form" id="newsForm" data-reveal novalidate>
-    <div class="news__field">
-      <input type="email" id="newsEmail" placeholder="you@fpl.club" aria-label="Email address" required>
-      <button type="submit" class="btn btn--fill" data-magnetic data-cursor="send"><span>Subscribe</span><i class="btn__orb"></i></button>
-    </div>
-    <p class="news__ok" id="newsOk" aria-live="polite"></p>
-  </form>
-  <p class="news__alt" data-reveal>Prefer reading in the app? <a href="https://substack.com/@kibasfpltreats" target="_blank" rel="noopener">Find KFT on Substack ↗</a></p>
+  <div class="news__actions" data-reveal>
+    <a class="btn btn--fill" href="https://substack.com/@kibasfpltreats" target="_blank" rel="noopener" data-magnetic data-cursor="send"><span>Subscribe on Substack</span><i class="btn__orb"></i></a>
+    <a class="btn btn--ghost" href="https://app.kibasfpltreats.com" data-app-link data-magnetic><span>Open the app</span></a>
+  </div>
+  <p class="news__alt" data-reveal>Delivered by Substack — unsubscribe in one click, any time.</p>
 </section>
 
 <!-- ══════════ FOOTER ══════════ -->

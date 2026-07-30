@@ -13,14 +13,28 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ClerkProvider
+      // Read from env so a deployment can override, but fall back to
+      // "/dashboard" in code. NEXT_PUBLIC_* values are inlined at BUILD time,
+      // so a Droplet that sets them only as runtime env would otherwise get
+      // `undefined` here and Clerk would fall back to its own default.
+      signInFallbackRedirectUrl={
+        process.env.NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL ?? "/dashboard"
+      }
+      signUpFallbackRedirectUrl={
+        process.env.NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL ?? "/dashboard"
+      }
       appearance={{
+        // Kept in lockstep with the tokens in app/globals.css: Clerk renders
+        // its own DOM, so the sign-in modal is the one surface Tailwind cannot
+        // reach. Values mirror --primary / --card / --background / --foreground
+        // and the 3px radius scale.
         variables: {
           colorPrimary: '#FF5F1F',
-          colorBackground: '#0A0E15',
-          colorForeground: '#F2F5F7',
-          colorInput: '#05070B',
-          colorInputForeground: '#F2F5F7',
-          borderRadius: '0.5rem',
+          colorBackground: '#09090B',
+          colorForeground: '#FAFAFA',
+          colorInput: '#000000',
+          colorInputForeground: '#FAFAFA',
+          borderRadius: '3px',
         },
       }}
     >

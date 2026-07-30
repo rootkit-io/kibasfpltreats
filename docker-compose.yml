@@ -87,6 +87,9 @@ services:
         # this the client bundle ships an undefined key and Clerk breaks in the
         # browser even though the server-side env var below is set correctly.
         NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:?set NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY in .env}
+        # Optional -- app/layout.tsx defaults these to /dashboard when unset.
+        NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL: ${NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL:-/dashboard}
+        NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL: ${NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL:-/dashboard}
     restart: unless-stopped
     environment:
       FPL_BACKEND_URL: http://backend:8000

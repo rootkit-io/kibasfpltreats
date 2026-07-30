@@ -2,16 +2,182 @@
 @tailwind components;
 @tailwind utilities;
 
-/* shadcn/ui token set (light theme) -- identical to apps/admin so shared
-   component classes (border-border, bg-card, ...) resolve the same way. */
+/* ---------------------------------------------------------------------------
+   Dark-exclusive terminal palette.
+
+   Two-layer depth on near-black: the page is pure black, surfaces sit one
+   step up (#09090b). No shadows are used anywhere -- separation comes from a
+   single hairline border, which is what keeps the interface reading as
+   clinical rather than soft.
+
+   `primary` stays the brand orange (#FF5F1F) so the dashboard, the landing
+   site and the Clerk modals agree on one interactive accent. Green and red
+   are reserved as DATA semantics (positive / negative), never as chrome --
+   that separation is what stops a financial UI turning into a christmas tree.
+--------------------------------------------------------------------------- */
 :root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 222.2 84% 4.9%;
+  color-scheme: dark;
+
+  --background: 0 0% 0%;
+  --foreground: 0 0% 98%;
+
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+
+  --muted: 240 4% 10%;
+  --muted-foreground: 240 5% 58%;
+
+  --border: 240 4% 16%;
+  --input: 240 4% 16%;
+  --ring: 17 100% 56%;
+
+  /* brand accent -- interactive / selected chrome */
+  --primary: 17 100% 56%;
+  --primary-foreground: 0 0% 4%;
+
+  /* data semantics */
+  --positive: 156 100% 50%;
+  --positive-foreground: 156 100% 8%;
+  --negative: 0 90% 60%;
+  --negative-foreground: 0 0% 100%;
+
+  --destructive: 0 90% 60%;
+  --destructive-foreground: 0 0% 100%;
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    /* Slightly tightened tracking reads as more "instrument", less "website". */
+    letter-spacing: -0.011em;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Every number in the product is tabular by default so columns align even
+     mid-animation, when values are changing width. */
+  .font-mono {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  /* Sticky glass header for dense data tables. Declared once here rather than
+     repeated per table so every surface blurs identically. */
+  .glass-header {
+    background-color: hsl(0 0% 0% / 0.55);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    backdrop-filter: blur(12px) saturate(140%);
+    border-bottom: 1px solid hsl(var(--border));
+  }
+
+  /* Focus-follows-cursor dimming.
+
+     Deliberately CSS, not JavaScript: ProjectionsTable is virtualised, so a JS
+     hover handler would run against rows that recycle on every scroll frame.
+     This costs nothing, survives recycling, and cannot desync from the DOM.
+
+     Targets the CELLS, not the row. Framer Motion owns the row's inline
+     `opacity` for the mount cascade, and an inline style outranks any class
+     rule -- dimming the <td> keeps the two effects on separate properties so
+     they compose instead of fighting. */
+  .row-focus > tr > td {
+    transition: opacity 140ms ease-out;
+  }
+  .row-focus:hover > tr:not(:hover) > td {
+    opacity: 0.38;
+  }
+
+
+  /* ------------------------------------------------------------ skeletons
+     A sweep of slightly-lighter zinc travelling left-to-right across a
+     card-coloured block. Animating `background-position` keeps the effect on
+     one compositable property -- no layout, no opacity thrash on hundreds of
+     blocks. */
+  .skeleton {
+    background-color: hsl(var(--card));
+    background-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(240 5% 14%) 45%,
+      hsl(240 5% 17%) 50%,
+      hsl(240 5% 14%) 55%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    background-repeat: no-repeat;
+    animation: kft-shimmer 1.15s linear infinite;
+  }
+
+  @keyframes kft-shimmer {
+    from {
+      background-position: -150% 0;
+    }
+    to {
+      background-position: 150% 0;
+    }
+  }
+
+  /* --------------------------------------------------------- sparkline draw
+     Paths carry pathLength="1", so the dash geometry is normalised and the
+     same two declarations work for any trajectory without measuring in JS. */
+  .spark-draw {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: kft-draw 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes kft-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  /* Thin dark scrollbars -- default macOS overlay bars break the terminal
+     illusion on a black canvas. */
+  .scroll-thin {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+  .scroll-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .scroll-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scroll-thin::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--border));
+    border-radius: 0;
+  }
+  .scroll-thin::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(240 5% 26%);
+  }
+}
+
+/* Respect reduced-motion: the cascade and dimming are decoration, not
+   information, so they are safe to drop entirely. */
+@media (prefers-reduced-motion: reduce) {
+  .row-focus > tr > td,
+  .row-focus:hover > tr:not(:hover) > td {
+    transition: none;
+    opacity: 1;
+  }
+
+  /* Skeletons keep their base fill but stop travelling; sparklines render
+     complete rather than drawing in. */
+  .skeleton {
+    animation: none;
+    background-image: none;
+  }
+
+  .spark-draw {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
 }

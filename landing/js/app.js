@@ -454,38 +454,35 @@ renderTicker(false);
 /* ═══════════════════════════════════════════════
    NEWSLETTER + FOOTER
    ═══════════════════════════════════════════════ */
-$("#newsForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-  const input = $("#newsEmail");
-  if (!input.value || !input.checkValidity()) {
-    gsap.fromTo(".news__field", { x: -8 }, { x: 0, duration: 0.5, ease: "elastic.out(1,0.3)" });
-    input.focus();
-    return;
-  }
-  $("#newsOk").textContent = "You're in! First treat lands before the next deadline. 🍬";
-  input.value = "";
-  if (!reduced) {
-    const r = $(".news__field").getBoundingClientRect();
-    const colors = ["#FF5F1F", "#00FF87", "#38BDF8", "#F2F5F7"];
-    for (let i = 0; i < 34; i++) {
-      const c = document.createElement("i");
-      c.className = "confetti";
-      c.style.background = colors[i % colors.length];
-      c.style.left = r.left + r.width / 2 + "px";
-      c.style.top = r.top + "px";
-      document.body.appendChild(c);
-      gsap.to(c, {
-        x: gsap.utils.random(-260, 260), y: gsap.utils.random(-320, 60),
-        rotation: gsap.utils.random(-540, 540), opacity: 0,
-        duration: gsap.utils.random(0.9, 1.7), ease: "power2.out",
-        onComplete: () => c.remove(),
-      });
-    }
-  }
-});
+/* The email capture form is gone: it never transmitted anything -- it
+   validated the address, cleared the field and printed "You're in!", so every
+   subscriber was silently dropped. Subscriptions now go to Substack, which
+   actually owns the list. Nothing to bind here.
+
+   Cross-subdomain auth links (`[data-app-link]`) point at the dashboard app.
+   The href is hardcoded in the HTML so the links work with JS disabled; this
+   only rewrites them for local development. */
+(() => {
+  const host = location.hostname;
+  const isLocal = host === "localhost" || host === "127.0.0.1";
+  if (!isLocal) return;
+  document.querySelectorAll("[data-app-link]").forEach((a) => {
+    a.href = "http://localhost:3001";
+  });
+})();
 
 $("#year").textContent = new Date().getFullYear();
 $("#toTop").addEventListener("click", () => scrollToEl("#hero"));
 
 /* reduced-motion safety: show everything */
 if (reduced) gsap.set("[data-reveal], .hero__line", { opacity: 1, y: 0, clearProps: "transform" });
+
+/* Preloader Failsafe: Force hide after 3 seconds if window.onload drops */
+setTimeout(() => {
+  const preloader = document.querySelector('.preloader, #preloader');
+  if (preloader && getComputedStyle(preloader).opacity !== '0') {
+    preloader.style.transition = 'opacity 0.5s ease';
+    preloader.style.opacity = '0';
+    setTimeout(() => preloader.remove(), 500);
+  }
+}, 3000);

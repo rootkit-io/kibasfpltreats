@@ -476,23 +476,24 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   font-size:clamp(2.6rem,7vw,5.4rem);letter-spacing:-.015em;margin-bottom:1.4rem;
 }
 .news__title em{font-style:normal;color:var(--orange)}
-.news__form{position:relative;margin:2.6rem auto 0;max-width:560px}
-.news__field{
-  display:flex;gap:.5rem;padding:.5rem;border-radius:99px;border:1px solid var(--line-2);
-  background:rgba(255,255,255,.04);transition:border-color .3s,box-shadow .3s;
+.news__actions{
+  display:flex;flex-wrap:wrap;justify-content:center;align-items:center;
+  gap:.9rem;margin:2.6rem auto 0;
 }
-.news__field:focus-within{border-color:var(--orange);box-shadow:0 0 0 4px rgba(255,95,31,.14)}
-.news__field input{
-  flex:1;min-width:0;background:none;border:none;outline:none;color:var(--ink);
-  font-size:1rem;padding:0 1.2rem;font-family:var(--font-b);
+
+/* thin divider between section nav and auth actions */
+.nav__sep{
+  width:1px;height:16px;background:var(--line-2);opacity:.6;
+  display:none;
 }
-.news__field input::placeholder{color:var(--faint)}
-.news__ok{margin-top:1rem;font-size:.9rem;color:var(--green);min-height:1.4em}
+@media(min-width:900px){ .nav__sep{display:block} }
+
+.nav__link--auth{font-weight:600;color:var(--ink)}
+.nav__link--auth:hover{color:#fff}
+
 .news__alt{position:relative;margin-top:2.2rem;font-size:.85rem;color:var(--faint)}
 .news__alt a{color:var(--muted);border-bottom:1px solid var(--line-2);transition:color .3s,border-color .3s}
 .news__alt a:hover{color:var(--green);border-color:var(--green)}
-.confetti{position:fixed;width:8px;height:8px;border-radius:2px;z-index:960;pointer-events:none}
-
 /* ── footer ────────────────────────────────────── */
 .footer{border-top:1px solid var(--line);padding:clamp(3rem,8vh,5rem) clamp(1.2rem,5vw,3rem) 2rem;background:var(--bg-2);overflow:hidden}
 .footer__giant{
@@ -544,8 +545,6 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 }
 @media (max-width:520px){
   .hero__chips{gap:1.2rem}
-  .news__field{flex-direction:column;border-radius:24px}
-  .news__field .btn{justify-content:center}
   .trow{grid-template-columns:64px repeat(6,1fr)}
   .trow__sum{display:none}
   .trow--head span:last-child{display:none}
