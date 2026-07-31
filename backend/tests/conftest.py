@@ -27,9 +27,12 @@ except Exception:  # pragma: no cover - environment-dependent
         pytest.skip("psycopg / pytest-postgresql not available")
 
 
-MIGRATION_SQL = (
-    Path(__file__).resolve().parents[1] / "db" / "migrations" / "0001_initial_schema.sql"
-).read_text(encoding="utf-8")
+MIGRATION_SQL = "\n".join(
+    path.read_text(encoding="utf-8")
+    for path in sorted(
+        (Path(__file__).resolve().parents[1] / "db" / "migrations").glob("*.sql")
+    )
+)
 
 
 @pytest.fixture

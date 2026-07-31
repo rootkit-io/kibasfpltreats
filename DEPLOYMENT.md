@@ -55,8 +55,9 @@ What happens on first boot:
 
 1. `db` starts, applies `backend/db/migrations/*.sql` to a fresh volume, and
    becomes healthy via `pg_isready`.
-2. `backend` builds and starts **only after** `db` reports healthy; it loads
-   the minutes-model bundle once at startup and connects using `DATABASE_URL`.
+2. `backend` builds and starts **only after** `db` reports healthy. Before
+   Uvicorn starts, it applies any later migrations to persistent volumes,
+   then loads the minutes-model bundle and connects using `DATABASE_URL`.
 3. `frontend` (multi-stage standalone Next.js build) starts and proxies
    server-side API calls to `http://backend:8000`.
 4. `landing` serves the static site.
@@ -105,9 +106,8 @@ docker compose down -v              # stop AND delete the Postgres volume
 
 Postgres data persists in the named volume `pgdata` across restarts and
 rebuilds; only `docker compose down -v` (or `docker volume rm`) destroys it.
-Migrations in `backend/db/migrations/` are applied **only on first boot of an
-empty volume** — apply later migrations manually (`docker compose exec db
-psql -U fpl -d fpl -f ...`) or recreate the volume.
+The Postgres entrypoint initializes an empty volume, while the backend startup
+migrator records and applies later versioned migrations before serving traffic.
 
 ## Notes
 
