@@ -3,12 +3,10 @@
 Design:
 - ``PyJWKClient`` fetches Clerk's JWKS once and caches by ``kid`` with a
   1-hour lifespan so the backend auto-rotates on key rollover without restart.
-- ``CLERK_JWKS_URL`` is required at startup; the dependency fails closed with
-  503 when unset (same posture as the admin token).
-- ``CLERK_AUDIENCE`` is optional: when set, the JWT ``aud`` claim is validated
-  against it. Clerk's session tokens carry the Frontend API URL as ``aud``
-  (e.g. ``https://your-app.clerk.accounts.dev``). Omitting it skips audience
-  validation -- acceptable for development, not for production.
+- ``CLERK_JWKS_URL`` is required to validate a token; the dependency fails
+  closed with 503 when unset (same posture as the admin token).
+- ``CLERK_AUDIENCE`` and ``CLERK_ISSUER`` are required while the ASGI app is
+  imported. Their absence aborts startup; every token validates both claims.
 - The dependency is intentionally separate from the admin ``require_admin_token``
   dependency: the two auth systems are orthogonal and must never be conflated.
 """
@@ -23,8 +21,14 @@ import jwt
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
+from .config import load_clerk_jwt_config
+
 CLERK_JWKS_URL_ENV = "CLERK_JWKS_URL"
-CLERK_AUDIENCE_ENV = "CLERK_AUDIENCE"
+
+# ``auth`` is imported while the public routers are registered. Loading these
+# settings here makes a missing claim-validation configuration a boot failure,
+# not a deferred request-time error.
+CLERK_JWT_CONFIG = load_clerk_jwt_config()
 
 #: HTTPBearer with auto_error=False so we can raise 401 (not 403) on a
 #: missing Authorization header -- consistent with the directive and with
@@ -80,22 +84,13 @@ def verify_clerk_token(
             status_code=401, detail=f"invalid token: {exc}"
         ) from exc
 
-    audience = os.environ.get(CLERK_AUDIENCE_ENV) or None  # None = skip check
-
     try:
         payload: dict[str, Any] = jwt.decode(
             token,
             signing_key.key,
             algorithms=["RS256"],
-            audience=audience,
-            options={
-                "verify_exp": True,
-                "verify_nbf": True,
-                # ``iss`` is validated by PyJWT when audience is set; skip
-                # explicit issuer check here to avoid hard-coding the Clerk
-                # instance URL in the backend config.
-                "verify_iss": False,
-            },
+            audience=CLERK_JWT_CONFIG.audience,
+            issuer=CLERK_JWT_CONFIG.issuer,
         )
     except jwt.ExpiredSignatureError as exc:
         raise HTTPException(status_code=401, detail="token expired") from exc

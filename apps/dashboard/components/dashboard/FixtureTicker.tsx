@@ -1,341 +1,434 @@
 "use client";
 
-/**
- * FixtureTicker -- clubs x gameweeks difficulty grid.
- *
- * Ports the live site's interaction set: sort by a gameweek's difficulty,
- * hide gameweeks or clubs, override a cell's FDR, A-Z / easiest sorting,
- * General / Attack / Defense modes, and undo.
- *
- * Every mutation pushes onto an undo stack so a misclick during a planning
- * session is one keystroke away from being reverted.
- */
-
-import { useMemo, useState } from "react";
-import { RotateCcw, Undo2, X } from "lucide-react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type MouseEvent,
+} from "react";
+import { AlertCircle, RefreshCw, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import {
-  FDR_CLASS,
-  bandDifficulty,
-  runDifficulty,
-  toTeamFixtures,
-  type DifficultyMode,
+  getFixtures,
+  patchFixtureFDR,
+  type FdrFixture,
+  type FdrValue,
   type FixtureRow,
 } from "@/lib/api/fixtures";
 
-type SortMode = "az" | "easiest" | "hardest" | { gameweek: number };
+const GAMEWEEKS = Array.from({ length: 38 }, (_, index) => index + 1);
+const FDR_VALUES: FdrValue[] = [1, 2, 3, 4, 5];
 
-interface Snapshot {
-  hiddenTeams: string[];
-  hiddenGameweeks: number[];
-  overrides: [string, number][];
-  sort: SortMode;
+type TeamCell = {
+  fixture: FdrFixture;
+  opponentId: number;
+  opponent: string;
+  isHome: boolean;
+  fdr: FdrValue | null;
+};
+
+type TeamRow = {
+  id: number;
+  shortName: string;
+  fixtures: Map<number, TeamCell[]>;
+};
+
+type SelectedFixture = TeamCell & {
+  teamId: number;
+  teamName: string;
+  position: { top: number; left: number };
+};
+
+function fdrClass(fdr: FdrValue | null): string {
+  if (fdr === 1 || fdr === 2) return "bg-emerald-950/60 text-emerald-300";
+  if (fdr === 4 || fdr === 5) return "bg-rose-950/60 text-rose-300";
+  return "bg-zinc-900/60 text-zinc-300";
 }
 
-const MODES: { key: DifficultyMode; label: string }[] = [
-  { key: "general", label: "General" },
-  { key: "attack", label: "Attack" },
-  { key: "defense", label: "Defense" },
-];
+function buildMatrix(fixtures: FdrFixture[]): TeamRow[] {
+  const teams = new Map<number, TeamRow>();
 
-export default function FixtureTicker({ fixtures }: { fixtures: FixtureRow[] }) {
-  const [mode, setMode] = useState<DifficultyMode>("general");
-  const [hiddenTeams, setHiddenTeams] = useState<Set<string>>(new Set());
-  const [hiddenGameweeks, setHiddenGameweeks] = useState<Set<number>>(new Set());
-  const [overrides, setOverrides] = useState<Map<string, number>>(new Map());
-  const [sort, setSort] = useState<SortMode>("az");
-  const [undoStack, setUndoStack] = useState<Snapshot[]>([]);
+  const add = (
+    teamId: number,
+    teamName: string | null,
+    gameweek: number | null,
+    cell: TeamCell,
+  ) => {
+    if (gameweek === null) return;
+    const row = teams.get(teamId) ?? {
+      id: teamId,
+      shortName: teamName?.toUpperCase() || `TEAM ${teamId}`,
+      fixtures: new Map<number, TeamCell[]>(),
+    };
+    const fixturesForGameweek = row.fixtures.get(gameweek) ?? [];
+    fixturesForGameweek.push(cell);
+    row.fixtures.set(gameweek, fixturesForGameweek);
+    teams.set(teamId, row);
+  };
 
-  const teamFixtures = useMemo(() => toTeamFixtures(fixtures), [fixtures]);
-  const bands = useMemo(() => bandDifficulty(teamFixtures, mode), [teamFixtures, mode]);
+  for (const fixture of fixtures) {
+    add(fixture.team_h_id, fixture.team_h_short_name, fixture.gameweek, {
+      fixture,
+      opponentId: fixture.team_a_id,
+      opponent: fixture.team_a_short_name?.toUpperCase() || `TEAM ${fixture.team_a_id}`,
+      isHome: true,
+      fdr: fixture.team_h_fdr,
+    });
+    add(fixture.team_a_id, fixture.team_a_short_name, fixture.gameweek, {
+      fixture,
+      opponentId: fixture.team_h_id,
+      opponent: fixture.team_h_short_name?.toUpperCase() || `TEAM ${fixture.team_h_id}`,
+      isHome: false,
+      fdr: fixture.team_a_fdr,
+    });
+  }
 
-  const allGameweeks = useMemo(
-    () => [...new Set(teamFixtures.map((f) => f.gameweek))].sort((a, b) => a - b),
-    [teamFixtures],
+  return [...teams.values()].sort((left, right) =>
+    left.shortName.localeCompare(right.shortName),
   );
-  const allTeams = useMemo(
-    () => [...new Set(teamFixtures.map((f) => f.team))].sort((a, b) => a.localeCompare(b)),
-    [teamFixtures],
-  );
+}
 
-  const visibleGameweeks = allGameweeks.filter((g) => !hiddenGameweeks.has(g));
+function updateFixtureFdr(
+  fixtures: FdrFixture[],
+  selected: SelectedFixture,
+  value: FdrValue | null,
+  applyToOpponent: boolean,
+): FdrFixture[] {
+  return fixtures.map((fixture) => {
+    const isSelectedFixture = fixture.fixture_id === selected.fixture.fixture_id;
+    const isPairFixture =
+      (fixture.team_h_id === selected.teamId && fixture.team_a_id === selected.opponentId) ||
+      (fixture.team_h_id === selected.opponentId && fixture.team_a_id === selected.teamId);
+    if (!isSelectedFixture && (!applyToOpponent || !isPairFixture)) return fixture;
 
-  /** Team -> gameweek -> fixtures (a DGW yields more than one). */
-  const grid = useMemo(() => {
-    const map = new Map<string, Map<number, typeof teamFixtures>>();
-    for (const f of teamFixtures) {
-      let byGw = map.get(f.team);
-      if (!byGw) map.set(f.team, (byGw = new Map()));
-      const cell = byGw.get(f.gameweek);
-      if (cell) cell.push(f);
-      else byGw.set(f.gameweek, [f]);
+    if (fixture.team_h_id === selected.teamId) {
+      return { ...fixture, team_h_fdr: value };
     }
-    return map;
-  }, [teamFixtures]);
-
-  const snapshot = (): Snapshot => ({
-    hiddenTeams: [...hiddenTeams],
-    hiddenGameweeks: [...hiddenGameweeks],
-    overrides: [...overrides],
-    sort,
+    if (fixture.team_a_id === selected.teamId) {
+      return { ...fixture, team_a_fdr: value };
+    }
+    return fixture;
   });
-  const push = () => setUndoStack((s) => [...s.slice(-19), snapshot()]);
+}
 
-  const undo = () => {
-    const previous = undoStack[undoStack.length - 1];
-    if (!previous) return;
-    setHiddenTeams(new Set(previous.hiddenTeams));
-    setHiddenGameweeks(new Set(previous.hiddenGameweeks));
-    setOverrides(new Map(previous.overrides));
-    setSort(previous.sort);
-    setUndoStack((s) => s.slice(0, -1));
-  };
+function tickerError(error: unknown): string {
+  return error instanceof Error
+    ? error.message
+    : "Could not update this fixture. Try again.";
+}
 
-  const reset = () => {
-    push();
-    setHiddenTeams(new Set());
-    setHiddenGameweeks(new Set());
-    setOverrides(new Map());
-    setSort("az");
-  };
+export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures: FixtureRow[] }) {
+  const [fixtures, setFixtures] = useState<FdrFixture[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [selected, setSelected] = useState<SelectedFixture | null>(null);
+  const [selectedFdr, setSelectedFdr] = useState<FdrValue | null>(3);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [saving, setSaving] = useState<"one" | "pair" | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const dialogRef = useRef<HTMLDivElement | null>(null);
 
-  const teams = useMemo(() => {
-    const shown = allTeams.filter((t) => !hiddenTeams.has(t));
-    if (sort === "az") return shown;
-    if (typeof sort === "object") {
-      return [...shown].sort(
-        (a, b) =>
-          (overrides.get(`${a}:${sort.gameweek}`) ?? bands.get(`${a}:${sort.gameweek}`) ?? 9) -
-          (overrides.get(`${b}:${sort.gameweek}`) ?? bands.get(`${b}:${sort.gameweek}`) ?? 9),
-      );
+  const loadFixtures = useCallback(async (signal?: AbortSignal) => {
+    setLoading(true);
+    setLoadError(null);
+    try {
+      const response = await getFixtures({ signal });
+      setFixtures(response.fixtures);
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") return;
+      setLoadError(tickerError(error));
+    } finally {
+      if (!signal?.aborted) setLoading(false);
     }
-    const dir = sort === "easiest" ? 1 : -1;
-    return [...shown].sort(
-      (a, b) =>
-        (runDifficulty(a, visibleGameweeks, bands, overrides) -
-          runDifficulty(b, visibleGameweeks, bands, overrides)) * dir,
-    );
-  }, [allTeams, hiddenTeams, sort, bands, overrides, visibleGameweeks]);
+  }, []);
 
-  const cycleOverride = (team: string, gameweek: number, current: number) => {
-    push();
-    const next = new Map(overrides);
-    const value = (current % 5) + 1; // 1..5 then wrap
-    next.set(`${team}:${gameweek}`, value);
-    setOverrides(next);
+  useEffect(() => {
+    const controller = new AbortController();
+    void loadFixtures(controller.signal);
+    return () => controller.abort();
+  }, [loadFixtures]);
+
+  useEffect(() => {
+    if (!selected) return;
+    const focus = window.requestAnimationFrame(() => dialogRef.current?.focus());
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSelected(null);
+        triggerRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      window.cancelAnimationFrame(focus);
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [selected]);
+
+  const matrix = useMemo(() => buildMatrix(fixtures), [fixtures]);
+
+  const openEditor = (cell: TeamCell, row: TeamRow, event: MouseEvent<HTMLButtonElement>) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    triggerRef.current = event.currentTarget;
+    setSelectedFdr(cell.fdr ?? 3);
+    setSaveError(null);
+    setSelected({
+      ...cell,
+      teamId: row.id,
+      teamName: row.shortName,
+      position: {
+        top: Math.min(window.innerHeight - 276, Math.max(16, bounds.bottom + 8)),
+        left: Math.min(window.innerWidth - 304, Math.max(16, bounds.left)),
+      },
+    });
   };
 
-  if (teamFixtures.length === 0) {
+  const closeEditor = () => {
+    setSelected(null);
+    setSaveError(null);
+    triggerRef.current?.focus();
+  };
+
+  const saveOverride = async (scope: "one" | "pair") => {
+    if (!selected) return;
+    setSaving(scope);
+    setSaveError(null);
+    try {
+      await patchFixtureFDR({
+        fixture_id: selected.fixture.fixture_id,
+        target_team_id: selected.teamId,
+        fdr_override: selectedFdr,
+        ...(scope === "pair" ? { opponent_team_id: selected.opponentId } : {}),
+      });
+      setFixtures((current) =>
+        updateFixtureFdr(current, selected, selectedFdr, scope === "pair"),
+      );
+      closeEditor();
+    } catch (error) {
+      setSaveError(tickerError(error));
+    } finally {
+      setSaving(null);
+    }
+  };
+
+  if (loading) {
+    return <TickerSkeleton />;
+  }
+
+  if (loadError) {
     return (
-      <p className="border border-dashed border-border bg-card px-4 py-16 text-center text-xs text-muted-foreground">
-        This published run carries no fixture-level forecasts, so the ticker has
-        nothing to show.
-      </p>
+      <section className="flex flex-col items-start gap-3 border border-rose-900 bg-rose-950/20 p-4">
+        <div className="flex items-center gap-2 text-rose-300">
+          <AlertCircle className="h-4 w-4" aria-hidden />
+          <p className="text-sm font-medium">Couldn&apos;t load fixture difficulty.</p>
+        </div>
+        <p className="text-xs text-zinc-400">{loadError}</p>
+        <button
+          type="button"
+          onClick={() => void loadFixtures()}
+          className="inline-flex min-h-10 items-center gap-2 border border-zinc-700 px-3 text-xs font-medium text-zinc-100 transition-colors hover:border-zinc-500 hover:bg-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-200 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+        >
+          <RefreshCw className="h-3.5 w-3.5" aria-hidden />
+          Retry
+        </button>
+      </section>
+    );
+  }
+
+  if (matrix.length === 0) {
+    return (
+      <section className="flex flex-col items-start gap-2 border border-zinc-800 bg-zinc-950 p-6">
+        <p className="text-sm font-medium text-zinc-100">No fixtures loaded yet.</p>
+        <p className="text-xs text-zinc-400">
+          Import the current FPL fixture list, then return here to set difficulty overrides.
+        </p>
+      </section>
     );
   }
 
   return (
-    <div className="border border-border bg-card">
-      {/* ------------------------------------------------------- controls */}
-      <div className="flex flex-wrap items-center gap-2 border-b border-border px-4 py-3">
+    <section className="border border-zinc-800 bg-zinc-950 text-zinc-100">
+      <header className="flex flex-wrap items-end justify-between gap-3 border-b border-zinc-800 px-4 py-3">
         <div>
-          <h3 className="text-sm font-semibold">Fixture Difficulty Ticker</h3>
-          <p className="text-[11px] text-muted-foreground">
-            Click a GW header to sort by it · click a cell to override its FDR ·
-            click a club to hide it
+          <h2 className="text-sm font-semibold tracking-wide">Fixture Difficulty Ticker</h2>
+          <p className="mt-1 text-xs text-zinc-400">
+            Home opponents are uppercase. Away opponents are muted lowercase. Click a fixture to edit its FDR.
           </p>
         </div>
+        <span className="font-mono text-[11px] text-zinc-400">
+          {matrix.length} teams × {GAMEWEEKS.length} gameweeks
+        </span>
+      </header>
 
-        <div className="ml-auto flex flex-wrap items-center gap-2">
-          <div className="inline-flex rounded-lg border border-border p-0.5">
-            {MODES.map((m) => (
-              <button
-                key={m.key}
-                onClick={() => setMode(m.key)}
-                className={cn(
-                  "rounded-md px-2.5 py-1 text-xs font-medium transition",
-                  mode === m.key
-                    ? "bg-primary text-primary-foreground"
-                    : "text-muted-foreground hover:text-foreground",
-                )}
-              >
-                {m.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="inline-flex rounded-lg border border-border p-0.5">
-            {([["az", "A–Z"], ["easiest", "Easiest"], ["hardest", "Hardest"]] as const).map(
-              ([key, label]) => (
-                <button
-                  key={key}
-                  onClick={() => { push(); setSort(key); }}
-                  className={cn(
-                    "rounded-md px-2.5 py-1 text-xs font-medium transition",
-                    sort === key
-                      ? "bg-foreground text-background"
-                      : "text-muted-foreground hover:text-foreground",
-                  )}
-                >
-                  {label}
-                </button>
-              ),
-            )}
-          </div>
-
-          <button
-            onClick={undo}
-            disabled={undoStack.length === 0}
-            className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-xs text-muted-foreground transition hover:text-foreground disabled:opacity-40"
-          >
-            <Undo2 className="h-3 w-3" /> Undo
-          </button>
-          <button
-            onClick={reset}
-            className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-xs text-muted-foreground transition hover:text-foreground"
-          >
-            <RotateCcw className="h-3 w-3" /> Reset
-          </button>
-        </div>
-      </div>
-
-      {/* hidden chips */}
-      {(hiddenTeams.size > 0 || hiddenGameweeks.size > 0) && (
-        <div className="flex flex-wrap items-center gap-1.5 border-b border-border px-4 py-2">
-          <span className="text-[10px] uppercase tracking-wide text-muted-foreground">
-            Hidden
-          </span>
-          {[...hiddenGameweeks].sort((a, b) => a - b).map((g) => (
-            <button
-              key={`gw${g}`}
-              onClick={() => { push(); const n = new Set(hiddenGameweeks); n.delete(g); setHiddenGameweeks(n); }}
-              className="rounded-md border border-border px-1.5 py-0.5 font-mono text-[10px] hover:border-primary"
-            >
-              GW{g} ×
-            </button>
-          ))}
-          {[...hiddenTeams].sort().map((t) => (
-            <button
-              key={t}
-              onClick={() => { push(); const n = new Set(hiddenTeams); n.delete(t); setHiddenTeams(n); }}
-              className="rounded-md border border-border px-1.5 py-0.5 text-[10px] hover:border-primary"
-            >
-              {t} ×
-            </button>
-          ))}
-          <button
-            onClick={() => { push(); setHiddenTeams(new Set()); setHiddenGameweeks(new Set()); }}
-            className="ml-1 text-[10px] text-primary underline-offset-2 hover:underline"
-          >
-            Show all
-          </button>
-        </div>
-      )}
-
-      {/* ------------------------------------------------------------ grid */}
-      <div className="scroll-thin overflow-x-auto">
-        <table className="w-full border-collapse text-xs">
-          <thead className="glass-header sticky top-0 z-20">
+      <div className="group/ticker scroll-thin max-h-[calc(100vh-12rem)] overflow-auto">
+        <table className="min-w-[2480px] border-collapse text-xs">
+          <thead>
             <tr>
-              <th className="sticky left-0 z-10 bg-black/80 px-3 py-1.5 text-left font-medium text-muted-foreground backdrop-blur-md">
-                Club
+              <th className="sticky left-0 top-0 z-30 min-w-28 border-b border-r border-zinc-800 bg-zinc-950 px-3 py-2 text-left text-[11px] font-medium uppercase tracking-[0.12em] text-zinc-400">
+                Team
               </th>
-              {visibleGameweeks.map((g) => (
-                <th key={g} className="px-1 py-2 text-center font-medium">
-                  <div className="inline-flex items-center gap-1">
-                    <button
-                      onClick={() => { push(); setSort({ gameweek: g }); }}
-                      className={cn(
-                        "rounded px-1 font-mono text-[11px] transition",
-                        typeof sort === "object" && sort.gameweek === g
-                          ? "text-primary"
-                          : "text-muted-foreground hover:text-foreground",
-                      )}
-                      title={`Sort by GW${g} difficulty`}
-                    >
-                      GW{g}
-                    </button>
-                    <button
-                      onClick={() => { push(); setHiddenGameweeks(new Set(hiddenGameweeks).add(g)); }}
-                      className="text-muted-foreground/60 hover:text-foreground"
-                      aria-label={`Hide GW${g}`}
-                    >
-                      <X className="h-2.5 w-2.5" />
-                    </button>
-                  </div>
+              {GAMEWEEKS.map((gameweek) => (
+                <th
+                  key={gameweek}
+                  scope="col"
+                  className="sticky top-0 z-20 w-16 min-w-16 border-b border-r border-zinc-800 bg-zinc-950 px-1 py-2 text-center font-mono text-[11px] font-medium text-zinc-400 group-hover/ticker:opacity-55"
+                >
+                  {gameweek}
                 </th>
               ))}
-              <th className="px-2 py-2 text-right font-medium text-muted-foreground">Run</th>
             </tr>
           </thead>
           <tbody>
-            {teams.map((team) => (
-              <tr key={team} className="border-t border-border/50">
-                <td className="sticky left-0 z-10 bg-black/80 px-3 py-1 backdrop-blur-md">
-                  <button
-                    onClick={() => { push(); setHiddenTeams(new Set(hiddenTeams).add(team)); }}
-                    className="truncate text-left font-medium hover:text-muted-foreground"
-                    title={`Hide ${team}`}
-                  >
-                    {team}
-                  </button>
-                </td>
-                {visibleGameweeks.map((g) => {
-                  const cell = grid.get(team)?.get(g) ?? [];
-                  const key = `${team}:${g}`;
-                  const band = overrides.get(key) ?? bands.get(key);
-                  if (cell.length === 0) {
-                    return (
-                      <td key={g} className="px-1 py-1">
-                        <div className="rounded-md bg-muted/40 px-1 py-1 text-center font-mono text-[10px] text-muted-foreground">
-                          —
-                        </div>
-                      </td>
-                    );
-                  }
+            {matrix.map((row) => (
+              <tr key={row.id} className="group/row">
+                <th
+                  scope="row"
+                  className="sticky left-0 z-20 min-w-28 border-b border-r border-zinc-800 bg-zinc-950 px-3 py-2 text-left font-mono text-xs font-semibold text-zinc-100 transition-opacity duration-150 motion-reduce:transition-none group-hover/ticker:opacity-35 group-hover/row:!opacity-100"
+                >
+                  {row.shortName}
+                </th>
+                {GAMEWEEKS.map((gameweek) => {
+                  const cells = row.fixtures.get(gameweek) ?? [];
                   return (
-                    <td key={g} className="px-1 py-1">
-                      <button
-                        onClick={() => cycleOverride(team, g, band ?? 3)}
-                        title={`${cell.map((c) => `${c.isHome ? "vs" : "@"} ${c.opponent}`).join(", ")} — FDR ${band ?? "?"}${overrides.has(key) ? " (overridden)" : ""}`}
-                        className={cn(
-                          "w-full rounded-md px-1 py-1 text-center font-mono text-[10px] transition hover:opacity-80",
-                          FDR_CLASS[band ?? 3],
-                          overrides.has(key) && "ring-1 ring-primary ring-offset-1 ring-offset-card",
-                        )}
-                      >
-                        {cell
-                          .map((c) => `${c.isHome ? "" : "@"}${abbrev(c.opponent)}`)
-                          .join(" ")}
-                      </button>
+                    <td
+                      key={gameweek}
+                      className="w-16 min-w-16 border-b border-r border-zinc-800 p-0 align-stretch transition-opacity duration-150 motion-reduce:transition-none group-hover/ticker:opacity-35 group-hover/row:!opacity-100"
+                    >
+                      {cells.length === 0 ? (
+                        <div className="flex min-h-14 items-center justify-center font-mono text-xs text-zinc-700">—</div>
+                      ) : (
+                        <div className="flex min-h-14 flex-col divide-y divide-zinc-800">
+                          {cells.map((cell) => (
+                            <button
+                              key={cell.fixture.fixture_id}
+                              type="button"
+                              onClick={(event) => openEditor(cell, row, event)}
+                              aria-label={`${row.shortName} ${cell.isHome ? "home against" : "away at"} ${cell.opponent}, FDR ${cell.fdr ?? "unavailable"}`}
+                              className={cn(
+                                "relative flex min-h-14 w-full flex-1 flex-col items-center justify-center px-1 py-1 text-center transition-[filter,opacity] duration-150 motion-reduce:transition-none hover:brightness-125 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-100 focus-visible:ring-inset",
+                                fdrClass(cell.fdr),
+                              )}
+                            >
+                              <span className={cn("text-[11px] font-semibold tracking-wide", !cell.isHome && "text-zinc-400")}>
+                                {cell.isHome ? cell.opponent.toUpperCase() : cell.opponent.toLowerCase()}
+                              </span>
+                              <span className="mt-0.5 font-mono text-xs tabular-nums">
+                                {cell.fdr ?? "—"}
+                              </span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
                     </td>
                   );
                 })}
-                <td className="px-2 text-right font-mono text-[11px] tabular-nums text-muted-foreground">
-                  {runDifficulty(team, visibleGameweeks, bands, overrides)}
-                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-      <div className="flex items-center gap-2 border-t border-border px-4 py-2 font-mono text-[10px] text-muted-foreground">
-        <span>easy</span>
-        {[1, 2, 3, 4, 5].map((b) => (
-          <span key={b} className={cn("rounded px-1.5", FDR_CLASS[b])}>{b}</span>
-        ))}
-        <span>hard</span>
-        <span className="ml-auto">{teams.length} clubs · {visibleGameweeks.length} GWs</span>
-      </div>
-    </div>
+      {selected && (
+        <div
+          ref={dialogRef}
+          role="dialog"
+          aria-labelledby="fixture-editor-title"
+          tabIndex={-1}
+          className="fixed z-50 w-72 border border-zinc-700 bg-zinc-950 p-4 shadow-2xl shadow-black/50 outline-none"
+          style={selected.position}
+        >
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p id="fixture-editor-title" className="text-sm font-semibold text-zinc-100">
+                {selected.teamName} {selected.isHome ? "vs" : "@"} {selected.opponent}
+              </p>
+              <p className="mt-1 font-mono text-[11px] text-zinc-400">
+                GW {selected.fixture.gameweek ?? "—"} · fixture {selected.fixture.fixture_id}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={closeEditor}
+              className="inline-flex min-h-10 min-w-10 items-center justify-center border border-zinc-800 text-zinc-400 transition-colors hover:border-zinc-600 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-200 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+              aria-label="Close fixture editor"
+            >
+              <X className="h-4 w-4" aria-hidden />
+            </button>
+          </div>
+
+          <fieldset className="mt-4">
+            <legend className="text-xs font-medium text-zinc-300">Difficulty rating</legend>
+            <div className="mt-2 grid grid-cols-5 gap-1" role="radiogroup" aria-label="Fixture difficulty rating">
+              {FDR_VALUES.map((value) => (
+                <button
+                  key={value}
+                  type="button"
+                  role="radio"
+                  aria-checked={selectedFdr === value}
+                  onClick={() => setSelectedFdr(value)}
+                  className={cn(
+                    "min-h-10 border border-zinc-700 font-mono text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-100 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950",
+                    selectedFdr === value
+                      ? "border-zinc-100 bg-zinc-100 text-zinc-950"
+                      : "bg-zinc-950 text-zinc-300 hover:border-zinc-500",
+                  )}
+                >
+                  {value}
+                </button>
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={() => setSelectedFdr(null)}
+              className="mt-2 min-h-10 text-xs text-zinc-400 underline underline-offset-4 transition-colors hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-100 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+            >
+              Clear override
+            </button>
+          </fieldset>
+
+          {saveError && (
+            <p role="alert" className="mt-3 border-l-2 border-rose-500 pl-2 text-xs text-rose-300">
+              {saveError}
+            </p>
+          )}
+
+          <div className="mt-4 grid gap-2">
+            <button
+              type="button"
+              onClick={() => void saveOverride("one")}
+              disabled={saving !== null}
+              aria-busy={saving === "one"}
+              className="min-h-10 border border-zinc-100 bg-zinc-100 px-3 text-xs font-medium text-zinc-950 transition-colors hover:bg-zinc-300 disabled:cursor-wait disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-100 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+            >
+              {saving === "one" ? "Saving…" : "Apply only here"}
+            </button>
+            <button
+              type="button"
+              onClick={() => void saveOverride("pair")}
+              disabled={saving !== null}
+              aria-busy={saving === "pair"}
+              className="min-h-10 border border-zinc-700 px-3 text-xs font-medium text-zinc-200 transition-colors hover:border-zinc-500 hover:bg-zinc-900 disabled:cursor-wait disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-100 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+            >
+              {saving === "pair" ? "Saving…" : `Apply to all matches vs ${selected.opponent}`}
+            </button>
+          </div>
+        </div>
+      )}
+    </section>
   );
 }
 
-/** "Nottingham Forest" -> "NFO"-ish: enough to read in a dense cell. */
-function abbrev(name: string): string {
-  const words = name.split(/\s+/).filter(Boolean);
-  if (words.length === 1) return words[0].slice(0, 3).toUpperCase();
-  return words.map((w) => w[0]).join("").slice(0, 3).toUpperCase();
+function TickerSkeleton() {
+  return (
+    <section className="border border-zinc-800 bg-zinc-950 p-4" aria-busy="true" aria-label="Loading fixture difficulty">
+      <div className="h-4 w-48 animate-pulse bg-zinc-800 motion-reduce:animate-none" />
+      <div className="mt-4 grid grid-cols-7 gap-px border border-zinc-800 bg-zinc-800 sm:grid-cols-10">
+        {Array.from({ length: 70 }, (_, index) => (
+          <div key={index} className="h-14 animate-pulse bg-zinc-950 motion-reduce:animate-none" />
+        ))}
+      </div>
+    </section>
+  );
 }

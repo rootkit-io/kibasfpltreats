@@ -6,6 +6,33 @@ from pathlib import Path
 from typing import Optional
 
 
+CLERK_AUDIENCE_ENV = "CLERK_AUDIENCE"
+CLERK_ISSUER_ENV = "CLERK_ISSUER"
+
+
+def _required_environment_value(name: str) -> str:
+    value = os.environ.get(name, "").strip()
+    if not value:
+        raise RuntimeError(f"Required environment variable {name} is not configured")
+    return value
+
+
+@dataclass(frozen=True)
+class ClerkJwtConfig:
+    """Required claim-validation settings for Clerk session JWTs."""
+
+    audience: str
+    issuer: str
+
+
+def load_clerk_jwt_config() -> ClerkJwtConfig:
+    """Load mandatory JWT claim settings during FastAPI application startup."""
+    return ClerkJwtConfig(
+        audience=_required_environment_value(CLERK_AUDIENCE_ENV),
+        issuer=_required_environment_value(CLERK_ISSUER_ENV),
+    )
+
+
 def _detect_backend_root() -> Path:
     """Locate the backend project root (the directory holding pyproject.toml,
     data/, models/, outputs/) regardless of the process working directory.

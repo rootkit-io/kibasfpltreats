@@ -9,6 +9,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@clerk/nextjs": "^7.6.2",
     "@tanstack/react-table": "^8.20.5",
     "@tanstack/react-virtual": "^3.14.8",
     "clsx": "^2.1.1",

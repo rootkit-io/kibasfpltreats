@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import math
 import os
 import re
@@ -8,6 +9,7 @@ import ssl
 import unicodedata
 from dataclasses import dataclass
 from datetime import timedelta
+from urllib.error import URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
@@ -17,18 +19,13 @@ try:
     import requests
 except ImportError:  # pragma: no cover - requests is optional in this project.
     requests = None
-try:
-    import urllib3
-except ImportError:  # pragma: no cover - urllib3 is optional in this project.
-    urllib3 = None
-else:
-    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 from .config import AppConfig
 
 
 ODDS_BASE_URL = "https://api.the-odds-api.com/v4"
 MAX_GOALS = 12
+logger = logging.getLogger(__name__)
 
 
 def _norm(text: object) -> str:
@@ -169,12 +166,21 @@ def _fetch_odds(config: AppConfig) -> list[dict]:
         params.pop("regions", None)
     url = f"{ODDS_BASE_URL}/sports/{config.odds_api_sport}/odds?{urlencode(params)}"
     if requests is not None:
-        response = requests.get(url, headers={"User-Agent": "fpl-xpts-market-odds/0.1"}, timeout=45, verify=False)
+        response = requests.get(url, headers={"User-Agent": "fpl-xpts-market-odds/0.1"}, timeout=45)
         response.raise_for_status()
         return response.json()
     request = Request(url, headers={"User-Agent": "fpl-xpts-market-odds/0.1"})
-    with urlopen(request, timeout=45, context=ssl._create_unverified_context()) as response:
+    # No context: urllib uses Python's default verified CA context.
+    with urlopen(request, timeout=45) as response:
         return json.loads(response.read().decode("utf-8"))
+
+
+def _is_certificate_verification_error(exc: BaseException) -> bool:
+    if isinstance(exc, ssl.SSLCertVerificationError):
+        return True
+    if requests is not None and isinstance(exc, requests.exceptions.SSLError):
+        return True
+    return isinstance(exc, URLError) and isinstance(exc.reason, ssl.SSLCertVerificationError)
 
 
 @dataclass(frozen=True)
@@ -298,6 +304,14 @@ def apply_market_odds_projections(
     try:
         odds_events = _fetch_odds(config)
     except Exception as exc:
+        if _is_certificate_verification_error(exc):
+            # TLS failures are security failures, not a reason to silently use stale fallback data.
+            logger.error("TLS certificate verification failed while fetching market odds")
+            raise
+        logger.warning(
+            "Market odds request failed (%s); using FPL-strength fallback",
+            type(exc).__name__,
+        )
         out["market_odds_source"] = f"odds_fetch_failed:{type(exc).__name__}"
         return out
     if not odds_events:

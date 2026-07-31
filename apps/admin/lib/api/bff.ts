@@ -9,6 +9,7 @@
  *   passed through VERBATIM -- the UI maps them back to CSV line numbers.
  */
 
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 const BACKEND_URL = process.env.FPL_BACKEND_URL ?? "http://127.0.0.1:8000";
@@ -19,10 +20,57 @@ const UPSTREAM_TIMEOUT_MS = 280_000;
 /** Reads (run history, single-run re-hydration) are bounded queries. */
 const READ_TIMEOUT_MS = 30_000;
 
+type SessionClaims = Record<string, unknown> | null | undefined;
+
+function normalized(value: unknown): string | null {
+  return typeof value === "string" && value.trim()
+    ? value.trim().toLowerCase()
+    : null;
+}
+
+function claimEmail(claims: SessionClaims): string | null {
+  if (!claims) return null;
+  return normalized(claims.email) ?? normalized(claims.email_address);
+}
+
+/**
+ * Defense in depth: middleware is the primary guard, but every BFF request
+ * must independently prove it belongs to an authenticated, authorized admin
+ * before this module can attach the upstream shared secret.
+ */
+async function requireAdmin(): Promise<NextResponse | null> {
+  const { userId, orgRole, sessionClaims } = await auth();
+  if (!userId) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
+
+  const allowedEmail = normalized(process.env.ADMIN_EMAIL);
+  const allowedRole = normalized(process.env.ADMIN_ROLE);
+  if (!allowedEmail && !allowedRole) {
+    return NextResponse.json(
+      { error: "admin authorization is not configured" },
+      { status: 503 },
+    );
+  }
+
+  const emailAllowed =
+    allowedEmail !== null && claimEmail(sessionClaims) === allowedEmail;
+  const roleAllowed =
+    allowedRole !== null && normalized(orgRole) === allowedRole;
+  if (!emailAllowed && !roleAllowed) {
+    return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  }
+
+  return null;
+}
+
 async function forwardToBackend(
   path: string,
   init: { method: "GET" | "POST"; payload?: unknown; timeoutMs: number },
 ): Promise<NextResponse> {
+  const authorizationError = await requireAdmin();
+  if (authorizationError) return authorizationError;
+
   const token = process.env.ADMIN_API_TOKEN;
   if (!token) {
     return NextResponse.json(
@@ -103,6 +151,9 @@ export async function proxyMultipartToBackend(
   path: string,
   form: FormData,
 ): Promise<NextResponse> {
+  const authorizationError = await requireAdmin();
+  if (authorizationError) return authorizationError;
+
   const token = process.env.ADMIN_API_TOKEN;
   if (!token) {
     return NextResponse.json(

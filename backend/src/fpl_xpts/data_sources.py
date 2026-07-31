@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import shutil
 import subprocess
 import time
@@ -10,11 +11,10 @@ from typing import Any
 
 import pandas as pd
 import requests
-import urllib3
 
 from .config import AppConfig
 
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+logger = logging.getLogger(__name__)
 
 
 class DataSourceError(RuntimeError):
@@ -27,7 +27,6 @@ def _curl_get_json(url: str) -> Any:
         raise DataSourceError("curl executable was not found for FPL request fallback")
     command = [
         curl,
-        "--ssl-no-revoke",
         "-L",
         "-sS",
         "--max-time",
@@ -41,6 +40,7 @@ def _curl_get_json(url: str) -> Any:
         stderr = result.stderr.decode("utf-8", errors="replace").strip()
         stdout = result.stdout.decode("utf-8", errors="replace").strip()
         message = stderr or stdout or f"curl exited {result.returncode}"
+        logger.error("FPL request via curl failed with exit status %s", result.returncode)
         raise DataSourceError(f"FPL request failed: {url} ({message})")
     try:
         return json.loads(result.stdout.decode("utf-8"))
@@ -58,9 +58,13 @@ class FplClient:
         if shutil.which("curl.exe") or shutil.which("curl"):
             return _curl_get_json(url)
         try:
-            response = requests.get(url, headers={"User-Agent": "fpl-xpts/0.1"}, timeout=30, verify=False)
+            response = requests.get(url, headers={"User-Agent": "fpl-xpts/0.1"}, timeout=30)
             response.raise_for_status()
             return response.json()
+        except requests.exceptions.SSLError as exc:
+            # Certificate failures must abort ingestion; never downgrade TLS trust.
+            logger.error("TLS certificate verification failed while fetching FPL data")
+            raise DataSourceError("FPL TLS certificate verification failed") from exc
         except requests.HTTPError as exc:
             status = exc.response.status_code if exc.response is not None else "unknown"
             raise DataSourceError(f"FPL request failed {status}: {url}") from exc

@@ -33,12 +33,12 @@ import {
 
 type View = "table" | "radar" | "risk" | "ticker" | "compare";
 
-/** `needs` gates the tab when the published run lacks that data grain. */
-const TABS: { key: View; label: string; icon: typeof Table2; needs?: "sim" | "fixtures" }[] = [
+/** `needs` gates tabs when the published run lacks simulation data. */
+const TABS: { key: View; label: string; icon: typeof Table2; needs?: "sim" }[] = [
   { key: "table", label: "Projections", icon: Table2 },
   { key: "radar", label: "xGI Radar", icon: Radar },
   { key: "risk", label: "Risk & Reward", icon: BarChart3, needs: "sim" },
-  { key: "ticker", label: "Ticker", icon: CalendarDays, needs: "fixtures" },
+  { key: "ticker", label: "Ticker", icon: CalendarDays },
   { key: "compare", label: "Compare", icon: GitCompareArrows, needs: "sim" },
 ];
 
@@ -59,7 +59,6 @@ export default function DashboardViews({
 
   const view = (TABS.find((t) => t.key === params.get("view"))?.key ?? "table") as View;
   const hasSimulations = simulations.length > 0;
-  const hasFixtures = fixtures.length > 0;
 
   /** Gameweeks present in the projections payload (radar is projection-based). */
   const projectionGameweeks = useMemo(() => {
@@ -92,9 +91,7 @@ export default function DashboardViews({
       <div className="flex flex-wrap items-center gap-2">
         <div className="inline-flex rounded-lg border border-border bg-card p-0.5">
           {TABS.map((tab) => {
-            const disabled =
-              (tab.needs === "sim" && !hasSimulations) ||
-              (tab.needs === "fixtures" && !hasFixtures);
+            const disabled = tab.needs === "sim" && !hasSimulations;
             const Icon = tab.icon;
             return (
               <button
@@ -102,11 +99,7 @@ export default function DashboardViews({
                 onClick={() => !disabled && setView(tab.key)}
                 disabled={disabled}
                 title={
-                  disabled
-                    ? tab.needs === "fixtures"
-                      ? "This published run carries no fixture-level forecasts"
-                      : "This published run carries no simulation data"
-                    : undefined
+                  disabled ? "This published run carries no simulation data" : undefined
                 }
                 className={cn(
                   "inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition",

@@ -64,6 +64,62 @@ _FIXTURE_COLUMNS = (
 )
 
 
+@router.get("/fixtures")
+async def list_fixture_difficulties(
+    request: Request,
+    season: str | None = Query(default=None, pattern=r"^\d{4}$", min_length=4, max_length=4),
+    gameweek: int | None = Query(default=None, ge=1, le=38),
+    claims: dict = Depends(verify_clerk_token),
+    connection: Any = Depends(_require_connection),
+) -> dict:
+    """Return effective home/away FDRs, resolving overrides inside Postgres."""
+    user_id: str = claims.get("sub", "anonymous")
+    if not await check_rate_limit(request.app.state, user_id):
+        raise HTTPException(
+            status_code=429,
+            detail="rate limit exceeded: 30 requests per minute per user",
+            headers={"Retry-After": "60"},
+        )
+
+    if season is None:
+        season_row = connection.execute("SELECT MAX(season) FROM fixtures").fetchone()
+        season = season_row[0] if season_row is not None else None
+    if season is None:
+        return {"season": None, "gameweek": gameweek, "count": 0, "fixtures": []}
+
+    sql = """
+        SELECT f.id AS fixture_id,
+               f.gameweek_id AS gameweek,
+               f.kickoff_time,
+               f.finished,
+               f.home_team_id AS team_h_id,
+               home.short_name AS team_h_short_name,
+               f.away_team_id AS team_a_id,
+               away.short_name AS team_a_short_name,
+               COALESCE(f.team_h_fdr_override, f.team_h_fdr_fpl) AS team_h_fdr,
+               COALESCE(f.team_a_fdr_override, f.team_a_fdr_fpl) AS team_a_fdr
+        FROM fixtures AS f
+        JOIN teams AS home
+          ON home.season = f.season AND home.id = f.home_team_id
+        JOIN teams AS away
+          ON away.season = f.season AND away.id = f.away_team_id
+        WHERE f.season = %s
+    """
+    parameters: tuple[Any, ...] = (season,)
+    if gameweek is not None:
+        sql += " AND f.gameweek_id = %s"
+        parameters += (gameweek,)
+    sql += " ORDER BY f.gameweek_id, f.kickoff_time NULLS LAST, f.id"
+
+    fixtures = _records(connection.execute(sql, parameters))
+    return {
+        "season": season,
+        "gameweek": gameweek,
+        "count": len(fixtures),
+        "fixtures": fixtures,
+    }
+
+
 @router.get("/fixtures/latest")
 async def latest_published_fixtures(
     request: Request,
