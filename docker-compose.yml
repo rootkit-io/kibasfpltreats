@@ -49,7 +49,8 @@ services:
       ADMIN_API_TOKEN: ${ADMIN_API_TOKEN:?set ADMIN_API_TOKEN in .env or the shell}
       # Clerk JWT verification for the public router (Phase 13).
       CLERK_JWKS_URL: ${CLERK_JWKS_URL:-}
-      CLERK_AUDIENCE: ${CLERK_AUDIENCE:-}
+      CLERK_AUDIENCE: ${CLERK_AUDIENCE:?set CLERK_AUDIENCE in .env}
+      CLERK_ISSUER: ${CLERK_ISSUER:?set CLERK_ISSUER in .env}
       REDIS_URL: redis://redis:6379/0
     depends_on:
       db:
@@ -67,13 +68,23 @@ services:
   # Renamed from `frontend` in Phase 15 so the Caddyfile upstream
   # (admin.<domain> -> admin:3000) matches the service name exactly.
   admin:
-    build: ./apps/admin
+    build:
+      context: ./apps/admin
+      args:
+        # Clerk's publishable key is inlined into the client bundle at build.
+        NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:?set NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY in .env}
     restart: unless-stopped
     environment:
       # Server-side BFF proxy target (service DNS on the compose network).
       FPL_BACKEND_URL: http://backend:8000
       # The BFF attaches this token to upstream admin calls.
       ADMIN_API_TOKEN: ${ADMIN_API_TOKEN:?set ADMIN_API_TOKEN in .env or the shell}
+      # Required by Clerk middleware/server helpers on every admin request.
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:?set NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY in .env}
+      CLERK_SECRET_KEY: ${CLERK_SECRET_KEY:?set CLERK_SECRET_KEY in .env}
+      # At least one criterion must be non-empty; app returns 503 if neither is.
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+      ADMIN_ROLE: ${ADMIN_ROLE:-}
     depends_on:
       - backend
 
