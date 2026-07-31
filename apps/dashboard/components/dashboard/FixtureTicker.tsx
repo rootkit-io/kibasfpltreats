@@ -42,6 +42,12 @@ type SelectedFixture = TeamCell & {
   position: { top: number; left: number };
 };
 
+type HoveredFixture = {
+  fixtureId: number;
+  targetTeamId: number;
+  currentFdr: FdrValue | null;
+};
+
 function fdrClass(fdr: FdrValue | null): string {
   if (fdr === 1 || fdr === 2) return "bg-emerald-950/60 text-emerald-300";
   if (fdr === 4 || fdr === 5) return "bg-rose-950/60 text-rose-300";
@@ -114,6 +120,45 @@ function updateFixtureFdr(
   });
 }
 
+function updateSingleFixtureFdr(
+  fixtures: FdrFixture[],
+  fixtureId: number,
+  targetTeamId: number,
+  value: FdrValue | null,
+): FdrFixture[] {
+  return fixtures.map((fixture) => {
+    if (fixture.fixture_id !== fixtureId) return fixture;
+    if (fixture.team_h_id === targetTeamId) {
+      return { ...fixture, team_h_fdr: value };
+    }
+    if (fixture.team_a_id === targetTeamId) {
+      return { ...fixture, team_a_fdr: value };
+    }
+    return fixture;
+  });
+}
+
+function currentFixtureFdr(
+  fixtures: FdrFixture[],
+  fixtureId: number,
+  targetTeamId: number,
+): FdrValue | null {
+  const fixture = fixtures.find((candidate) => candidate.fixture_id === fixtureId);
+  if (!fixture) return null;
+  if (fixture.team_h_id === targetTeamId) return fixture.team_h_fdr;
+  if (fixture.team_a_id === targetTeamId) return fixture.team_a_fdr;
+  return null;
+}
+
+function isTypingTarget(element: Element | null): boolean {
+  return (
+    element instanceof HTMLInputElement ||
+    element instanceof HTMLTextAreaElement ||
+    element instanceof HTMLSelectElement ||
+    (element instanceof HTMLElement && element.isContentEditable)
+  );
+}
+
 function tickerError(error: unknown): string {
   return error instanceof Error
     ? error.message
@@ -128,22 +173,71 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
   const [selectedFdr, setSelectedFdr] = useState<FdrValue | null>(3);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saving, setSaving] = useState<"one" | "pair" | null>(null);
+  const [hoveredFixture, setHoveredFixture] = useState<HoveredFixture | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const dialogRef = useRef<HTMLDivElement | null>(null);
+  const fixturesRef = useRef<FdrFixture[]>([]);
+  const hoveredFixtureRef = useRef<HoveredFixture | null>(null);
+  const selectedRef = useRef<SelectedFixture | null>(null);
+  const mutationVersionRef = useRef(new Map<string, number>());
+  const toastTimerRef = useRef<number | null>(null);
+  const mountedRef = useRef(true);
+  const paintHoveredFixtureRef = useRef<
+    (fixture: HoveredFixture, value: FdrValue | null) => void
+  >(() => undefined);
+
+  const replaceFixtures = useCallback((update: (current: FdrFixture[]) => FdrFixture[]) => {
+    const next = update(fixturesRef.current);
+    fixturesRef.current = next;
+    if (mountedRef.current) setFixtures(next);
+  }, []);
+
+  const dismissToast = useCallback(() => {
+    if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
+    toastTimerRef.current = null;
+    setToast(null);
+  }, []);
+
+  const showToast = useCallback((message: string) => {
+    if (!mountedRef.current) return;
+    if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
+    setToast(message);
+    toastTimerRef.current = window.setTimeout(() => {
+      if (mountedRef.current) setToast(null);
+      toastTimerRef.current = null;
+    }, 5_000);
+  }, []);
+
+  const closeEditor = useCallback(() => {
+    if (!selectedRef.current) return;
+    selectedRef.current = null;
+    setSelected(null);
+    setSaveError(null);
+    triggerRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
+    };
+  }, []);
 
   const loadFixtures = useCallback(async (signal?: AbortSignal) => {
     setLoading(true);
     setLoadError(null);
     try {
       const response = await getFixtures({ signal });
-      setFixtures(response.fixtures);
+      replaceFixtures(() => response.fixtures);
     } catch (error) {
       if (error instanceof DOMException && error.name === "AbortError") return;
       setLoadError(tickerError(error));
     } finally {
       if (!signal?.aborted) setLoading(false);
     }
-  }, []);
+  }, [replaceFixtures]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -154,16 +248,8 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
   useEffect(() => {
     if (!selected) return;
     const focus = window.requestAnimationFrame(() => dialogRef.current?.focus());
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setSelected(null);
-        triggerRef.current?.focus();
-      }
-    };
-    window.addEventListener("keydown", closeOnEscape);
     return () => {
       window.cancelAnimationFrame(focus);
-      window.removeEventListener("keydown", closeOnEscape);
     };
   }, [selected]);
 
@@ -174,7 +260,7 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
     triggerRef.current = event.currentTarget;
     setSelectedFdr(cell.fdr ?? 3);
     setSaveError(null);
-    setSelected({
+    const nextSelected = {
       ...cell,
       teamId: row.id,
       teamName: row.shortName,
@@ -182,13 +268,9 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
         top: Math.min(window.innerHeight - 276, Math.max(16, bounds.bottom + 8)),
         left: Math.min(window.innerWidth - 304, Math.max(16, bounds.left)),
       },
-    });
-  };
-
-  const closeEditor = () => {
-    setSelected(null);
-    setSaveError(null);
-    triggerRef.current?.focus();
+    };
+    selectedRef.current = nextSelected;
+    setSelected(nextSelected);
   };
 
   const saveOverride = async (scope: "one" | "pair") => {
@@ -202,7 +284,7 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
         fdr_override: selectedFdr,
         ...(scope === "pair" ? { opponent_team_id: selected.opponentId } : {}),
       });
-      setFixtures((current) =>
+      replaceFixtures((current) =>
         updateFixtureFdr(current, selected, selectedFdr, scope === "pair"),
       );
       closeEditor();
@@ -212,6 +294,81 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
       setSaving(null);
     }
   };
+
+  const paintHoveredFixture = useCallback((fixture: HoveredFixture, value: FdrValue | null) => {
+    const mutationKey = `${fixture.fixtureId}:${fixture.targetTeamId}`;
+    const nextVersion = (mutationVersionRef.current.get(mutationKey) ?? 0) + 1;
+    mutationVersionRef.current.set(mutationKey, nextVersion);
+    const previousFdr = currentFixtureFdr(
+      fixturesRef.current,
+      fixture.fixtureId,
+      fixture.targetTeamId,
+    );
+
+    replaceFixtures((current) =>
+      updateSingleFixtureFdr(current, fixture.fixtureId, fixture.targetTeamId, value),
+    );
+    const nextHovered = { ...fixture, currentFdr: value };
+    hoveredFixtureRef.current = nextHovered;
+    setHoveredFixture(nextHovered);
+
+    void patchFixtureFDR({
+      fixture_id: fixture.fixtureId,
+      target_team_id: fixture.targetTeamId,
+      fdr_override: value,
+    }).catch((error: unknown) => {
+      if (
+        !mountedRef.current ||
+        mutationVersionRef.current.get(mutationKey) !== nextVersion
+      ) {
+        return;
+      }
+      replaceFixtures((current) =>
+        updateSingleFixtureFdr(
+          current,
+          fixture.fixtureId,
+          fixture.targetTeamId,
+          previousFdr,
+        ),
+      );
+      const revertedHovered = { ...fixture, currentFdr: previousFdr };
+      if (
+        hoveredFixtureRef.current?.fixtureId === fixture.fixtureId &&
+        hoveredFixtureRef.current.targetTeamId === fixture.targetTeamId
+      ) {
+        hoveredFixtureRef.current = revertedHovered;
+        setHoveredFixture(revertedHovered);
+      }
+      showToast("FDR update failed and was reverted.");
+    });
+  }, [replaceFixtures, showToast]);
+
+  paintHoveredFixtureRef.current = paintHoveredFixture;
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.repeat || isTypingTarget(document.activeElement)) return;
+      if (event.key === "Escape") {
+        closeEditor();
+        return;
+      }
+
+      const hovered = hoveredFixtureRef.current;
+      if (!hovered) return;
+      const value = /^\d$/.test(event.key) && event.key >= "1" && event.key <= "5"
+        ? Number(event.key) as FdrValue
+        : event.key === "0" || event.key === "Backspace" || event.key === "Delete"
+          ? null
+          : undefined;
+      if (value === undefined) return;
+
+      event.preventDefault();
+      paintHoveredFixtureRef.current(hovered, value);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [closeEditor]);
 
   if (loading) {
     return <TickerSkeleton />;
@@ -257,9 +414,10 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
             Home opponents are uppercase. Away opponents are muted lowercase. Click a fixture to edit its FDR.
           </p>
         </div>
-        <span className="font-mono text-[11px] text-zinc-400">
-          {matrix.length} teams × {GAMEWEEKS.length} gameweeks
-        </span>
+        <div className="text-right font-mono text-[11px] text-zinc-400">
+          <p>{matrix.length} teams × {GAMEWEEKS.length} gameweeks</p>
+          <p className="mt-1 text-zinc-500">[Hover + 1–5 to paint · 0/Del to clear]</p>
+        </div>
       </header>
 
       <div className="group/ticker scroll-thin max-h-[calc(100vh-12rem)] overflow-auto">
@@ -305,6 +463,24 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
                               key={cell.fixture.fixture_id}
                               type="button"
                               onClick={(event) => openEditor(cell, row, event)}
+                              onMouseEnter={() => {
+                                const nextHovered = {
+                                  fixtureId: cell.fixture.fixture_id,
+                                  targetTeamId: row.id,
+                                  currentFdr: cell.fdr,
+                                };
+                                hoveredFixtureRef.current = nextHovered;
+                                setHoveredFixture(nextHovered);
+                              }}
+                              onMouseLeave={() => {
+                                if (
+                                  hoveredFixtureRef.current?.fixtureId === cell.fixture.fixture_id &&
+                                  hoveredFixtureRef.current.targetTeamId === row.id
+                                ) {
+                                  hoveredFixtureRef.current = null;
+                                  setHoveredFixture(null);
+                                }
+                              }}
                               aria-label={`${row.shortName} ${cell.isHome ? "home against" : "away at"} ${cell.opponent}, FDR ${cell.fdr ?? "unavailable"}`}
                               className={cn(
                                 "relative flex min-h-14 w-full flex-1 flex-col items-center justify-center px-1 py-1 text-center transition-[filter,opacity] duration-150 motion-reduce:transition-none hover:brightness-125 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-100 focus-visible:ring-inset",
@@ -414,6 +590,23 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
               {saving === "pair" ? "Saving…" : `Apply to all matches vs ${selected.opponent}`}
             </button>
           </div>
+        </div>
+      )}
+
+      {toast && (
+        <div
+          role="status"
+          className="fixed bottom-4 right-4 z-50 flex max-w-sm items-center gap-3 border border-rose-700 bg-zinc-950 px-3 py-2 text-xs text-zinc-100 shadow-lg shadow-black/40"
+        >
+          <span>{toast}</span>
+          <button
+            type="button"
+            onClick={dismissToast}
+            className="inline-flex min-h-10 min-w-10 shrink-0 items-center justify-center text-zinc-400 transition-colors hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-100 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+            aria-label="Dismiss update notification"
+          >
+            <X className="h-4 w-4" aria-hidden />
+          </button>
         </div>
       )}
     </section>

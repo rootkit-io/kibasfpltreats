@@ -25,6 +25,7 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import { ArrowDown, ArrowUp, Download, Link2, Search, Star, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { TeamKit } from "@/components/ui/TeamKit";
 import type { ProjectionRow } from "@/lib/validations/projections";
 import { HEAT_CLASS, heatFor } from "@/lib/heat";
 import { useWatchlist } from "@/lib/watchlist";
@@ -514,7 +515,12 @@ export default function ProjectionsTable({
                         tier && HEAT_CLASS[tier],
                       )}
                     >
-                      {c.key === "xpts" ? (
+                      {c.key === "web_name" ? (
+                        <span className="inline-flex max-w-full items-center gap-2 align-middle">
+                          <TeamKit teamCode={row.team_short} size={18} />
+                          <span className="truncate">{row.web_name ?? "—"}</span>
+                        </span>
+                      ) : c.key === "xpts" ? (
                         <span className="relative inline-flex items-center justify-end gap-2">
                           <span
                             aria-hidden

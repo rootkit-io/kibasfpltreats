@@ -12,6 +12,7 @@
 
 import { BRACKETS, hasBrackets, type SimulationRow } from "@/lib/api/simulations";
 import { cn } from "@/lib/utils";
+import { TeamKit } from "@/components/ui/TeamKit";
 
 function pct(value: number | null | undefined): number {
   return typeof value === "number" && Number.isFinite(value) ? value : 0;
@@ -110,7 +111,10 @@ export default function BracketDistribution({
             key={`${row.player_id}:${row.gameweek_id}`}
             className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-2 sm:grid-cols-[150px_minmax(0,1fr)_auto]"
           >
-            <span className="truncate text-xs font-medium">{row.web_name ?? "—"}</span>
+            <span className="flex min-w-0 items-center gap-2 text-xs font-medium">
+              <TeamKit teamCode={row.team_short} size={18} />
+              <span className="truncate">{row.web_name ?? "—"}</span>
+            </span>
             <div className="col-span-2 sm:col-span-1">
               <BracketBar row={row} />
             </div>

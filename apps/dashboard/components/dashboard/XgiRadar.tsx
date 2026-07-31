@@ -13,6 +13,7 @@
 import { useMemo, useState } from "react";
 
 import { cn } from "@/lib/utils";
+import { TeamKit } from "@/components/ui/TeamKit";
 import type { ProjectionRow } from "@/lib/validations/projections";
 
 const POSITIONS = ["All", "DEF", "MID", "FWD"] as const;
@@ -129,8 +130,9 @@ export default function XgiRadar({
               <span className="text-right font-mono text-[10px] text-muted-foreground">
                 {index + 1}
               </span>
-              <span className="truncate text-xs font-medium" title={`${row.name}${row.team ? ` · ${row.team}` : ""}`}>
-                {row.name}
+              <span className="flex min-w-0 items-center gap-2 text-xs font-medium" title={`${row.name}${row.team ? ` · ${row.team}` : ""}`}>
+                <TeamKit teamCode={row.team} size={18} />
+                <span className="truncate">{row.name}</span>
               </span>
               <div
                 className="flex h-3.5 overflow-hidden rounded-sm bg-muted"

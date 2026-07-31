@@ -17,6 +17,7 @@ import { Check, Search, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { BracketBar } from "@/components/dashboard/BracketDistribution";
+import { TeamKit } from "@/components/ui/TeamKit";
 import type { EnrichedSimulation } from "@/lib/api/simulations";
 
 const MAX_SELECTION = 4;
@@ -142,7 +143,10 @@ export default function PlayerCompareModal({ rows }: { rows: EnrichedSimulation[
                   >
                     {isSelected && <Check className="h-2.5 w-2.5" />}
                   </span>
-                  <span className="truncate font-medium">{row.web_name ?? "—"}</span>
+                  <span className="flex min-w-0 items-center gap-2 font-medium">
+                    <TeamKit teamCode={row.team_short} size={18} />
+                    <span className="truncate">{row.web_name ?? "—"}</span>
+                  </span>
                   <span className="ml-auto shrink-0 font-mono text-[10px] text-muted-foreground">
                     {typeof row.mean_pts === "number" ? row.mean_pts.toFixed(1) : "—"}
                   </span>
@@ -182,7 +186,10 @@ export default function PlayerCompareModal({ rows }: { rows: EnrichedSimulation[
                   className="min-w-0"
                 >
                   <div className="flex items-start justify-between gap-1">
-                    <p className="truncate text-xs font-semibold">{row.web_name ?? "—"}</p>
+                    <p className="flex min-w-0 items-center gap-2 truncate text-xs font-semibold">
+                      <TeamKit teamCode={row.team_short} size={18} />
+                      <span className="truncate">{row.web_name ?? "—"}</span>
+                    </p>
                     <button
                       onClick={() => toggle(row.player_id)}
                       className="text-muted-foreground hover:text-foreground"

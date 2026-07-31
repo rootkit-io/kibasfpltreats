@@ -27,6 +27,7 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import { Search, Sparkles } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { TeamKit } from "@/components/ui/TeamKit";
 import type { ProjectionRow } from "@/lib/validations/projections";
 
 const ROW_HEIGHT = 40;
@@ -87,7 +88,17 @@ function numberColumn(
 
 const IDENTITY_COLUMNS: ColumnDef<ProjectionRow>[] = [
   numberColumn("gameweek_id", "GW", (r) => r.gameweek_id, { digits: 0 }),
-  textColumn("web_name", "Player", (r) => r.web_name, "font-medium text-foreground"),
+  {
+    id: "web_name",
+    header: "Player",
+    accessorFn: (row) => row.web_name ?? "",
+    cell: ({ row }) => (
+      <span className="flex min-w-0 items-center gap-2 font-medium text-foreground">
+        <TeamKit teamCode={row.original.team_short} size={18} />
+        <span className="truncate">{row.original.web_name ?? "—"}</span>
+      </span>
+    ),
+  },
   textColumn("team_short", "Team", (r) => r.team_short),
   textColumn("position", "Pos", (r) => r.position),
   numberColumn("price", "£", (r) => r.price, { digits: 1 }),
