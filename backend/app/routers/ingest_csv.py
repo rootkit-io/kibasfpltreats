@@ -350,3 +350,117 @@ def resolve_identities(
     resolved["player_id"] = player_ids
     resolved["team_id"] = team_ids
     return ResolutionResult(resolved=resolved, unmatched=unmatched)
+
+
+# --------------------------------------------------------------- fixtures
+# The fixture grain comes from the model's INTERNAL frame export
+# (`fixtures_forecast.csv`), not from the presentation exports the player
+# grains use. That is not a preference -- the presentation family carries no
+# fixture identity at all: `qc_team_week_fixture.csv` has a team name and a
+# gameweek but no opponent, no home/away flag and no fixture id, so
+# `fixtures` rows simply cannot be reconstructed from it.
+FIXTURE_REQUIRED: tuple[str, ...] = ("id", "event", "team_h", "team_a")
+
+#: CSV header -> fixture_forecasts column.
+FIXTURE_FORECAST_MAP: dict[str, str] = {
+    "home_xg": "home_goals_lambda",
+    "away_xg": "away_goals_lambda",
+    "home_cs_prob": "home_cs_prob",
+    "away_cs_prob": "away_cs_prob",
+    "projection_source": "projection_source",
+}
+
+#: DB CHECK constraints require these in [0, 1].
+FIXTURE_PROBABILITY_COLUMNS: tuple[str, ...] = ("home_cs_prob", "away_cs_prob")
+
+#: CSV header -> fixtures (dimension) column. Migration 0002 added these, and
+#: the public ticker reads
+#:     COALESCE(team_h_fdr_override, team_h_fdr_fpl)
+#: so leaving team_h_fdr_fpl NULL is exactly what renders the ticker as empty
+#: dashes. Populating it here is the fix.
+FIXTURE_DIMENSION_MAP: dict[str, str] = {
+    "team_h_difficulty": "team_h_fdr_fpl",
+    "team_a_difficulty": "team_a_fdr_fpl",
+    "finished": "finished",
+}
+
+#: Difficulty columns carry a CHECK (BETWEEN 1 AND 5).
+FIXTURE_FDR_COLUMNS: tuple[str, ...] = ("team_h_difficulty", "team_a_difficulty")
+
+#: Everything in the export that the schema can hold is now mapped. The
+#: per-team admin FDR overrides are deliberately NOT ingested -- they are
+#: human edits and re-ingesting a run must never silently revert them.
+UNMAPPED_FIXTURE: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
+class FixtureReport:
+    row_count: int
+    gameweeks: list[int]
+    team_ids: list[int]
+
+
+def check_fixture_frame(
+    fixtures: pd.DataFrame, run_gameweeks: Iterable[int]
+) -> FixtureReport:
+    """Validate the fixture export and guard against stale-file mixing."""
+    duplicated = int(fixtures.duplicated(subset=["id"]).sum())
+    if duplicated:
+        raise IngestValidationError(
+            f"fixtures file has {duplicated} duplicate fixture id(s)"
+        )
+
+    for column in FIXTURE_PROBABILITY_COLUMNS:
+        if column not in fixtures.columns:
+            continue
+        series = pd.to_numeric(fixtures[column], errors="coerce")
+        bad = series[(series < 0) | (series > 1)]
+        if not bad.empty:
+            raise IngestValidationError(
+                f"fixtures column {column!r} must lie in [0, 1]",
+                [{"column": column, "out_of_range_rows": int(len(bad))}],
+            )
+
+    for column in FIXTURE_FDR_COLUMNS:
+        if column not in fixtures.columns:
+            continue
+        series = pd.to_numeric(fixtures[column], errors="coerce").dropna()
+        bad = series[(series < 1) | (series > 5)]
+        if not bad.empty:
+            raise IngestValidationError(
+                f"fixtures column {column!r} must lie in 1..5 (FPL difficulty)",
+                [{"column": column, "out_of_range_rows": int(len(bad)),
+                  "example_value": float(bad.iloc[0])}],
+            )
+
+    gameweeks = sorted({int(g) for g in pd.to_numeric(fixtures["event"], errors="coerce").dropna()})
+    if not gameweeks:
+        raise IngestValidationError("fixtures file has no usable 'event' values")
+
+    known = set(int(g) for g in run_gameweeks)
+    stray = [g for g in gameweeks if g not in known]
+    if stray:
+        # Subset rather than equality: blanks and double gameweeks legitimately
+        # make fixture coverage narrower than the player horizon. A gameweek
+        # OUTSIDE the horizon, though, means a different model run.
+        raise IngestValidationError(
+            f"fixtures cover gameweek(s) {stray} outside the run horizon "
+            f"{sorted(known)} -- the files are not from the same model run",
+            [{"fixture_gameweeks": gameweeks, "run_gameweeks": sorted(known)}],
+        )
+
+    team_ids = sorted(
+        {int(t) for t in pd.to_numeric(fixtures["team_h"], errors="coerce").dropna()}
+        | {int(t) for t in pd.to_numeric(fixtures["team_a"], errors="coerce").dropna()}
+    )
+    return FixtureReport(
+        row_count=int(len(fixtures)), gameweeks=gameweeks, team_ids=team_ids
+    )
+
+
+def unknown_fixture_teams(
+    report: FixtureReport, known_team_ids: Iterable[int]
+) -> list[int]:
+    """Team ids referenced by fixtures but absent from the season's dimension."""
+    known = {int(t) for t in known_team_ids}
+    return [t for t in report.team_ids if t not in known]

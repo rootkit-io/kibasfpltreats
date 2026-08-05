@@ -25,22 +25,29 @@ import uuid
 from typing import Any
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Request, UploadFile
+from pydantic import BaseModel, Field
 
 from .ingest_csv import (
+    FIXTURE_DIMENSION_MAP,
+    FIXTURE_FORECAST_MAP,
+    FIXTURE_REQUIRED,
     MC_COLUMN_MAP,
     MC_REQUIRED,
+    UNMAPPED_FIXTURE,
     UNMAPPED_MC,
     UNMAPPED_WEEKLY,
     WEEKLY_COLUMN_MAP,
     WEEKLY_REQUIRED,
     IngestValidationError,
     build_identity_index,
+    check_fixture_frame,
     check_positions,
     check_symmetry,
     check_value_ranges,
     read_projection_csv,
     require_columns,
     resolve_identities,
+    unknown_fixture_teams,
 )
 
 try:
@@ -60,6 +67,39 @@ router = APIRouter(prefix="/api/v1", tags=["admin-ingest"])
 
 WEEKLY_FILENAME = "weekly_player_week.csv"
 MC_FILENAME = "mc_brackets_full_player_week.csv"
+FIXTURES_FILENAME = "fixtures_forecast.csv"
+
+
+class UnmatchedPlayer(BaseModel):
+    player: str
+    team: str
+    name_key: str
+    team_key: str
+    reason: str
+
+
+class DroppedColumns(BaseModel):
+    weekly: list[str]
+    monte_carlo: list[str]
+    fixtures: list[str]
+
+
+class IngestResult(BaseModel):
+    """Response contract for a precomputed-run ingest."""
+
+    run_id: str
+    season: str
+    status: str = "draft"
+    gameweeks: list[int]
+    weekly_rows: int
+    simulation_rows: int
+    #: 0 when no fixtures file was supplied -- the grain is optional.
+    fixture_rows: int = 0
+    fixtures_upserted: int = 0
+    fixture_gameweeks: list[int] = Field(default_factory=list)
+    players: int
+    unmatched_players: list[UnmatchedPlayer]
+    dropped_columns: DroppedColumns
 
 #: Refuse to stage a run when identity resolution is this bad -- a wholesale
 #: failure means the wrong season or an unpopulated dimension table, and
@@ -71,12 +111,21 @@ def _fail(message: str, errors: list[dict] | None = None, status: int = 400):
     raise HTTPException(status_code=status, detail={"message": message, "errors": errors or []})
 
 
-@router.post("/admin/projections/ingest-csvs", dependencies=[Depends(require_admin_token)])
+@router.post(
+    "/admin/projections/ingest-csvs",
+    dependencies=[Depends(require_admin_token)],
+    response_model=IngestResult,
+)
 async def ingest_precomputed_run(
     request: Request,
-    season: str = Form(..., description="e.g. '2627' -- absent from both CSVs"),
+    season: str = Form(..., description="e.g. '2627' -- absent from the CSVs"),
     weekly_file: UploadFile = File(..., description=WEEKLY_FILENAME),
     mc_file: UploadFile = File(..., description=MC_FILENAME),
+    # OPTIONAL on purpose. The admin panel lives outside this service and still
+    # posts two files; making the fixture grain mandatory would break that flow
+    # the moment this deploys. Runs ingested without it behave exactly as
+    # before -- the dashboard's ticker simply stays disabled for them.
+    fixtures_csv: UploadFile | None = File(default=None, description=FIXTURES_FILENAME),
     notes: str | None = Form(default=None),
 ) -> dict[str, Any]:
     pool = getattr(request.app.state, "db_pool", None)
@@ -96,6 +145,13 @@ async def ingest_precomputed_run(
         report = check_symmetry(weekly, mc)
         check_value_ranges(mc)
         check_positions(weekly)
+
+        fixtures = None
+        fixture_report = None
+        if fixtures_csv is not None and fixtures_csv.filename:
+            fixtures = read_projection_csv(await fixtures_csv.read(), label=FIXTURES_FILENAME)
+            require_columns(fixtures, FIXTURE_REQUIRED, label=FIXTURES_FILENAME)
+            fixture_report = check_fixture_frame(fixtures, report.gameweeks)
     except IngestValidationError as exc:
         logger.info("ingest preflight rejected: %s", exc.message)
         raise HTTPException(status_code=400, detail=exc.as_detail()) from exc
@@ -119,6 +175,18 @@ async def ingest_precomputed_run(
                 [{"players": len(player_rows), "teams": len(team_rows)}],
                 status=409,
             )
+
+        if fixture_report is not None:
+            missing_teams = unknown_fixture_teams(
+                fixture_report, (int(t[0]) for t in team_rows)
+            )
+            if missing_teams:
+                _fail(
+                    f"fixtures reference team id(s) {missing_teams} that are not "
+                    f"loaded for season {season!r}",
+                    [{"missing_team_ids": missing_teams}],
+                    status=409,
+                )
 
         cur.execute("SELECT id FROM gameweeks WHERE season = %s", (season,))
         known_gws = {int(r[0]) for r in cur.fetchall()}
@@ -174,10 +242,22 @@ async def ingest_precomputed_run(
         mc_rows = _mc_tuples(mc_indexed, run_id, season)
         cur.executemany(_mc_insert_sql(), mc_rows)
 
+        # Fixture grain. `fixtures` is a season-scoped dimension upserted
+        # first, because fixture_forecasts carries an FK onto it. Both run
+        # inside this same `with pool.connection()` block, so a failure here
+        # rolls back the run row and the player grains with it.
+        fixture_rows: list[tuple] = []
+        if fixtures is not None and fixture_report is not None:
+            dimension_rows = _fixture_dimension_tuples(fixtures, season)
+            cur.executemany(_fixture_upsert_sql(), dimension_rows)
+            fixture_rows = _fixture_forecast_tuples(fixtures, run_id, season)
+            cur.executemany(_fixture_forecast_insert_sql(), fixture_rows)
+
     logger.info(
-        "ingested draft run %s season=%s gws=%s weekly=%d sims=%d unmatched=%d",
+        "ingested draft run %s season=%s gws=%s weekly=%d sims=%d fixtures=%d "
+        "unmatched=%d",
         run_id, season, report.gameweeks, len(weekly_rows), len(mc_rows),
-        len(resolution.unmatched),
+        len(fixture_rows), len(resolution.unmatched),
     )
     return {
         "run_id": run_id,
@@ -187,8 +267,15 @@ async def ingest_precomputed_run(
         "weekly_rows": len(weekly_rows),
         "simulation_rows": len(mc_rows),
         "players": report.player_count,
+        "fixture_rows": len(fixture_rows),
+        "fixtures_upserted": len(fixture_rows),
+        "fixture_gameweeks": fixture_report.gameweeks if fixture_report else [],
         "unmatched_players": resolution.unmatched,
-        "dropped_columns": {"weekly": list(UNMAPPED_WEEKLY), "monte_carlo": list(UNMAPPED_MC)},
+        "dropped_columns": {
+            "weekly": list(UNMAPPED_WEEKLY),
+            "monte_carlo": list(UNMAPPED_MC),
+            "fixtures": list(UNMAPPED_FIXTURE),
+        },
     }
 
 
@@ -260,5 +347,95 @@ def _mc_tuples(frame, run_id: str, season: str) -> list[tuple]:
         rows.append((
             run_id, season, int(record["GW"]), int(record["player_id"]),
             *(_clean(record.get(csv_col)) for csv_col in MC_COLUMN_MAP),
+        ))
+    return rows
+
+
+# ---------------------------------------------------------- fixture writes
+_FIXTURE_DIMENSION_COLUMNS = [
+    "season", "id", "gameweek_id", "home_team_id", "away_team_id", "kickoff_time",
+    *FIXTURE_DIMENSION_MAP.values(),
+]
+_FIXTURE_FORECAST_COLUMNS = [
+    "run_id", "season", "fixture_id", "gameweek_id", *FIXTURE_FORECAST_MAP.values(),
+]
+
+
+def _fixture_upsert_sql() -> str:
+    cols = ", ".join(_FIXTURE_DIMENSION_COLUMNS)
+    ph = ", ".join(["%s"] * len(_FIXTURE_DIMENSION_COLUMNS))
+    # Idempotent by (season, id): re-ingesting a later run refreshes kickoff
+    # times and gameweek moves without duplicating the dimension.
+    return (
+        f"INSERT INTO fixtures ({cols}) VALUES ({ph}) "
+        "ON CONFLICT (season, id) DO UPDATE SET "
+        "gameweek_id = EXCLUDED.gameweek_id, "
+        "home_team_id = EXCLUDED.home_team_id, "
+        "away_team_id = EXCLUDED.away_team_id, "
+        "kickoff_time = EXCLUDED.kickoff_time, "
+        "finished = EXCLUDED.finished, "
+        "team_h_fdr_fpl = EXCLUDED.team_h_fdr_fpl, "
+        "team_a_fdr_fpl = EXCLUDED.team_a_fdr_fpl"
+        # team_h_fdr_override / team_a_fdr_override are intentionally absent:
+        # those are admin edits made through PATCH /admin/fixtures/fdr, and a
+        # re-ingest must not wipe them. The public endpoint COALESCEs the
+        # override over the FPL value, so an override keeps winning.
+    )
+
+
+def _fixture_forecast_insert_sql() -> str:
+    cols = ", ".join(_FIXTURE_FORECAST_COLUMNS)
+    ph = ", ".join(["%s"] * len(_FIXTURE_FORECAST_COLUMNS))
+    return f"INSERT INTO fixture_forecasts ({cols}) VALUES ({ph})"
+
+
+def _fixture_dimension_tuples(frame, season: str) -> list[tuple]:
+    rows = []
+    for record in frame.to_dict("records"):
+        kickoff = _clean(record.get("kickoff_time"))
+        rows.append((
+            season,
+            int(record["id"]),
+            int(record["event"]),
+            int(record["team_h"]),
+            int(record["team_a"]),
+            # Empty strings must become NULL, not '' -- timestamptz would reject.
+            str(kickoff) if kickoff not in (None, "") else None,
+            # Driven off FIXTURE_DIMENSION_MAP so the value order can never
+            # drift from the column order in the generated INSERT.
+            *(
+                _FIXTURE_COERCE[csv_col](_clean(record.get(csv_col)))
+                for csv_col in FIXTURE_DIMENSION_MAP
+            ),
+        ))
+    return rows
+
+
+#: Per-column coercion for the fixtures dimension. `finished` is NOT NULL
+#: DEFAULT false so it must never be None; the FDR columns are nullable ints
+#: with a CHECK of 1..5.
+_FIXTURE_COERCE = {
+    "team_h_difficulty": lambda v: _int_or_none(v),
+    "team_a_difficulty": lambda v: _int_or_none(v),
+    "finished": lambda v: bool(v) if v is not None else False,
+}
+
+
+def _int_or_none(value):
+    """FDR columns are integer + CHECK 1..5; a blank export cell means NULL."""
+    if value is None:
+        return None
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _fixture_forecast_tuples(frame, run_id: str, season: str) -> list[tuple]:
+    rows = []
+    for record in frame.to_dict("records"):
+        rows.append((
+            run_id, season, int(record["id"]), int(record["event"]),
+            *(_clean(record.get(csv_col)) for csv_col in FIXTURE_FORECAST_MAP),
         ))
     return rows
