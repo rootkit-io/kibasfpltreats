@@ -32,6 +32,8 @@ from .ingest_csv import (
     FIXTURE_FORECAST_MAP,
     FIXTURE_REQUIRED,
     MC_COLUMN_MAP,
+    PLAYERS_REQUIRED,
+    TEAMS_REQUIRED,
     MC_REQUIRED,
     UNMAPPED_FIXTURE,
     UNMAPPED_MC,
@@ -44,8 +46,10 @@ from .ingest_csv import (
     check_positions,
     check_symmetry,
     check_value_ranges,
+    player_dimension_tuples,
     read_projection_csv,
     require_columns,
+    team_dimension_tuples,
     resolve_identities,
     unknown_fixture_teams,
 )
@@ -68,6 +72,8 @@ router = APIRouter(prefix="/api/v1", tags=["admin-ingest"])
 WEEKLY_FILENAME = "weekly_player_week.csv"
 MC_FILENAME = "mc_brackets_full_player_week.csv"
 FIXTURES_FILENAME = "fixtures_forecast.csv"
+PLAYERS_FILENAME = "players.csv"
+TEAMS_FILENAME = "teams.csv"
 
 
 class UnmatchedPlayer(BaseModel):
@@ -97,6 +103,9 @@ class IngestResult(BaseModel):
     fixture_rows: int = 0
     fixtures_upserted: int = 0
     fixture_gameweeks: list[int] = Field(default_factory=list)
+    #: 0 when the corresponding dimension file was not supplied.
+    teams_upserted: int = 0
+    players_upserted: int = 0
     players: int
     unmatched_players: list[UnmatchedPlayer]
     dropped_columns: DroppedColumns
@@ -126,6 +135,11 @@ async def ingest_precomputed_run(
     # the moment this deploys. Runs ingested without it behave exactly as
     # before -- the dashboard's ticker simply stays disabled for them.
     fixtures_csv: UploadFile | None = File(default=None, description=FIXTURES_FILENAME),
+    # Dimension seeding. Optional, but supplying them is the only way to fix a
+    # stale squad: identity resolution reads `players`/`teams`, so a DB missing
+    # late-window transfers fails wholesale no matter how good the matching is.
+    players_csv: UploadFile | None = File(default=None, description=PLAYERS_FILENAME),
+    teams_csv: UploadFile | None = File(default=None, description=TEAMS_FILENAME),
     notes: str | None = Form(default=None),
 ) -> dict[str, Any]:
     pool = getattr(request.app.state, "db_pool", None)
@@ -146,6 +160,15 @@ async def ingest_precomputed_run(
         check_value_ranges(mc)
         check_positions(weekly)
 
+        teams_frame = None
+        players_frame = None
+        if teams_csv is not None and teams_csv.filename:
+            teams_frame = read_projection_csv(await teams_csv.read(), label=TEAMS_FILENAME)
+            require_columns(teams_frame, TEAMS_REQUIRED, label=TEAMS_FILENAME)
+        if players_csv is not None and players_csv.filename:
+            players_frame = read_projection_csv(await players_csv.read(), label=PLAYERS_FILENAME)
+            require_columns(players_frame, PLAYERS_REQUIRED, label=PLAYERS_FILENAME)
+
         fixtures = None
         fixture_report = None
         if fixtures_csv is not None and fixtures_csv.filename:
@@ -158,6 +181,23 @@ async def ingest_precomputed_run(
 
     with pool.connection() as conn:  # one transaction: commit on exit, rollback on raise
         cur = conn.cursor()
+
+        # Dimension seeding runs FIRST, inside this same transaction, so the
+        # identity index below is built from the freshly-upserted squad rather
+        # than the stale one. Teams precede players only for readability; there
+        # is no FK between them.
+        team_dimension_rows: list[tuple] = []
+        player_dimension_rows: list[tuple] = []
+        try:
+            if teams_frame is not None:
+                team_dimension_rows = team_dimension_tuples(teams_frame, season)
+                cur.executemany(_teams_upsert_sql(), team_dimension_rows)
+            if players_frame is not None:
+                player_dimension_rows = player_dimension_tuples(players_frame, season)
+                cur.executemany(_players_upsert_sql(), player_dimension_rows)
+        except IngestValidationError as exc:
+            logger.info("dimension seeding rejected: %s", exc.message)
+            raise HTTPException(status_code=400, detail=exc.as_detail()) from exc
 
         cur.execute(
             "SELECT id, first_name, second_name, web_name FROM players WHERE season = %s",
@@ -255,9 +295,10 @@ async def ingest_precomputed_run(
 
     logger.info(
         "ingested draft run %s season=%s gws=%s weekly=%d sims=%d fixtures=%d "
-        "unmatched=%d",
+        "teams=%d players=%d unmatched=%d",
         run_id, season, report.gameweeks, len(weekly_rows), len(mc_rows),
-        len(fixture_rows), len(resolution.unmatched),
+        len(fixture_rows), len(team_dimension_rows), len(player_dimension_rows),
+        len(resolution.unmatched),
     )
     return {
         "run_id": run_id,
@@ -270,6 +311,8 @@ async def ingest_precomputed_run(
         "fixture_rows": len(fixture_rows),
         "fixtures_upserted": len(fixture_rows),
         "fixture_gameweeks": fixture_report.gameweeks if fixture_report else [],
+        "teams_upserted": len(team_dimension_rows),
+        "players_upserted": len(player_dimension_rows),
         "unmatched_players": resolution.unmatched,
         "dropped_columns": {
             "weekly": list(UNMAPPED_WEEKLY),
@@ -328,7 +371,12 @@ def _weekly_tuples(frame, run_id: str, season: str) -> list[tuple]:
     for record in frame.to_dict("records"):
         rows.append((
             run_id, season, int(record["GW"]), int(record["player_id"]),
-            int(record["team_id"]), str(record["Pos"]).upper(),
+            # team_id is NULLABLE in the schema. The ID-first resolver can
+            # match a player by element id while failing to attribute a club
+            # (unknown/renamed team); losing the club is far better than
+            # dropping the projection, so write NULL rather than crashing.
+            None if record.get("team_id") is None else int(record["team_id"]),
+            str(record["Pos"]).upper(),
             *(_clean(record.get(csv_col)) for csv_col in WEEKLY_COLUMN_MAP),
         ))
     return rows
@@ -439,3 +487,27 @@ def _fixture_forecast_tuples(frame, run_id: str, season: str) -> list[tuple]:
             *(_clean(record.get(csv_col)) for csv_col in FIXTURE_FORECAST_MAP),
         ))
     return rows
+
+
+# -------------------------------------------------------- dimension upserts
+# SQL mirrors PostgresProjectionRepository._upsert_teams/_upsert_players so a
+# run seeded through this endpoint is byte-identical to one seeded by
+# save_run(). Kept as literals rather than imported: the repository methods are
+# bound to a repository instance and live in the read-only modelling package.
+def _teams_upsert_sql() -> str:
+    return (
+        "INSERT INTO teams (season, id, name, short_name) VALUES (%s, %s, %s, %s) "
+        "ON CONFLICT (season, id) DO UPDATE "
+        "SET name = EXCLUDED.name, short_name = EXCLUDED.short_name"
+    )
+
+
+def _players_upsert_sql() -> str:
+    return (
+        "INSERT INTO players (season, id, first_name, second_name, web_name) "
+        "VALUES (%s, %s, %s, %s, %s) "
+        "ON CONFLICT (season, id) DO UPDATE "
+        "SET first_name = EXCLUDED.first_name, "
+        "    second_name = EXCLUDED.second_name, "
+        "    web_name = EXCLUDED.web_name"
+    )

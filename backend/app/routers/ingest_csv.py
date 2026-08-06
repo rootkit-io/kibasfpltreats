@@ -36,6 +36,75 @@ except ModuleNotFoundError:  # pragma: no cover - source checkout without instal
     from fpl_xpts.shot_profiles import _canon_team, _norm
 
 
+# ------------------------------------------------------ team canonicalisation
+#: `_canon_team` in fpl_xpts.shot_profiles is a read-only library function and
+#: its alias table is incomplete -- it has no entry for West Ham, Leeds,
+#: Bournemouth and several others. Rather than fork it, we post-process its
+#: output so both sides of a comparison collapse onto the same key.
+#:
+#: Direction does not matter, only agreement: whatever key the CSV name and the
+#: DB name reduce to, they must reduce to the SAME one.
+SUPPLEMENTARY_TEAM_ALIASES: dict[str, str] = {
+    "west ham united": "west ham",
+    "west ham utd": "west ham",
+    "leeds united": "leeds",
+    "afc bournemouth": "bournemouth",
+    "brighton and hove albion": "brighton",
+    "brighton hove albion": "brighton",
+    "luton town": "luton",
+    "ipswich town": "ipswich",
+    "leicester city": "leicester",
+    "norwich city": "norwich",
+    "stoke city": "stoke",
+    "swansea city": "swansea",
+    "cardiff city": "cardiff",
+    "hull city": "hull",
+    "sheffield united": "sheffield utd",
+    "sheffield wednesday": "sheffield wed",
+    "west bromwich albion": "west brom",
+    "queens park rangers": "qpr",
+    "nott m forest": "nottingham forest",
+    "manchester utd": "manchester united",
+    "newcastle utd": "newcastle united",
+    "tottenham hotspur": "tottenham",
+    "wolverhampton": "wolverhampton wanderers",
+}
+
+
+#: Club-suffix noise that carries no identity ("Burnley" vs "Burnley FC").
+#: Stripped generically so the alias table does not need an entry per club.
+_TEAM_SUFFIXES = (" fc", " afc", " cf")
+_TEAM_PREFIXES = ("afc ",)
+
+
+def canonical_team(name: object) -> str:
+    """`_canon_team`, plus the aliases and affixes the library table misses.
+
+    Applied to BOTH sides of every comparison, so the only requirement is that
+    a CSV name and a DB name reduce to the same key -- not that either matches
+    some canonical spelling.
+    """
+    key = _canon_team(name)
+    for prefix in _TEAM_PREFIXES:
+        if key.startswith(prefix):
+            key = key[len(prefix):]
+    for suffix in _TEAM_SUFFIXES:
+        if key.endswith(suffix):
+            key = key[: -len(suffix)]
+    key = key.strip()
+    # Re-run the alias table: stripping affixes can expose a known alias
+    # ("Tottenham Hotspur FC" -> "tottenham hotspur" -> "tottenham").
+    key = SUPPLEMENTARY_TEAM_ALIASES.get(key, key)
+    return _canon_team(key) if key != _canon_team(key) else key
+
+
+#: Present only in the model's INTERNAL frame export. When the uploaded weekly
+#: frame carries it, identity resolution switches to exact integer matching and
+#: never touches a name.
+WEEKLY_ID_COLUMN = "player_id"
+WEEKLY_TEAM_ID_COLUMN = "team_id"
+
+
 class IngestValidationError(Exception):
     """Preflight failure. Carries structured detail for a 400 response."""
 
@@ -237,6 +306,9 @@ class IdentityIndex:
     players: Mapping[str, int]
     ambiguous_players: frozenset[str]
     teams: Mapping[str, int]
+    #: Raw season-scoped ids, for the ID-first path.
+    player_ids: frozenset[int] = frozenset()
+    team_ids: frozenset[int] = frozenset()
 
     @property
     def is_empty(self) -> bool:
@@ -275,8 +347,15 @@ def build_identity_index(
 
     players = {k: next(iter(v)) for k, v in candidates.items() if len(v) == 1}
     ambiguous = frozenset(k for k, v in candidates.items() if len(v) > 1)
-    teams = {_canon_team(name): int(tid) for tid, name in team_rows}
-    return IdentityIndex(players=players, ambiguous_players=ambiguous, teams=teams)
+    team_pairs = [(int(tid), name) for tid, name in team_rows]
+    teams = {canonical_team(name): tid for tid, name in team_pairs}
+    return IdentityIndex(
+        players=players,
+        ambiguous_players=ambiguous,
+        teams=teams,
+        player_ids=frozenset(pid for pids in candidates.values() for pid in pids),
+        team_ids=frozenset(tid for tid, _ in team_pairs),
+    )
 
 
 def split_player_key(player_key: str) -> tuple[str, str]:
@@ -287,6 +366,75 @@ def split_player_key(player_key: str) -> tuple[str, str]:
     """
     name, _, team = str(player_key).partition("|")
     return name.strip(), team.strip()
+
+
+def has_player_ids(weekly: pd.DataFrame) -> bool:
+    """True when the export carries a usable integer FPL element id."""
+    if WEEKLY_ID_COLUMN not in weekly.columns:
+        return False
+    return bool(pd.to_numeric(weekly[WEEKLY_ID_COLUMN], errors="coerce").notna().any())
+
+
+def _resolve_by_id(weekly: pd.DataFrame, index: IdentityIndex) -> ResolutionResult:
+    """Exact integer matching. No names are consulted at all.
+
+    Preferred whenever the export provides ids: string matching is inherently
+    lossy (``Carlos Henrique Casimiro`` vs ``Casemiro``), while an FPL element
+    id is the season's primary key on both sides.
+
+    The team id is taken from the export when numeric; otherwise it falls back
+    to the canonical team name, because some exports pair ids with club names.
+    """
+    unmatched: list[dict] = []
+    player_series = pd.to_numeric(weekly[WEEKLY_ID_COLUMN], errors="coerce")
+
+    team_series = None
+    if WEEKLY_TEAM_ID_COLUMN in weekly.columns:
+        team_series = pd.to_numeric(weekly[WEEKLY_TEAM_ID_COLUMN], errors="coerce")
+    elif "team" in weekly.columns:
+        numeric_team = pd.to_numeric(weekly["team"], errors="coerce")
+        if numeric_team.notna().any():
+            team_series = numeric_team
+
+    player_ids: list[int | None] = []
+    team_ids: list[int | None] = []
+    seen_bad: set[int] = set()
+
+    for position, raw_player in enumerate(player_series):
+        pid = None if pd.isna(raw_player) else int(raw_player)
+        tid = None
+
+        if pid is None or pid not in index.player_ids:
+            if pid not in seen_bad:
+                seen_bad.add(pid if pid is not None else -1)
+                unmatched.append({
+                    "player": str(weekly.iloc[position].get("player", "")) or str(pid),
+                    "team": str(weekly.iloc[position].get("team", "")),
+                    "name_key": "",
+                    "team_key": "",
+                    "reason": (
+                        "row has no player_id"
+                        if pid is None
+                        else f"player_id {pid} is not in the season's squad"
+                    ),
+                })
+            player_ids.append(None)
+            team_ids.append(None)
+            continue
+
+        if team_series is not None and not pd.isna(team_series.iloc[position]):
+            candidate = int(team_series.iloc[position])
+            tid = candidate if candidate in index.team_ids else None
+        if tid is None and "team" in weekly.columns:
+            tid = index.teams.get(canonical_team(weekly.iloc[position]["team"]))
+
+        player_ids.append(pid)
+        team_ids.append(tid)
+
+    resolved = weekly.copy()
+    resolved["player_id"] = player_ids
+    resolved["team_id"] = team_ids
+    return ResolutionResult(resolved=resolved, unmatched=unmatched)
 
 
 def resolve_identities(
@@ -306,6 +454,11 @@ def resolve_identities(
     names with FPL's abbreviations (``Spurs`` / ``Man City`` / ``Nott'm
     Forest``), which a literal key comparison would miss entirely.
     """
+    # ID-first: if the export carries FPL element ids, use them and never touch
+    # a name. Falls through to name matching only for exports that lack ids.
+    if has_player_ids(weekly):
+        return _resolve_by_id(weekly, index)
+
     unmatched: list[dict] = []
     player_ids: list[int | None] = []
     team_ids: list[int | None] = []
@@ -319,7 +472,7 @@ def resolve_identities(
     for key in dict.fromkeys(row_keys):
         raw_player, raw_team = key
         name_key = _norm(raw_player)
-        team_key = _canon_team(raw_team)
+        team_key = canonical_team(raw_team)
         reason = None
         if name_key in index.ambiguous_players:
             reason = "player name matches more than one FPL id"
@@ -464,3 +617,120 @@ def unknown_fixture_teams(
     """Team ids referenced by fixtures but absent from the season's dimension."""
     known = {int(t) for t in known_team_ids}
     return [t for t in report.team_ids if t not in known]
+
+
+# ------------------------------------------------------ dimension seeding
+# The ingest path needs `players` and `teams` to already hold the squad the
+# export was built against. When they drift (a stale seed missing late-window
+# transfers) identity resolution fails wholesale and the run is refused, which
+# is correct but unhelpful -- there was previously no way to supply the
+# dimensions, unlike the model-computed path where save_run() upserts them.
+#
+# These frames are the FPL bootstrap tables as the model exports them
+# (`players.csv` / `teams.csv`). Only the identity columns are read; the other
+# ~100 bootstrap columns are ignored deliberately, so the public surface does
+# not silently widen when FPL adds fields.
+PLAYERS_REQUIRED: tuple[str, ...] = ("id", "web_name")
+TEAMS_REQUIRED: tuple[str, ...] = ("id", "name")
+
+#: Upper bound on a dimension upload. The Premier League has 20 clubs and
+#: ~800 registered players; 20k is far above any legitimate payload while
+#: still bounding memory for a malicious one.
+MAX_DIMENSION_ROWS = 20_000
+
+#: Postgres `text` is unbounded, but a name field arriving with megabytes in it
+#: is an attack, not a transfer. Reject rather than silently truncate.
+MAX_NAME_LENGTH = 200
+
+
+def _dimension_id(value: object, *, label: str, row: int) -> int:
+    """Coerce an FPL id, rejecting anything that is not a positive integer."""
+    number = pd.to_numeric(value, errors="coerce")
+    if pd.isna(number):
+        raise IngestValidationError(
+            f"{label} row {row} has a non-numeric id",
+            [{"file": label, "row": row, "value": str(value)[:60]}],
+        )
+    identifier = int(number)
+    if identifier <= 0:
+        raise IngestValidationError(
+            f"{label} row {row} has a non-positive id ({identifier})"
+        )
+    return identifier
+
+
+def _dimension_text(value: object, *, label: str, column: str) -> str | None:
+    """Normalise an optional text cell; NaN/blank become NULL."""
+    if value is None or (isinstance(value, float) and pd.isna(value)):
+        return None
+    text = str(value).strip()
+    if not text or text.lower() == "nan":
+        return None
+    if len(text) > MAX_NAME_LENGTH:
+        raise IngestValidationError(
+            f"{label} has a {column} longer than {MAX_NAME_LENGTH} characters"
+        )
+    return text
+
+
+def _check_dimension_size(frame: pd.DataFrame, label: str) -> None:
+    if len(frame) > MAX_DIMENSION_ROWS:
+        raise IngestValidationError(
+            f"{label} has {len(frame)} rows, above the {MAX_DIMENSION_ROWS} limit"
+        )
+
+
+def team_dimension_tuples(frame: pd.DataFrame, season: str) -> list[tuple]:
+    """(season, id, name, short_name) rows for the `teams` upsert.
+
+    Mirrors PostgresProjectionRepository._upsert_teams so a run seeded here is
+    indistinguishable from one seeded by save_run().
+    """
+    _check_dimension_size(frame, "teams")
+    deduped = frame.drop_duplicates(subset=["id"], keep="last")
+    rows: list[tuple] = []
+    for position, record in enumerate(deduped.to_dict("records"), start=1):
+        name = _dimension_text(record.get("name"), label="teams", column="name")
+        if name is None:
+            raise IngestValidationError(f"teams row {position} has an empty name")
+        rows.append((
+            season,
+            _dimension_id(record.get("id"), label="teams", row=position),
+            name,
+            _dimension_text(record.get("short_name"), label="teams", column="short_name"),
+        ))
+    if not rows:
+        raise IngestValidationError("teams file contains no usable rows")
+    return rows
+
+
+def player_dimension_tuples(frame: pd.DataFrame, season: str) -> list[tuple]:
+    """(season, id, first_name, second_name, web_name) rows for `players`.
+
+    `web_name` is NOT NULL in the schema, so a blank one falls back to the
+    full name rather than writing an empty string that would then fail to
+    match anything.
+    """
+    _check_dimension_size(frame, "players")
+    deduped = frame.drop_duplicates(subset=["id"], keep="last")
+    rows: list[tuple] = []
+    for position, record in enumerate(deduped.to_dict("records"), start=1):
+        first = _dimension_text(record.get("first_name"), label="players", column="first_name")
+        second = _dimension_text(record.get("second_name"), label="players", column="second_name")
+        web = _dimension_text(record.get("web_name"), label="players", column="web_name")
+        if web is None:
+            web = " ".join(part for part in (first, second) if part) or None
+        if web is None:
+            raise IngestValidationError(
+                f"players row {position} has neither a web_name nor a full name"
+            )
+        rows.append((
+            season,
+            _dimension_id(record.get("id"), label="players", row=position),
+            first,
+            second,
+            web,
+        ))
+    if not rows:
+        raise IngestValidationError("players file contains no usable rows")
+    return rows
