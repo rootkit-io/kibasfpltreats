@@ -12,6 +12,7 @@ import { AlertCircle, RefreshCw, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import ClubMark from "@/components/dashboard/ClubMark";
+import { useFdrOverrides } from "@/lib/fdrOverrides";
 import {
   getFixtures,
   patchFixtureFDR,
@@ -172,6 +173,9 @@ function tickerError(error: unknown): string {
 
 export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures: FixtureRow[] }) {
   const [fixtures, setFixtures] = useState<FdrFixture[]>([]);
+  /** Season the API resolved to; scopes personal overrides so a new season
+      starts clean instead of inheriting ratings for dead fixtures. */
+  const [season, setSeason] = useState("current");
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [selected, setSelected] = useState<SelectedFixture | null>(null);
@@ -205,6 +209,22 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
     { gameweek: number; direction: "ease" | "difficulty" } | null
   >(null);
   const [openGwMenu, setOpenGwMenu] = useState<number | null>(null);
+
+  /**
+   * Personal ratings. These sit ABOVE whatever the API returned, so a manager
+   * can re-rate a fixture for their own board without touching anyone else's
+   * and without needing admin rights.
+   */
+  const personal = useFdrOverrides(season);
+
+  /** Effective rating for a cell: personal override, else the API value. */
+  const effectiveFdr = useCallback(
+    (cell: TeamCell, teamId: number): FdrValue | null => {
+      const own = personal.get(cell.fixture.fixture_id, teamId);
+      return (own as FdrValue | null) ?? cell.fdr;
+    },
+    [personal],
+  );
 
 
   const hideGameweek = useCallback((gameweek: number) => {
@@ -327,6 +347,7 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
     setLoadError(null);
     try {
       const response = await getFixtures({ signal });
+      if (response.season) setSeason(response.season);
       replaceFixtures(() => response.fixtures);
     } catch (error) {
       if (error instanceof DOMException && error.name === "AbortError") return;
@@ -392,53 +413,23 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
     }
   };
 
-  const paintHoveredFixture = useCallback((fixture: HoveredFixture, value: FdrValue | null) => {
-    const mutationKey = `${fixture.fixtureId}:${fixture.targetTeamId}`;
-    const nextVersion = (mutationVersionRef.current.get(mutationKey) ?? 0) + 1;
-    mutationVersionRef.current.set(mutationKey, nextVersion);
-    const previousFdr = currentFixtureFdr(
-      fixturesRef.current,
-      fixture.fixtureId,
-      fixture.targetTeamId,
-    );
-
-    replaceFixtures((current) =>
-      updateSingleFixtureFdr(current, fixture.fixtureId, fixture.targetTeamId, value),
-    );
-    const nextHovered = { ...fixture, currentFdr: value };
-    hoveredFixtureRef.current = nextHovered;
-    setHoveredFixture(nextHovered);
-
-    void patchFixtureFDR({
-      fixture_id: fixture.fixtureId,
-      target_team_id: fixture.targetTeamId,
-      fdr_override: value,
-    }).catch((error: unknown) => {
-      if (
-        !mountedRef.current ||
-        mutationVersionRef.current.get(mutationKey) !== nextVersion
-      ) {
-        return;
-      }
-      replaceFixtures((current) =>
-        updateSingleFixtureFdr(
-          current,
-          fixture.fixtureId,
-          fixture.targetTeamId,
-          previousFdr,
-        ),
-      );
-      const revertedHovered = { ...fixture, currentFdr: previousFdr };
-      if (
-        hoveredFixtureRef.current?.fixtureId === fixture.fixtureId &&
-        hoveredFixtureRef.current.targetTeamId === fixture.targetTeamId
-      ) {
-        hoveredFixtureRef.current = revertedHovered;
-        setHoveredFixture(revertedHovered);
-      }
-      showToast("FDR update failed and was reverted.");
-    });
-  }, [replaceFixtures, showToast]);
+  /**
+   * Hover + 1-5 (or 0/Del) writes the PERSONAL rating.
+   *
+   * This used to PATCH the admin endpoint, so for anyone not on the allowlist
+   * it failed, reverted, and toasted "FDR update failed" -- painting was
+   * effectively admin-only. A difficulty read is a personal judgement, so it
+   * now writes locally: no network, no auth, nothing to revert.
+   */
+  const paintHoveredFixture = useCallback(
+    (fixture: HoveredFixture, value: FdrValue | null) => {
+      personal.setOverride(fixture.fixtureId, fixture.targetTeamId, value);
+      const nextHovered = { ...fixture, currentFdr: value };
+      hoveredFixtureRef.current = nextHovered;
+      setHoveredFixture(nextHovered);
+    },
+    [personal],
+  );
 
   /**
    * Rows actually rendered: hidden clubs removed, then ordered.
@@ -456,7 +447,7 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
     const ratingFor = (row: TeamRow): number | null => {
       const cells = row.fixtures.get(gameweek) ?? [];
       const ratings = cells
-        .map((cell) => cell.fdr)
+        .map((cell) => effectiveFdr(cell, row.id))
         .filter((value): value is FdrValue => value !== null);
       if (ratings.length === 0) return null;
       // A double gameweek is judged on its average difficulty.
@@ -472,7 +463,7 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
       if (a === b) return left.fullName.localeCompare(right.fullName);
       return direction === "ease" ? a - b : b - a;
     });
-  }, [matrix, hiddenTeams, sortByGameweek]);
+  }, [matrix, hiddenTeams, sortByGameweek, effectiveFdr]);
 
   paintHoveredFixtureRef.current = paintHoveredFixture;
 
@@ -633,7 +624,7 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
         </div>
       </header>
 
-      <div className="group/ticker scroll-thin max-h-[calc(100vh-12rem)] overflow-auto">
+      <div className="group/ticker scroll-thin max-h-[calc(100vh-8rem)] overflow-auto">
         <table
             className="border-collapse text-xs"
             style={{ minWidth: `${112 + visibleGameweeks.length * 64}px` }}
@@ -740,7 +731,7 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
               <tr key={row.id} className="group/row">
                 <th
                   scope="row"
-                  className="sticky left-0 z-20 w-44 min-w-44 border-b border-r border-zinc-800 bg-zinc-950 px-3 py-2 text-left font-mono text-xs font-semibold text-zinc-100 transition-opacity duration-150 motion-reduce:transition-none group-hover/ticker:opacity-35 group-hover/row:!opacity-100"
+                  className="sticky left-0 z-20 w-44 min-w-44 border-b border-r border-zinc-800 bg-zinc-950 px-3 py-1 text-left font-mono text-[11px] font-semibold text-zinc-100 transition-opacity duration-150 motion-reduce:transition-none group-hover/ticker:opacity-35 group-hover/row:!opacity-100"
                 >
                   <button
                     type="button"
@@ -760,9 +751,9 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
                       className="w-16 min-w-16 border-b border-r border-zinc-800 p-0 align-stretch transition-opacity duration-150 motion-reduce:transition-none group-hover/ticker:opacity-35 group-hover/row:!opacity-100"
                     >
                       {cells.length === 0 ? (
-                        <div className="flex min-h-14 items-center justify-center font-mono text-xs text-zinc-700">—</div>
+                        <div className="flex min-h-8 items-center justify-center font-mono text-[11px] text-zinc-700">—</div>
                       ) : (
-                        <div className="flex min-h-14 flex-col divide-y divide-zinc-800">
+                        <div className="flex min-h-8 flex-col divide-y divide-zinc-800">
                           {cells.map((cell) => (
                             <button
                               key={cell.fixture.fixture_id}
@@ -786,17 +777,17 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
                                   setHoveredFixture(null);
                                 }
                               }}
-                              aria-label={`${row.shortName} ${cell.isHome ? "home against" : "away at"} ${cell.opponent}, FDR ${cell.fdr ?? "unavailable"}`}
+                              aria-label={`${row.shortName} ${cell.isHome ? "home against" : "away at"} ${cell.opponent}, FDR ${effectiveFdr(cell, row.id) ?? "unavailable"}`}
                               className={cn(
-                                "relative flex min-h-14 w-full flex-1 flex-col items-center justify-center px-1 py-1 text-center transition-[filter,opacity] duration-150 motion-reduce:transition-none hover:brightness-125 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-100 focus-visible:ring-inset",
-                                fdrClass(cell.fdr),
+                                "relative flex min-h-8 w-full flex-1 flex-col items-center justify-center px-1 py-0.5 text-center leading-none transition-[filter,opacity] duration-150 motion-reduce:transition-none hover:brightness-125 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-100 focus-visible:ring-inset",
+                                fdrClass(effectiveFdr(cell, row.id)),
                               )}
                             >
-                              <span className={cn("text-[11px] font-semibold tracking-wide", !cell.isHome && "text-zinc-400")}>
+                              <span className={cn("text-[10px] font-semibold leading-tight tracking-wide", !cell.isHome && "text-zinc-400")}>
                                 {cell.isHome ? cell.opponent.toUpperCase() : cell.opponent.toLowerCase()}
                               </span>
-                              <span className="mt-0.5 font-mono text-xs tabular-nums">
-                                {cell.fdr ?? "—"}
+                              <span className="font-mono text-[10px] leading-tight tabular-nums">
+                                {effectiveFdr(cell, row.id) ?? "—"}
                               </span>
                             </button>
                           ))}
@@ -876,24 +867,25 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
           )}
 
           <div className="mt-4 grid gap-2">
+            {/* Saved to this browser, not the server: a difficulty read is
+                personal, so it needs no admin rights and no round-trip. */}
             <button
               type="button"
-              onClick={() => void saveOverride("one")}
-              disabled={saving !== null}
-              aria-busy={saving === "one"}
-              className="min-h-10 border border-zinc-100 bg-zinc-100 px-3 text-xs font-medium text-zinc-950 transition-colors hover:bg-zinc-300 disabled:cursor-wait disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-100 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+              onClick={() => {
+                personal.setOverride(
+                  selected.fixture.fixture_id,
+                  selected.teamId,
+                  selectedFdr,
+                );
+                closeEditor();
+              }}
+              className="min-h-10 border border-zinc-100 bg-zinc-100 px-3 text-xs font-medium text-zinc-950 transition-colors hover:bg-zinc-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-100 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
             >
-              {saving === "one" ? "Saving…" : "Apply only here"}
+              {selectedFdr === null ? "Clear my rating" : "Save my rating"}
             </button>
-            <button
-              type="button"
-              onClick={() => void saveOverride("pair")}
-              disabled={saving !== null}
-              aria-busy={saving === "pair"}
-              className="min-h-10 border border-zinc-700 px-3 text-xs font-medium text-zinc-200 transition-colors hover:border-zinc-500 hover:bg-zinc-900 disabled:cursor-wait disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-100 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
-            >
-              {saving === "pair" ? "Saving…" : `Apply to all matches vs ${selected.opponent}`}
-            </button>
+            <p className="text-center text-[10px] text-zinc-500">
+              Saved on this device · official FPL rating stays underneath
+            </p>
           </div>
         </div>
       )}
