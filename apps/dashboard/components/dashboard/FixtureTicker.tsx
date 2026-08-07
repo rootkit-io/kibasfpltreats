@@ -649,7 +649,17 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
                   <th
                     key={gameweek}
                     scope="col"
-                    className="sticky top-0 z-20 w-16 min-w-16 border-b border-r border-zinc-800 bg-zinc-950 px-1 py-2 text-center font-mono text-[11px] font-medium text-zinc-400 group-hover/ticker:opacity-55"
+                    className={cn(
+                      "sticky top-0 w-16 min-w-16 border-b border-r border-zinc-800 bg-zinc-950 px-1 py-2 text-center font-mono text-[11px] font-medium text-zinc-400",
+                      // While its menu is open the header must out-rank the
+                      // sticky team column. Both are z-20 and the column comes
+                      // later in the DOM, so on a tie the column painted OVER
+                      // the menu -- the options were visible but unclickable.
+                      openGwMenu === gameweek ? "z-50" : "z-20",
+                      // The dimming is a focus aid for the grid; inherited by
+                      // the menu it just made it look broken.
+                      openGwMenu === gameweek ? null : "group-hover/ticker:opacity-55",
+                    )}
                   >
                     <div className="relative">
                       <button
@@ -677,7 +687,7 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
                           role="menu"
                           aria-label={`Gameweek ${gameweek} options`}
                           onPointerDown={(event) => event.stopPropagation()}
-                          className="absolute left-1/2 top-full z-40 mt-1 w-52 -translate-x-1/2 border border-zinc-700 bg-zinc-950 text-left shadow-lg shadow-black/60"
+                          className="absolute left-1/2 top-full z-50 mt-1 w-52 -translate-x-1/2 border border-zinc-600 bg-[#0b0b0d] text-left opacity-100 shadow-xl shadow-black/80"
                         >
                           <p className="border-b border-zinc-800 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-zinc-500">
                             GW{gameweek}

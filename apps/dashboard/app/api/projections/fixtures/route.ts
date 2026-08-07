@@ -6,7 +6,7 @@
  * the client bundle or response.
  */
 
-import { auth } from "@clerk/nextjs/server";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -46,6 +46,37 @@ function normalized(value: unknown): string | null {
 function claimEmail(claims: SessionClaims): string | null {
   if (!claims) return null;
   return normalized(claims.email) ?? normalized(claims.email_address);
+}
+
+/**
+ * Resolve the signed-in user's email.
+ *
+ * Clerk's DEFAULT session token carries sub/sid/iat/exp/azp and nothing else --
+ * `email` is only present if a custom claim was added in the Clerk dashboard.
+ * Relying on the claim alone meant ADMIN_EMAIL could never match and every
+ * override attempt answered 403, even for the owner.
+ *
+ * The claim is still preferred because it is free; the Backend API is only
+ * called when the claim is absent, and a failure there degrades to "not
+ * allowed" rather than throwing.
+ */
+async function resolveUserEmail(
+  claims: SessionClaims,
+  userId: string,
+): Promise<string | null> {
+  const fromClaim = claimEmail(claims);
+  if (fromClaim) return fromClaim;
+
+  try {
+    const client = await clerkClient();
+    const user = await client.users.getUser(userId);
+    const primary = user.emailAddresses.find(
+      (address) => address.id === user.primaryEmailAddressId,
+    );
+    return normalized(primary?.emailAddress ?? user.emailAddresses[0]?.emailAddress);
+  } catch {
+    return null;
+  }
 }
 
 function error(message: string, status: number): NextResponse {
@@ -142,17 +173,23 @@ async function resolveCurrentSeason(token: string): Promise<string | NextRespons
     : error("fixture backend did not return a current season", 502);
 }
 
-function hasAdminAccess(claims: SessionClaims, orgRole: string | null | undefined): boolean | NextResponse {
+async function hasAdminAccess(
+  claims: SessionClaims,
+  orgRole: string | null | undefined,
+  userId: string,
+): Promise<boolean | NextResponse> {
   const allowedEmail = normalized(process.env.ADMIN_EMAIL);
   const allowedRole = normalized(process.env.ADMIN_ROLE);
   if (!allowedEmail && !allowedRole) {
     return error("admin authorization is not configured", 503);
   }
 
-  const emailAllowed =
-    allowedEmail !== null && claimEmail(claims) === allowedEmail;
   const roleAllowed = allowedRole !== null && normalized(orgRole) === allowedRole;
-  return emailAllowed || roleAllowed;
+  if (roleAllowed) return true;
+
+  if (allowedEmail === null) return false;
+  const email = await resolveUserEmail(claims, userId);
+  return email !== null && email === allowedEmail;
 }
 
 /**
@@ -216,9 +253,13 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
   const { userId, orgRole, sessionClaims, getToken } = await auth();
   if (!userId) return error("unauthorized", 401);
 
-  const authorized = hasAdminAccess(sessionClaims, orgRole);
+  const authorized = await hasAdminAccess(sessionClaims, orgRole, userId);
   if (authorized instanceof NextResponse) return authorized;
-  if (!authorized) return error("forbidden", 403);
+  if (!authorized) {
+    // Specific enough for the owner to self-diagnose, without revealing who
+    // is on the allowlist.
+    return error("this account is not on the admin allowlist", 403);
+  }
 
   const adminToken = process.env.ADMIN_API_TOKEN;
   if (!adminToken) return error("admin token is not configured", 503);
