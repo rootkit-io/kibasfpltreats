@@ -191,9 +191,75 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
   const [fromGameweek, setFromGameweek] = useState(1);
   const [toGameweek, setToGameweek] = useState(38);
 
+  /**
+   * Hidden columns/rows and per-gameweek sorting.
+   *
+   * Two separate undo stacks rather than one shared history: hiding a
+   * gameweek and hiding a club are different intents, and a single Undo makes
+   * you guess which one it will reverse. The live ticker splits them the same
+   * way ("Undo hidden GW" / "Restore team").
+   */
+  const [hiddenGameweeks, setHiddenGameweeks] = useState<number[]>([]);
+  const [hiddenTeams, setHiddenTeams] = useState<number[]>([]);
+  const [sortByGameweek, setSortByGameweek] = useState<
+    { gameweek: number; direction: "ease" | "difficulty" } | null
+  >(null);
+  const [openGwMenu, setOpenGwMenu] = useState<number | null>(null);
+
+
+  const hideGameweek = useCallback((gameweek: number) => {
+    setHiddenGameweeks((current) =>
+      current.includes(gameweek) ? current : [...current, gameweek],
+    );
+    setOpenGwMenu(null);
+  }, []);
+
+  const undoHiddenGameweek = useCallback(() => {
+    setHiddenGameweeks((current) => current.slice(0, -1));
+  }, []);
+
+  const hideTeam = useCallback((teamId: number) => {
+    setHiddenTeams((current) =>
+      current.includes(teamId) ? current : [...current, teamId],
+    );
+  }, []);
+
+  const restoreTeam = useCallback(() => {
+    setHiddenTeams((current) => current.slice(0, -1));
+  }, []);
+
+  // A dropdown that only closes by re-clicking its trigger feels broken, and
+  // an open menu inside a scroll container drifts away from its column.
+  useEffect(() => {
+    if (openGwMenu === null) return;
+    const dismiss = (event: Event) => {
+      if (event instanceof KeyboardEvent && event.key !== "Escape") return;
+      setOpenGwMenu(null);
+    };
+    document.addEventListener("keydown", dismiss);
+    document.addEventListener("pointerdown", dismiss);
+    return () => {
+      document.removeEventListener("keydown", dismiss);
+      document.removeEventListener("pointerdown", dismiss);
+    };
+  }, [openGwMenu]);
+
+  const resetView = useCallback(() => {
+    setHiddenGameweeks([]);
+    setHiddenTeams([]);
+    setSortByGameweek(null);
+    setFromGameweek(1);
+    setToGameweek(38);
+    setOpenGwMenu(null);
+  }, []);
+
+
   const visibleGameweeks = useMemo(
-    () => GAMEWEEKS.filter((gw) => gw >= fromGameweek && gw <= toGameweek),
-    [fromGameweek, toGameweek],
+    () =>
+      GAMEWEEKS.filter(
+        (gw) => gw >= fromGameweek && gw <= toGameweek && !hiddenGameweeks.includes(gw),
+      ),
+    [fromGameweek, toGameweek, hiddenGameweeks],
   );
 
   const setFrom = useCallback((next: number) => {
@@ -374,6 +440,40 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
     });
   }, [replaceFixtures, showToast]);
 
+  /**
+   * Rows actually rendered: hidden clubs removed, then ordered.
+   *
+   * Sorting keys on ONE gameweek's difficulty, matching how the control is
+   * invoked (from that column's header). A club with no fixture that week
+   * sinks to the bottom in both directions -- a blank is not "easy", and
+   * floating blanks to the top of an ease sort would be actively misleading.
+   */
+  const orderedRows = useMemo(() => {
+    const visible = matrix.filter((row) => !hiddenTeams.includes(row.id));
+    if (!sortByGameweek) return visible;
+
+    const { gameweek, direction } = sortByGameweek;
+    const ratingFor = (row: TeamRow): number | null => {
+      const cells = row.fixtures.get(gameweek) ?? [];
+      const ratings = cells
+        .map((cell) => cell.fdr)
+        .filter((value): value is FdrValue => value !== null);
+      if (ratings.length === 0) return null;
+      // A double gameweek is judged on its average difficulty.
+      return ratings.reduce((sum, value) => sum + value, 0) / ratings.length;
+    };
+
+    return [...visible].sort((left, right) => {
+      const a = ratingFor(left);
+      const b = ratingFor(right);
+      if (a === null && b === null) return left.fullName.localeCompare(right.fullName);
+      if (a === null) return 1;
+      if (b === null) return -1;
+      if (a === b) return left.fullName.localeCompare(right.fullName);
+      return direction === "ease" ? a - b : b - a;
+    });
+  }, [matrix, hiddenTeams, sortByGameweek]);
+
   paintHoveredFixtureRef.current = paintHoveredFixture;
 
   useEffect(() => {
@@ -486,8 +586,48 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
             )}
           </div>
 
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={undoHiddenGameweek}
+              disabled={hiddenGameweeks.length === 0}
+              className="border border-zinc-800 px-2 py-1.5 text-[11px] text-zinc-300 transition-colors hover:border-zinc-600 hover:text-zinc-100 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Undo hidden GW
+              {hiddenGameweeks.length > 0 && (
+                <span className="ml-1 font-mono text-zinc-500">{hiddenGameweeks.length}</span>
+              )}
+            </button>
+            <button
+              type="button"
+              onClick={restoreTeam}
+              disabled={hiddenTeams.length === 0}
+              className="border border-zinc-800 px-2 py-1.5 text-[11px] text-zinc-300 transition-colors hover:border-zinc-600 hover:text-zinc-100 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Restore team
+              {hiddenTeams.length > 0 && (
+                <span className="ml-1 font-mono text-zinc-500">{hiddenTeams.length}</span>
+              )}
+            </button>
+            <button
+              type="button"
+              onClick={() => setSortByGameweek(null)}
+              disabled={sortByGameweek === null}
+              className="border border-zinc-800 px-2 py-1.5 text-[11px] text-zinc-300 transition-colors hover:border-zinc-600 hover:text-zinc-100 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Original order
+            </button>
+            <button
+              type="button"
+              onClick={resetView}
+              className="border border-zinc-700 px-2 py-1.5 text-[11px] font-medium text-zinc-100 transition-colors hover:border-zinc-500 hover:bg-zinc-900"
+            >
+              Reset
+            </button>
+          </div>
+
           <div className="text-right font-mono text-[11px] text-zinc-400">
-            <p>{matrix.length} teams × {visibleGameweeks.length} gameweeks</p>
+            <p>{orderedRows.length} teams × {visibleGameweeks.length} gameweeks</p>
             <p className="mt-1 text-zinc-500">[Hover + 1–5 to paint · 0/Del to clear]</p>
           </div>
         </div>
@@ -503,30 +643,104 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
               <th className="sticky left-0 top-0 z-30 w-44 min-w-44 border-b border-r border-zinc-800 bg-zinc-950 px-3 py-2 text-left text-[11px] font-medium uppercase tracking-[0.12em] text-zinc-400">
                 Team
               </th>
-              {visibleGameweeks.map((gameweek) => (
-                <th
-                  key={gameweek}
-                  scope="col"
-                  className="sticky top-0 z-20 w-16 min-w-16 border-b border-r border-zinc-800 bg-zinc-950 px-1 py-2 text-center font-mono text-[11px] font-medium text-zinc-400 group-hover/ticker:opacity-55"
-                >
-                  {gameweek}
-                </th>
-              ))}
+              {visibleGameweeks.map((gameweek) => {
+                const sorted = sortByGameweek?.gameweek === gameweek;
+                return (
+                  <th
+                    key={gameweek}
+                    scope="col"
+                    className="sticky top-0 z-20 w-16 min-w-16 border-b border-r border-zinc-800 bg-zinc-950 px-1 py-2 text-center font-mono text-[11px] font-medium text-zinc-400 group-hover/ticker:opacity-55"
+                  >
+                    <div className="relative">
+                      <button
+                        type="button"
+                        aria-haspopup="menu"
+                        aria-expanded={openGwMenu === gameweek}
+                        onPointerDown={(event) => event.stopPropagation()}
+                        onClick={() =>
+                          setOpenGwMenu((current) => (current === gameweek ? null : gameweek))
+                        }
+                        className={cn(
+                          "inline-flex w-full items-center justify-center gap-1 px-1 py-0.5 transition-colors hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-100",
+                          sorted && "text-zinc-100",
+                        )}
+                        title={`GW${gameweek} options`}
+                      >
+                        {gameweek}
+                        <span aria-hidden className="text-[8px] leading-none text-zinc-600">
+                          {sorted ? (sortByGameweek?.direction === "ease" ? "▲" : "▼") : "•••"}
+                        </span>
+                      </button>
+
+                      {openGwMenu === gameweek && (
+                        <div
+                          role="menu"
+                          aria-label={`Gameweek ${gameweek} options`}
+                          onPointerDown={(event) => event.stopPropagation()}
+                          className="absolute left-1/2 top-full z-40 mt-1 w-52 -translate-x-1/2 border border-zinc-700 bg-zinc-950 text-left shadow-lg shadow-black/60"
+                        >
+                          <p className="border-b border-zinc-800 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-zinc-500">
+                            GW{gameweek}
+                          </p>
+                          <button
+                            type="button"
+                            role="menuitem"
+                            onClick={() => {
+                              setSortByGameweek({ gameweek, direction: "ease" });
+                              setOpenGwMenu(null);
+                            }}
+                            className="block w-full px-3 py-2 text-left transition-colors hover:bg-zinc-900"
+                          >
+                            <span className="block text-xs font-medium text-zinc-100">Sort by ease</span>
+                            <span className="block text-[10px] text-zinc-500">Easiest first</span>
+                          </button>
+                          <button
+                            type="button"
+                            role="menuitem"
+                            onClick={() => {
+                              setSortByGameweek({ gameweek, direction: "difficulty" });
+                              setOpenGwMenu(null);
+                            }}
+                            className="block w-full px-3 py-2 text-left transition-colors hover:bg-zinc-900"
+                          >
+                            <span className="block text-xs font-medium text-zinc-100">Sort by difficulty</span>
+                            <span className="block text-[10px] text-zinc-500">Hardest first</span>
+                          </button>
+                          <button
+                            type="button"
+                            role="menuitem"
+                            onClick={() => hideGameweek(gameweek)}
+                            className="block w-full border-t border-zinc-800 px-3 py-2 text-left transition-colors hover:bg-zinc-900"
+                          >
+                            <span className="block text-xs font-medium text-rose-300">Hide gameweek</span>
+                            <span className="block text-[10px] text-zinc-500">
+                              Remove GW{gameweek} from ticker
+                            </span>
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </th>
+                );
+              })}
             </tr>
           </thead>
           <tbody>
-            {matrix.map((row) => (
+            {orderedRows.map((row) => (
               <tr key={row.id} className="group/row">
                 <th
                   scope="row"
                   className="sticky left-0 z-20 w-44 min-w-44 border-b border-r border-zinc-800 bg-zinc-950 px-3 py-2 text-left font-mono text-xs font-semibold text-zinc-100 transition-opacity duration-150 motion-reduce:transition-none group-hover/ticker:opacity-35 group-hover/row:!opacity-100"
                 >
-                  <span className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => hideTeam(row.id)}
+                    title={`Hide ${row.fullName}`}
+                    className="flex w-full items-center gap-2 text-left transition-opacity hover:opacity-60 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-100"
+                  >
                     <ClubMark clubName={row.fullName} code={row.shortName} />
-                    <span className="truncate" title={row.fullName}>
-                      {row.fullName}
-                    </span>
-                  </span>
+                    <span className="truncate">{row.fullName}</span>
+                  </button>
                 </th>
                 {visibleGameweeks.map((gameweek) => {
                   const cells = row.fixtures.get(gameweek) ?? [];
