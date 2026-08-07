@@ -11,6 +11,7 @@ import {
 import { AlertCircle, RefreshCw, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import ClubMark from "@/components/dashboard/ClubMark";
 import {
   getFixtures,
   patchFixtureFDR,
@@ -33,6 +34,8 @@ type TeamCell = {
 type TeamRow = {
   id: number;
   shortName: string;
+  /** Full club name from `teams.name`; drives the club mark and the label. */
+  fullName: string;
   fixtures: Map<number, TeamCell[]>;
 };
 
@@ -60,6 +63,7 @@ function buildMatrix(fixtures: FdrFixture[]): TeamRow[] {
   const add = (
     teamId: number,
     teamName: string | null,
+    fullName: string | null | undefined,
     gameweek: number | null,
     cell: TeamCell,
   ) => {
@@ -67,6 +71,7 @@ function buildMatrix(fixtures: FdrFixture[]): TeamRow[] {
     const row = teams.get(teamId) ?? {
       id: teamId,
       shortName: teamName?.toUpperCase() || `TEAM ${teamId}`,
+      fullName: fullName || teamName || `Team ${teamId}`,
       fixtures: new Map<number, TeamCell[]>(),
     };
     const fixturesForGameweek = row.fixtures.get(gameweek) ?? [];
@@ -76,14 +81,14 @@ function buildMatrix(fixtures: FdrFixture[]): TeamRow[] {
   };
 
   for (const fixture of fixtures) {
-    add(fixture.team_h_id, fixture.team_h_short_name, fixture.gameweek, {
+    add(fixture.team_h_id, fixture.team_h_short_name, fixture.team_h_name, fixture.gameweek, {
       fixture,
       opponentId: fixture.team_a_id,
       opponent: fixture.team_a_short_name?.toUpperCase() || `TEAM ${fixture.team_a_id}`,
       isHome: true,
       fdr: fixture.team_h_fdr,
     });
-    add(fixture.team_a_id, fixture.team_a_short_name, fixture.gameweek, {
+    add(fixture.team_a_id, fixture.team_a_short_name, fixture.team_a_name, fixture.gameweek, {
       fixture,
       opponentId: fixture.team_h_id,
       opponent: fixture.team_h_short_name?.toUpperCase() || `TEAM ${fixture.team_h_id}`,
@@ -93,7 +98,7 @@ function buildMatrix(fixtures: FdrFixture[]): TeamRow[] {
   }
 
   return [...teams.values()].sort((left, right) =>
-    left.shortName.localeCompare(right.shortName),
+    left.fullName.localeCompare(right.fullName),
   );
 }
 
@@ -174,6 +179,32 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saving, setSaving] = useState<"one" | "pair" | null>(null);
   const [hoveredFixture, setHoveredFixture] = useState<HoveredFixture | null>(null);
+
+  /**
+   * Gameweek window. The grid is 38 columns wide, which is unreadable and
+   * mostly empty when a run only covers part of the season -- narrowing it is
+   * the single most useful control on the ticker.
+   *
+   * Clamped rather than validated: dragging "From" past "To" pushes the other
+   * end along instead of rejecting the input.
+   */
+  const [fromGameweek, setFromGameweek] = useState(1);
+  const [toGameweek, setToGameweek] = useState(38);
+
+  const visibleGameweeks = useMemo(
+    () => GAMEWEEKS.filter((gw) => gw >= fromGameweek && gw <= toGameweek),
+    [fromGameweek, toGameweek],
+  );
+
+  const setFrom = useCallback((next: number) => {
+    setFromGameweek(next);
+    setToGameweek((current) => (next > current ? next : current));
+  }, []);
+
+  const setTo = useCallback((next: number) => {
+    setToGameweek(next);
+    setFromGameweek((current) => (next < current ? next : current));
+  }, []);
   const [toast, setToast] = useState<string | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const dialogRef = useRef<HTMLDivElement | null>(null);
@@ -414,20 +445,65 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
             Home opponents are uppercase. Away opponents are muted lowercase. Click a fixture to edit its FDR.
           </p>
         </div>
-        <div className="text-right font-mono text-[11px] text-zinc-400">
-          <p>{matrix.length} teams × {GAMEWEEKS.length} gameweeks</p>
-          <p className="mt-1 text-zinc-500">[Hover + 1–5 to paint · 0/Del to clear]</p>
+        <div className="flex flex-wrap items-center gap-3">
+          {/* Gameweek window. Selects rather than a slider: managers think in
+              exact gameweek numbers ("GW5 to GW10"), not in ranges. */}
+          <div className="flex items-center gap-1.5 border border-zinc-800 px-2.5 py-1.5">
+            <span className="text-[10px] uppercase tracking-[0.12em] text-zinc-500">
+              Range
+            </span>
+            <label className="sr-only" htmlFor="ticker-from-gw">From gameweek</label>
+            <select
+              id="ticker-from-gw"
+              value={fromGameweek}
+              onChange={(event) => setFrom(Number(event.target.value))}
+              className="bg-zinc-950 px-1 py-0.5 font-mono text-[11px] text-zinc-100 outline-none focus-visible:ring-1 focus-visible:ring-zinc-100"
+            >
+              {GAMEWEEKS.map((gw) => (
+                <option key={gw} value={gw}>GW{gw}</option>
+              ))}
+            </select>
+            <span aria-hidden className="text-zinc-600">→</span>
+            <label className="sr-only" htmlFor="ticker-to-gw">To gameweek</label>
+            <select
+              id="ticker-to-gw"
+              value={toGameweek}
+              onChange={(event) => setTo(Number(event.target.value))}
+              className="bg-zinc-950 px-1 py-0.5 font-mono text-[11px] text-zinc-100 outline-none focus-visible:ring-1 focus-visible:ring-zinc-100"
+            >
+              {GAMEWEEKS.map((gw) => (
+                <option key={gw} value={gw}>GW{gw}</option>
+              ))}
+            </select>
+            {(fromGameweek !== 1 || toGameweek !== 38) && (
+              <button
+                type="button"
+                onClick={() => { setFromGameweek(1); setToGameweek(38); }}
+                className="ml-1 text-[10px] uppercase tracking-wide text-zinc-500 underline-offset-2 hover:text-zinc-100 hover:underline"
+              >
+                All
+              </button>
+            )}
+          </div>
+
+          <div className="text-right font-mono text-[11px] text-zinc-400">
+            <p>{matrix.length} teams × {visibleGameweeks.length} gameweeks</p>
+            <p className="mt-1 text-zinc-500">[Hover + 1–5 to paint · 0/Del to clear]</p>
+          </div>
         </div>
       </header>
 
       <div className="group/ticker scroll-thin max-h-[calc(100vh-12rem)] overflow-auto">
-        <table className="min-w-[2480px] border-collapse text-xs">
+        <table
+            className="border-collapse text-xs"
+            style={{ minWidth: `${112 + visibleGameweeks.length * 64}px` }}
+          >
           <thead>
             <tr>
-              <th className="sticky left-0 top-0 z-30 min-w-28 border-b border-r border-zinc-800 bg-zinc-950 px-3 py-2 text-left text-[11px] font-medium uppercase tracking-[0.12em] text-zinc-400">
+              <th className="sticky left-0 top-0 z-30 w-44 min-w-44 border-b border-r border-zinc-800 bg-zinc-950 px-3 py-2 text-left text-[11px] font-medium uppercase tracking-[0.12em] text-zinc-400">
                 Team
               </th>
-              {GAMEWEEKS.map((gameweek) => (
+              {visibleGameweeks.map((gameweek) => (
                 <th
                   key={gameweek}
                   scope="col"
@@ -443,11 +519,16 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
               <tr key={row.id} className="group/row">
                 <th
                   scope="row"
-                  className="sticky left-0 z-20 min-w-28 border-b border-r border-zinc-800 bg-zinc-950 px-3 py-2 text-left font-mono text-xs font-semibold text-zinc-100 transition-opacity duration-150 motion-reduce:transition-none group-hover/ticker:opacity-35 group-hover/row:!opacity-100"
+                  className="sticky left-0 z-20 w-44 min-w-44 border-b border-r border-zinc-800 bg-zinc-950 px-3 py-2 text-left font-mono text-xs font-semibold text-zinc-100 transition-opacity duration-150 motion-reduce:transition-none group-hover/ticker:opacity-35 group-hover/row:!opacity-100"
                 >
-                  {row.shortName}
+                  <span className="flex items-center gap-2">
+                    <ClubMark clubName={row.fullName} code={row.shortName} />
+                    <span className="truncate" title={row.fullName}>
+                      {row.fullName}
+                    </span>
+                  </span>
                 </th>
-                {GAMEWEEKS.map((gameweek) => {
+                {visibleGameweeks.map((gameweek) => {
                   const cells = row.fixtures.get(gameweek) ?? [];
                   return (
                     <td

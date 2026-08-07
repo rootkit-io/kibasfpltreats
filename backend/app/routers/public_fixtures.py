@@ -94,8 +94,10 @@ async def list_fixture_difficulties(
                f.finished,
                f.home_team_id AS team_h_id,
                home.short_name AS team_h_short_name,
+               home.name AS team_h_name,
                f.away_team_id AS team_a_id,
                away.short_name AS team_a_short_name,
+               away.name AS team_a_name,
                COALESCE(f.team_h_fdr_override, f.team_h_fdr_fpl) AS team_h_fdr,
                COALESCE(f.team_a_fdr_override, f.team_a_fdr_fpl) AS team_a_fdr
         FROM fixtures AS f

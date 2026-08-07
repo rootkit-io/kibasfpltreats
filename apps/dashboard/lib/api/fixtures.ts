@@ -62,6 +62,8 @@ export const fdrFixtureSchema = z
     kickoff_time: z.string().nullable(),
     finished: z.boolean(),
     team_h_id: z.number().int().positive(),
+    team_h_name: z.string().nullish(),
+    team_a_name: z.string().nullish(),
     team_h_short_name: z.string().nullable(),
     team_a_id: z.number().int().positive(),
     team_a_short_name: z.string().nullable(),
