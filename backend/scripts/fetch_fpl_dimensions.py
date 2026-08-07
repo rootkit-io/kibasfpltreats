@@ -6,6 +6,7 @@
 Writes three files in exactly the shape
 ``POST /api/v1/admin/projections/ingest-csvs`` already accepts:
 
+    gameweeks.csv         id, deadline_time, finished
     teams.csv             id, name, short_name
     players.csv           id, first_name, second_name, web_name
     fixtures_forecast.csv id, event, team_h, team_a, kickoff_time, finished,
@@ -77,6 +78,14 @@ def build(out_dir: Path, *, strict: bool = True) -> dict[str, int]:
         {"id": t["id"], "name": t["name"], "short_name": t.get("short_name")}
         for t in bootstrap["teams"]
     ]
+    gameweeks = [
+        {
+            "id": e["id"],
+            "deadline_time": e.get("deadline_time") or "",
+            "finished": bool(e.get("finished")),
+        }
+        for e in bootstrap["events"]
+    ]
     players = [
         {
             "id": e["id"],
@@ -118,6 +127,8 @@ def build(out_dir: Path, *, strict: bool = True) -> dict[str, int]:
         if missing_fdr:
             raise SystemExit(f"{len(missing_fdr)} fixtures have no FDR: {missing_fdr[:10]}")
 
+    _write_csv(out_dir / "gameweeks.csv",
+               ["id", "deadline_time", "finished"], gameweeks)
     _write_csv(out_dir / "teams.csv", ["id", "name", "short_name"], teams)
     _write_csv(out_dir / "players.csv",
                ["id", "first_name", "second_name", "web_name"], players)
@@ -127,13 +138,15 @@ def build(out_dir: Path, *, strict: bool = True) -> dict[str, int]:
 
     gameweeks = sorted({r["event"] for r in fixture_rows})
     print()
+    print(f"  gameweeks    : {len(gameweeks)}")
     print(f"  teams        : {len(teams)}")
     print(f"  players      : {len(players)}")
     print(f"  fixtures     : {len(fixture_rows)} across GW {min(gameweeks)}-{max(gameweeks)}"
           + (f"  ({dropped} unscheduled dropped)" if dropped else ""))
     print(f"  first deadline: {bootstrap['events'][0]['deadline_time']}")
     print(f"  last deadline : {bootstrap['events'][-1]['deadline_time']}")
-    return {"teams": len(teams), "players": len(players), "fixtures": len(fixture_rows)}
+    return {"gameweeks": len(gameweeks), "teams": len(teams),
+            "players": len(players), "fixtures": len(fixture_rows)}
 
 
 def main() -> int:
