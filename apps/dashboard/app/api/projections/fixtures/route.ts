@@ -155,8 +155,41 @@ function hasAdminAccess(claims: SessionClaims, orgRole: string | null | undefine
   return emailAllowed || roleAllowed;
 }
 
+/**
+ * CSRF same-origin check that survives a TLS-terminating reverse proxy.
+ *
+ * Comparing `Origin` to `nextUrl.origin` directly rejected EVERY legitimate
+ * request in production. Caddy terminates TLS and forwards over plain HTTP,
+ * so the app computes `nextUrl.origin` as `http://<host>` while the browser
+ * sends `Origin: https://<host>`. The scheme differs, the strings differ, and
+ * the request 403s before it ever reaches the auth check.
+ *
+ * Comparing HOSTS rather than full origins fixes it without weakening the
+ * guard: the browser sets `Origin` itself, so a page on another site still
+ * presents its own host and is still rejected. The proxy's `X-Forwarded-Host`
+ * is accepted alongside `Host` for deployments that rewrite it.
+ */
 function isSameOrigin(request: NextRequest): boolean {
-  return request.headers.get("origin") === request.nextUrl.origin;
+  const origin = request.headers.get("origin");
+  // Browsers always send Origin on a cross-origin-capable method like PATCH,
+  // so a missing header is treated as untrusted.
+  if (!origin) return false;
+
+  let originHost: string;
+  try {
+    originHost = new URL(origin).host;
+  } catch {
+    return false;
+  }
+
+  const allowed = new Set(
+    [
+      request.headers.get("x-forwarded-host"),
+      request.headers.get("host"),
+      request.nextUrl.host,
+    ].filter((value): value is string => Boolean(value)),
+  );
+  return allowed.has(originHost);
 }
 
 export async function GET(request: NextRequest): Promise<NextResponse> {

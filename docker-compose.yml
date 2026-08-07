@@ -109,6 +109,14 @@ services:
       NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:?set NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY in .env}
       CLERK_SECRET_KEY: ${CLERK_SECRET_KEY:?set CLERK_SECRET_KEY in .env}
       REDIS_URL: redis://redis:6379/0
+      # The ticker's FDR editor is an ADMIN action served from the public app,
+      # so its BFF route needs the same allowlist and upstream token the admin
+      # panel uses. Without these the PATCH handler answers 503 ("admin
+      # authorization is not configured") for everyone, including the owner.
+      # At least one of ADMIN_EMAIL / ADMIN_ROLE must be non-empty.
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+      ADMIN_ROLE: ${ADMIN_ROLE:-}
+      ADMIN_API_TOKEN: ${ADMIN_API_TOKEN:?set ADMIN_API_TOKEN in .env or the shell}
     depends_on:
       - backend
 
