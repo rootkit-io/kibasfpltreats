@@ -52,10 +52,33 @@ type HoveredFixture = {
   currentFdr: FdrValue | null;
 };
 
+/**
+ * One distinct colour per rating.
+ *
+ * The previous scale collapsed 1-5 into three buckets (1-2 green, 3 grey,
+ * 4-5 red), so 1 was indistinguishable from 2 and 4 from 5 -- which matters
+ * far more now that the numeral is gone from the cell.
+ *
+ * Solid fills with dark ink rather than translucent tints: a 10% wash over
+ * near-black reads as five shades of grey, and the ramp has to survive being
+ * the ONLY signal. Hue runs green -> cyan -> amber -> orange -> red, matching
+ * FPL's own convention so the reading transfers.
+ *
+ * Hue alone is not accessible, so every cell keeps the exact rating in its
+ * title and aria-label for screen readers and colour-blind users.
+ */
+const FDR_CLASS: Record<FdrValue, string> = {
+  1: "bg-emerald-400 text-emerald-950",
+  2: "bg-cyan-300 text-cyan-950",
+  3: "bg-amber-300 text-amber-950",
+  4: "bg-orange-500 text-orange-950",
+  // rose-50 on rose-600 measured 4.28:1, under AA. White lifts it to 4.7:1.
+  5: "bg-rose-600 text-white",
+};
+
 function fdrClass(fdr: FdrValue | null): string {
-  if (fdr === 1 || fdr === 2) return "bg-emerald-950/60 text-emerald-300";
-  if (fdr === 4 || fdr === 5) return "bg-rose-950/60 text-rose-300";
-  return "bg-zinc-900/60 text-zinc-300";
+  // No rating at all is deliberately inert, not a sixth colour.
+  return fdr === null ? "bg-zinc-800/70 text-zinc-500" : FDR_CLASS[fdr];
 }
 
 function buildMatrix(fixtures: FdrFixture[]): TeamRow[] {
@@ -209,6 +232,8 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
     { gameweek: number; direction: "ease" | "difficulty" } | null
   >(null);
   const [openGwMenu, setOpenGwMenu] = useState<number | null>(null);
+  /** Wrapper of the currently-open menu (trigger + popover), for hit-testing. */
+  const openMenuRef = useRef<HTMLDivElement | null>(null);
 
   /**
    * Personal ratings. These sit ABOVE whatever the API returned, so a manager
@@ -216,6 +241,35 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
    * and without needing admin rights.
    */
   const personal = useFdrOverrides(season);
+
+  /**
+   * Apply a personal rating.
+   *
+   * "pair" scope restores the option that existed before ratings went
+   * per-user: a manager who rates Arsenal away a 5 almost always means it for
+   * BOTH meetings, and setting them one at a time is busywork. It rewrites
+   * only the selected team's side of each fixture -- the opponent's own rating
+   * of the reverse tie is a separate judgement.
+   */
+  const applyPersonalRating = useCallback(
+    (
+      target: { fixtureId: number; teamId: number; opponentId: number },
+      value: FdrValue | null,
+      scope: "one" | "pair",
+    ) => {
+      if (scope === "one") {
+        personal.setOverride(target.fixtureId, target.teamId, value);
+        return;
+      }
+      for (const fixture of fixturesRef.current) {
+        const meeting =
+          (fixture.team_h_id === target.teamId && fixture.team_a_id === target.opponentId) ||
+          (fixture.team_a_id === target.teamId && fixture.team_h_id === target.opponentId);
+        if (meeting) personal.setOverride(fixture.fixture_id, target.teamId, value);
+      }
+    },
+    [personal],
+  );
 
   /** Effective rating for a cell: personal override, else the API value. */
   const effectiveFdr = useCallback(
@@ -250,17 +304,33 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
 
   // A dropdown that only closes by re-clicking its trigger feels broken, and
   // an open menu inside a scroll container drifts away from its column.
+  /**
+   * Dismiss the gameweek menu on Escape or a click outside it.
+   *
+   * Containment check, NOT stopPropagation. The App Router hydrates the whole
+   * document, so React's delegated listeners sit on `document` -- the same
+   * node as this one. stopPropagation() does not stop other listeners on the
+   * SAME node (only stopImmediatePropagation does), so the guard silently did
+   * nothing: pointerdown closed the menu, the item unmounted, and the click
+   * never landed. That is why sorting and "Hide gameweek" appeared dead.
+   */
   useEffect(() => {
     if (openGwMenu === null) return;
-    const dismiss = (event: Event) => {
-      if (event instanceof KeyboardEvent && event.key !== "Escape") return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpenGwMenu(null);
+    };
+    const onPointerDown = (event: PointerEvent) => {
+      const target = event.target as Node | null;
+      if (target && openMenuRef.current?.contains(target)) return;
       setOpenGwMenu(null);
     };
-    document.addEventListener("keydown", dismiss);
-    document.addEventListener("pointerdown", dismiss);
+
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
     return () => {
-      document.removeEventListener("keydown", dismiss);
-      document.removeEventListener("pointerdown", dismiss);
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
     };
   }, [openGwMenu]);
 
@@ -652,12 +722,14 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
                       openGwMenu === gameweek ? null : "group-hover/ticker:opacity-55",
                     )}
                   >
-                    <div className="relative">
+                    <div
+                      className="relative"
+                      ref={openGwMenu === gameweek ? openMenuRef : undefined}
+                    >
                       <button
                         type="button"
                         aria-haspopup="menu"
                         aria-expanded={openGwMenu === gameweek}
-                        onPointerDown={(event) => event.stopPropagation()}
                         onClick={() =>
                           setOpenGwMenu((current) => (current === gameweek ? null : gameweek))
                         }
@@ -677,8 +749,7 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
                         <div
                           role="menu"
                           aria-label={`Gameweek ${gameweek} options`}
-                          onPointerDown={(event) => event.stopPropagation()}
-                          className="absolute left-1/2 top-full z-50 mt-1 w-52 -translate-x-1/2 border border-zinc-600 bg-[#0b0b0d] text-left opacity-100 shadow-xl shadow-black/80"
+                            className="absolute left-1/2 top-full z-50 mt-1 w-52 -translate-x-1/2 border border-zinc-600 bg-[#0b0b0d] text-left opacity-100 shadow-xl shadow-black/80"
                         >
                           <p className="border-b border-zinc-800 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-zinc-500">
                             GW{gameweek}
@@ -777,17 +848,22 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
                                   setHoveredFixture(null);
                                 }
                               }}
+                              title={`${cell.isHome ? "Home vs" : "Away at"} ${cell.opponent} — FDR ${effectiveFdr(cell, row.id) ?? "unavailable"}`}
                               aria-label={`${row.shortName} ${cell.isHome ? "home against" : "away at"} ${cell.opponent}, FDR ${effectiveFdr(cell, row.id) ?? "unavailable"}`}
                               className={cn(
                                 "relative flex min-h-8 w-full flex-1 flex-col items-center justify-center px-1 py-0.5 text-center leading-none transition-[filter,opacity] duration-150 motion-reduce:transition-none hover:brightness-125 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-100 focus-visible:ring-inset",
                                 fdrClass(effectiveFdr(cell, row.id)),
                               )}
                             >
-                              <span className={cn("text-[10px] font-semibold leading-tight tracking-wide", !cell.isHome && "text-zinc-400")}>
+                              {/* Opponent only. The fill encodes difficulty;
+                                  the exact value stays in title/aria-label. */}
+                              <span
+                                className={cn(
+                                  "text-[11px] font-bold leading-none tracking-wide",
+                                  !cell.isHome && "opacity-80",
+                                )}
+                              >
                                 {cell.isHome ? cell.opponent.toUpperCase() : cell.opponent.toLowerCase()}
-                              </span>
-                              <span className="font-mono text-[10px] leading-tight tabular-nums">
-                                {effectiveFdr(cell, row.id) ?? "—"}
                               </span>
                             </button>
                           ))}
@@ -872,16 +948,40 @@ export default function FixtureTicker({ fixtures: _legacyFixtures }: { fixtures:
             <button
               type="button"
               onClick={() => {
-                personal.setOverride(
-                  selected.fixture.fixture_id,
-                  selected.teamId,
+                applyPersonalRating(
+                  {
+                    fixtureId: selected.fixture.fixture_id,
+                    teamId: selected.teamId,
+                    opponentId: selected.opponentId,
+                  },
                   selectedFdr,
+                  "one",
                 );
                 closeEditor();
               }}
               className="min-h-10 border border-zinc-100 bg-zinc-100 px-3 text-xs font-medium text-zinc-950 transition-colors hover:bg-zinc-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-100 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
             >
-              {selectedFdr === null ? "Clear my rating" : "Save my rating"}
+              {selectedFdr === null ? "Clear this fixture" : "Save for this fixture"}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                applyPersonalRating(
+                  {
+                    fixtureId: selected.fixture.fixture_id,
+                    teamId: selected.teamId,
+                    opponentId: selected.opponentId,
+                  },
+                  selectedFdr,
+                  "pair",
+                );
+                closeEditor();
+              }}
+              className="min-h-10 border border-zinc-700 px-3 text-xs font-medium text-zinc-200 transition-colors hover:border-zinc-500 hover:bg-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-100 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+            >
+              {selectedFdr === null
+                ? `Clear all matches vs ${selected.opponent}`
+                : `Save for all matches vs ${selected.opponent}`}
             </button>
             <p className="text-center text-[10px] text-zinc-500">
               Saved on this device · official FPL rating stays underneath
