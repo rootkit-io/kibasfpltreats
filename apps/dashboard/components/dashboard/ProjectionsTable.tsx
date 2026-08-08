@@ -22,12 +22,13 @@ import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } f
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { ArrowDown, ArrowUp, Download, Link2, Search, Star, X } from "lucide-react";
+import { ArrowDown, ArrowUp, Download, Link2, Pencil, Search, Star, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { TeamKit } from "@/components/ui/TeamKit";
 import type { ProjectionRow } from "@/lib/validations/projections";
 import { HEAT_CLASS, heatFor } from "@/lib/heat";
+import { useXgXaOverrides } from "@/lib/xgXaOverrides";
 import { useWatchlist } from "@/lib/watchlist";
 import { copyCurrentUrl, downloadCsv, toCsv } from "@/lib/export";
 import {
@@ -159,6 +160,20 @@ export default function ProjectionsTable({
   rows: ProjectionRow[];
   season?: string;
 }) {
+  const xgXa = useXgXaOverrides(season ?? "current");
+  /**
+   * Cell currently being edited: {playerId, field} or null.
+   * The input shows as an inline overlay so the table layout is undisturbed.
+   */
+  const [editingCell, setEditingCell] = useState<{
+    playerId: number; field: "xg" | "xa"; current: number | null;
+  } | null>(null);
+  const editInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (editingCell) editInputRef.current?.select();
+  }, [editingCell]);
+
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
@@ -462,7 +477,7 @@ export default function ProjectionsTable({
           <tbody className="row-focus">
             {padTop > 0 && <tr style={{ height: padTop }} />}
             {items.map((v) => {
-              const row = visible[v.index];
+              const row = effectiveRow(visible[v.index]);
               const share = best > 0 ? (row.xpts ?? 0) / best : 0;
               return (
                 <motion.tr
@@ -538,6 +553,33 @@ export default function ProjectionsTable({
                           />
                           {format(row[c.key as keyof RangeRow], c)}
                         </span>
+                      ) : (c.key === "xg" || c.key === "xa") && mode === "range" ? (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setEditingCell({
+                              playerId: row.player_id,
+                              field: c.key as "xg" | "xa",
+                              current: row[c.key] as number | null,
+                            })
+                          }
+                          className="group/edit inline-flex items-center gap-1 font-mono tabular-nums hover:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary"
+                          title={
+                            xgXa.overrides[row.player_id]?.[c.key as "xg" | "xa"] != null
+                              ? `My rate: ${xgXa.overrides[row.player_id][c.key as "xg" | "xa"]?.toFixed(2)}/GW (click to edit)`
+                              : `Model value — click to set your own`
+                          }
+                        >
+                          {format(row[c.key as keyof RangeRow], c)}
+                          <Pencil
+                            className={cn(
+                              "h-2.5 w-2.5 opacity-0 transition-opacity group-hover/edit:opacity-60",
+                              xgXa.overrides[row.player_id]?.[c.key as "xg" | "xa"] != null &&
+                                "opacity-40 text-primary",
+                            )}
+                            aria-hidden
+                          />
+                        </button>
                       ) : (
                         format(row[c.key as keyof RangeRow], c)
                       )}
@@ -555,6 +597,77 @@ export default function ProjectionsTable({
             {padBottom > 0 && <tr style={{ height: padBottom }} />}
           </tbody>
         </table>
+        {/* xG / xA inline editor */}
+        {editingCell && (() => {
+          const { playerId, field, current } = editingCell;
+          const rate = xgXa.overrides[playerId]?.[field] ?? null;
+          return (
+            <div
+              role="dialog"
+              aria-label={`Edit personal ${field.toUpperCase()} for player`}
+              className="sticky bottom-0 left-0 z-50 border-t border-primary/40 bg-zinc-950 px-4 py-3"
+            >
+              <p className="mb-2 text-xs font-medium text-zinc-100">
+                Set personal <span className="text-primary font-bold">{field.toUpperCase()}</span>
+                {" — enter a per-gameweek rate; the grid will show it multiplied by the window size."}
+              </p>
+              <div className="flex items-center gap-3">
+                <input
+                  ref={editInputRef}
+                  type="number"
+                  min="0"
+                  max="5"
+                  step="0.01"
+                  defaultValue={rate ?? (current != null ? (current / (visible[0]?.gameweeks.length || 1)) : "")}
+                  placeholder="per GW (e.g. 0.25)"
+                  className="w-36 border border-zinc-700 bg-zinc-900 px-2 py-1.5 font-mono text-xs text-zinc-100 outline-none focus:border-primary"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      const val = parseFloat((e.target as HTMLInputElement).value);
+                      if (!Number.isNaN(val) && val >= 0) {
+                        xgXa.set(playerId, field, val);
+                      }
+                      setEditingCell(null);
+                    }
+                    if (e.key === "Escape") setEditingCell(null);
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    const input = e.currentTarget.previousElementSibling as HTMLInputElement;
+                    const val = parseFloat(input.value);
+                    if (!Number.isNaN(val) && val >= 0) xgXa.set(playerId, field, val);
+                    setEditingCell(null);
+                  }}
+                  className="border border-zinc-100 bg-zinc-100 px-3 py-1.5 text-xs font-medium text-zinc-950 hover:bg-zinc-300"
+                >
+                  Save
+                </button>
+                {rate != null && (
+                  <button
+                    type="button"
+                    onClick={() => { xgXa.clear(playerId); setEditingCell(null); }}
+                    className="text-xs text-zinc-400 underline underline-offset-2 hover:text-zinc-100"
+                  >
+                    Clear override
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setEditingCell(null)}
+                  className="ml-auto text-zinc-500 hover:text-zinc-100"
+                  aria-label="Close editor"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+              <p className="mt-1.5 text-[10px] text-zinc-600">
+                Saved on this device · xPts is unchanged (model value)
+              </p>
+            </div>
+          );
+        })()}
 
         {visible.length === 0 && (
           <p className="px-4 py-12 text-center text-xs text-muted-foreground">

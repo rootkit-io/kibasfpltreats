@@ -34,12 +34,14 @@ try:
     from app.routers.admin_projections import router as ingest_router
     from app.routers.public_fixtures import router as fixtures_router
     from app.routers.public_simulations import router as simulations_router
+    from app.routers.user_fdr import router as user_fdr_router
 except ImportError:  # pragma: no cover - executed as a top-level module
     from .routers.admin_fixtures import router as admin_fixtures_router
     from .routers.admin_dimensions import router as dimensions_router
     from .routers.admin_projections import router as ingest_router
     from .routers.public_fixtures import router as fixtures_router
     from .routers.public_simulations import router as simulations_router
+    from .routers.user_fdr import router as user_fdr_router
 
 app.include_router(ingest_router)
 # Season dimension seeding, independent of any projection run.
@@ -49,3 +51,5 @@ app.include_router(admin_fixtures_router)
 # projections route it sits beside).
 app.include_router(simulations_router)
 app.include_router(fixtures_router)
+# Per-user FDR overrides -- Clerk-authed, no admin rights required.
+app.include_router(user_fdr_router)
