@@ -288,6 +288,17 @@ export default function ProjectionsTable({
         : { sort: key, dir: "desc" },
     );
 
+  /** Apply personal xG/xA rate overrides at render time. Does NOT touch xPts. */
+  const effectiveRow = useCallback(
+    (row: RangeRow): RangeRow => {
+      const ex = xgXa.effectiveXg(row.player_id, row.xg, row.gameweeks.length);
+      const ea = xgXa.effectiveXa(row.player_id, row.xa, row.gameweeks.length);
+      if (ex === row.xg && ea === row.xa) return row;
+      return { ...row, xg: ex, xa: ea };
+    },
+    [xgXa],
+  );
+
   const best = visible.length ? visible[0].xpts ?? 0 : 0;
 
   /** Exports exactly what is on screen: filtered, sorted, current columns. */
