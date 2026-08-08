@@ -504,10 +504,16 @@ def _teams_upsert_sql() -> str:
 
 def _players_upsert_sql() -> str:
     return (
-        "INSERT INTO players (season, id, first_name, second_name, web_name) "
-        "VALUES (%s, %s, %s, %s, %s) "
+        "INSERT INTO players "
+        "(season, id, first_name, second_name, web_name, now_cost, selected_by_percent) "
+        "VALUES (%s, %s, %s, %s, %s, %s, %s) "
         "ON CONFLICT (season, id) DO UPDATE "
         "SET first_name = EXCLUDED.first_name, "
         "    second_name = EXCLUDED.second_name, "
-        "    web_name = EXCLUDED.web_name"
+        "    web_name = EXCLUDED.web_name, "
+        # COALESCE, not a bare overwrite: re-seeding from an older export that
+        # predates these columns would otherwise wipe live prices to NULL.
+        "    now_cost = COALESCE(EXCLUDED.now_cost, players.now_cost), "
+        "    selected_by_percent = COALESCE(EXCLUDED.selected_by_percent, "
+        "                                   players.selected_by_percent)"
     )

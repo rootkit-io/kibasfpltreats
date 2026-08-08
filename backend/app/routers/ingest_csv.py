@@ -704,8 +704,17 @@ def team_dimension_tuples(frame: pd.DataFrame, season: str) -> list[tuple]:
     return rows
 
 
+def _optional_number(record: dict, column: str) -> float | None:
+    """Numeric cell that may be absent entirely from an older export."""
+    if column not in record:
+        return None
+    value = pd.to_numeric(record.get(column), errors="coerce")
+    return None if pd.isna(value) else float(value)
+
+
 def player_dimension_tuples(frame: pd.DataFrame, season: str) -> list[tuple]:
-    """(season, id, first_name, second_name, web_name) rows for `players`.
+    """(season, id, first_name, second_name, web_name, now_cost,
+    selected_by_percent) rows for `players`.
 
     `web_name` is NOT NULL in the schema, so a blank one falls back to the
     full name rather than writing an empty string that would then fail to
@@ -724,12 +733,16 @@ def player_dimension_tuples(frame: pd.DataFrame, season: str) -> list[tuple]:
             raise IngestValidationError(
                 f"players row {position} has neither a web_name nor a full name"
             )
+        now_cost = _optional_number(record, "now_cost")
+        ownership = _optional_number(record, "selected_by_percent")
         rows.append((
             season,
             _dimension_id(record.get("id"), label="players", row=position),
             first,
             second,
             web,
+            None if now_cost is None else int(now_cost),
+            ownership,
         ))
     if not rows:
         raise IngestValidationError("players file contains no usable rows")

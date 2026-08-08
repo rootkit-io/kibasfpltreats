@@ -8,7 +8,8 @@ Writes three files in exactly the shape
 
     gameweeks.csv         id, deadline_time, finished
     teams.csv             id, name, short_name
-    players.csv           id, first_name, second_name, web_name
+    players.csv           id, first_name, second_name, web_name,
+                          now_cost, selected_by_percent
     fixtures_forecast.csv id, event, team_h, team_a, kickoff_time, finished,
                           team_h_difficulty, team_a_difficulty
 
@@ -92,6 +93,9 @@ def build(out_dir: Path, *, strict: bool = True) -> dict[str, int]:
             "first_name": e.get("first_name"),
             "second_name": e.get("second_name"),
             "web_name": e.get("web_name"),
+            # FPL stores price in tenths of a million (55 => GBP 5.5m).
+            "now_cost": e.get("now_cost"),
+            "selected_by_percent": e.get("selected_by_percent"),
         }
         for e in bootstrap["elements"]
     ]
@@ -131,7 +135,8 @@ def build(out_dir: Path, *, strict: bool = True) -> dict[str, int]:
                ["id", "deadline_time", "finished"], gameweeks)
     _write_csv(out_dir / "teams.csv", ["id", "name", "short_name"], teams)
     _write_csv(out_dir / "players.csv",
-               ["id", "first_name", "second_name", "web_name"], players)
+               ["id", "first_name", "second_name", "web_name",
+                "now_cost", "selected_by_percent"], players)
     _write_csv(out_dir / "fixtures_forecast.csv",
                ["id", "event", "team_h", "team_a", "kickoff_time", "finished",
                 "team_h_difficulty", "team_a_difficulty"], fixture_rows)

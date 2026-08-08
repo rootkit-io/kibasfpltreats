@@ -57,6 +57,8 @@ interface Column {
   numeric?: boolean;
   digits?: number;
   percent?: boolean;
+  /** Appended after the formatted value, e.g. "%". */
+  suffix?: string;
   emphasis?: boolean;
   /** Hidden below this breakpoint to keep tablets usable. */
   hideUnder?: "sm" | "md" | "lg";
@@ -68,7 +70,7 @@ const COLUMNS: Column[] = [
   { key: "team_short", label: "Team", hideUnder: "sm" },
   { key: "position", label: "Pos" },
   { key: "price", label: "£", numeric: true, digits: 1 },
-  { key: "selected_by_pct", label: "Own", numeric: true, digits: 1, hideUnder: "lg" },
+  { key: "selected_by_pct", label: "Own%", numeric: true, digits: 1, suffix: "%", hideUnder: "lg" },
   { key: "fixtures", label: "Fx", numeric: true, digits: 0, hideUnder: "md" },
   { key: "expected_minutes", label: "xMins", numeric: true, digits: 0, hideUnder: "md" },
   { key: "xg", label: "xG", numeric: true, digits: 2, hideUnder: "lg" },
@@ -580,7 +582,8 @@ function format(value: unknown, column: Column): string {
   if (typeof value === "string") return value || "—";
   if (typeof value !== "number" || !Number.isFinite(value)) return "—";
   if (column.percent) return `${(value * 100).toFixed(0)}%`;
-  return value.toFixed(column.digits ?? 2);
+  const formatted = value.toFixed(column.digits ?? 2);
+  return column.suffix ? `${formatted}${column.suffix}` : formatted;
 }
 
 function GwSelect({
