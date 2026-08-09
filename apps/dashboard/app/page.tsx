@@ -143,8 +143,16 @@ export default async function DashboardPage() {
             the full gameweek horizon of the latest published run.
           </p>
         </div>
-        {/* UserButton renders the signed-in user's avatar + sign-out menu. */}
-        <UserButton />
+        <div className="flex items-center gap-3">
+          <a
+            href="/profile"
+            className="inline-flex items-center gap-1.5 rounded border border-border bg-card px-3 py-1.5 text-xs font-medium text-muted-foreground transition hover:border-primary/50 hover:text-foreground"
+          >
+            FPL Profile
+          </a>
+          {/* UserButton renders the signed-in user's avatar + sign-out menu. */}
+          <UserButton />
+        </div>
       </header>
 
       {result.status === "ok" ? (
