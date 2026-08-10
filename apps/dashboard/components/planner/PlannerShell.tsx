@@ -3,11 +3,11 @@
 /**
  * PlannerShell — root client component for the KFT Transfer Planner.
  *
- * Phase 3: full pitch wired in. PlannerPitch renders the squad with
- * framer-motion formation transitions, sub mode, and card actions.
+ * Phase 4: transfer market, transfer list, chip bar and captain modal
+ * wired into a two-column layout (pitch left, right panel tabs).
  */
 
-import { useCallback, useEffect, useMemo, useReducer, useRef } from "react";
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import {
   ChevronLeft,
   ChevronRight,
@@ -24,6 +24,10 @@ import { derivePlanStateForGw } from "@/lib/planner/derive";
 import { CHIP_DISPLAY } from "@/lib/planner/types";
 import type { PlannerBootstrap, FixtureData } from "@/lib/planner/types";
 import PlannerPitch from "@/components/planner/PlannerPitch";
+import TransferMarket from "@/components/planner/TransferMarket";
+import TransferList from "@/components/planner/TransferList";
+import ChipBar from "@/components/planner/ChipBar";
+import CaptainModal from "@/components/planner/CaptainModal";
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -45,13 +49,11 @@ function gwList(planningStartGw: number): number[] {
 
 // ── DeadlineClock ─────────────────────────────────────────────────────────────
 
-import { useState, useEffect as useEffectClock } from "react";
-
 function DeadlineClock({ deadlineMs }: { deadlineMs: number | null }) {
   const [remaining, setRemaining] = useState<string | null>(null);
   const [urgency, setUrgency] = useState<"ok" | "warn" | "crit">("ok");
 
-  useEffectClock(() => {
+  useEffect(() => {
     if (!deadlineMs) return;
     const tick = () => {
       const diff = deadlineMs - Date.now();
@@ -136,7 +138,11 @@ function ManagerForm({ onLoad, loading, error }: {
         </p>
       </div>
       <form
-        onSubmit={(e) => { e.preventDefault(); const n = parseInt(input.trim(), 10); if (Number.isFinite(n) && n > 0) onLoad(n); }}
+        onSubmit={(e) => {
+          e.preventDefault();
+          const n = parseInt(input.trim(), 10);
+          if (Number.isFinite(n) && n > 0) onLoad(n);
+        }}
         className="flex gap-2"
       >
         <input
@@ -145,8 +151,10 @@ function ManagerForm({ onLoad, loading, error }: {
           className="h-10 flex-1 rounded border border-border bg-background px-3 font-mono text-sm outline-none focus:border-primary"
           aria-label="FPL Manager ID"
         />
-        <button type="submit" disabled={loading || !input.trim()}
-          className="inline-flex h-10 items-center gap-2 rounded bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60">
+        <button
+          type="submit" disabled={loading || !input.trim()}
+          className="inline-flex h-10 items-center gap-2 rounded bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60"
+        >
           {loading && <Loader2 className="h-4 w-4 animate-spin" />}
           {loading ? "Loading…" : "Load Squad"}
         </button>
@@ -160,11 +168,16 @@ function ManagerForm({ onLoad, loading, error }: {
   );
 }
 
+// ── Right panel tab type ──────────────────────────────────────────────────────
+
+type RightTab = "transfers" | "market" | "captain";
+
 // ── Main component ────────────────────────────────────────────────────────────
 
 export default function PlannerShell({ initialManagerId }: { initialManagerId: number | null }) {
   const [state, dispatch] = useReducer(plannerReducer, initialPlannerState());
   const loadedIdRef = useRef<number | null>(null);
+  const [rightTab, setRightTab] = useState<RightTab>("transfers");
 
   // ── Load manager ────────────────────────────────────────────────────────────
 
@@ -193,6 +206,12 @@ export default function PlannerShell({ initialManagerId }: { initialManagerId: n
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // When modal opens, auto-switch right panel to the relevant tab
+  useEffect(() => {
+    if (state.activeModal === "transfer") setRightTab("market");
+    if (state.activeModal === "captain") setRightTab("captain");
+  }, [state.activeModal]);
+
   // ── Derived state ─────────────────────────────────────────────────────────
 
   const deriverInput = useMemo(() => ({
@@ -220,19 +239,20 @@ export default function PlannerShell({ initialManagerId }: { initialManagerId: n
   const gwIdx = gws.indexOf(state.planGw);
   const nextDeadlineMs = state.gwDeadlines[state.planGw] ?? null;
 
-  // ── xPts lookup (Phase 5 will use full CSV; for now use projection rows) ──
+  // xPts and fixture data — stubs until Phase 5 wires the CSV
   const getXpts = useCallback((_element: number, _gw: number): number | null => null, []);
   const isEdited = useCallback((_element: number, _gw: number): boolean => false, []);
-
-  // Fixture data will be wired in Phase 5; null gives no fixture pills
   const fixtureData: FixtureData | null = null;
+
+  // Planned transfer count badge for the Transfers tab
+  const gwTransferCount = state.transfers.filter((t) => t.gw === state.planGw).length;
 
   // ── Render ────────────────────────────────────────────────────────────────
 
   return (
     <div className="flex min-h-screen flex-col">
 
-      {/* Nav bar */}
+      {/* ── Nav bar ── */}
       <nav className="sticky top-0 z-30 flex items-center gap-3 border-b border-border bg-card/95 px-4 py-2.5 backdrop-blur">
         <a href="/" className="text-xs text-muted-foreground transition hover:text-foreground">
           ← Analytics
@@ -275,7 +295,11 @@ export default function PlannerShell({ initialManagerId }: { initialManagerId: n
                 {state.history.length > 0 && <span className="font-mono">{state.history.length}</span>}
               </button>
               <button
-                onClick={() => { if (confirm("Reset all planned transfers, chips and lineup changes?")) dispatch({ type: "RESET_PLAN" }); }}
+                onClick={() => {
+                  if (confirm("Reset all planned transfers, chips and lineup changes?")) {
+                    dispatch({ type: "RESET_PLAN" });
+                  }
+                }}
                 title="Reset plan"
                 className="inline-flex h-7 items-center gap-1.5 rounded border border-border px-2 text-xs text-muted-foreground transition hover:text-foreground"
               >
@@ -303,7 +327,7 @@ export default function PlannerShell({ initialManagerId }: { initialManagerId: n
         )}
       </nav>
 
-      {/* Bank bar */}
+      {/* ── Bank bar ── */}
       {derived && (
         <BankBar
           bank={derived.bank} ft={derived.ft} hits={derived.hits}
@@ -311,7 +335,7 @@ export default function PlannerShell({ initialManagerId }: { initialManagerId: n
         />
       )}
 
-      {/* Body */}
+      {/* ── Body ── */}
       <div className="flex-1">
         {state.loadStatus === "idle" || state.loadStatus === "error" ? (
           <ManagerForm onLoad={loadManager} loading={false} error={state.loadError || null} />
@@ -323,14 +347,70 @@ export default function PlannerShell({ initialManagerId }: { initialManagerId: n
             </div>
           </div>
         ) : derived ? (
-          <PlannerPitch
-            state={state}
-            derived={derived}
-            dispatch={dispatch}
-            fixtureData={fixtureData}
-            getXpts={getXpts}
-            isEdited={isEdited}
-          />
+          /* ── Two-column layout: pitch left, panel right ── */
+          <div className="grid grid-cols-1 gap-0 lg:grid-cols-[minmax(0,1fr)_360px]">
+
+            {/* Left: chip bar + pitch */}
+            <div className="border-r border-border/50">
+              <ChipBar state={state} dispatch={dispatch} />
+              <PlannerPitch
+                state={state}
+                derived={derived}
+                dispatch={dispatch}
+                fixtureData={fixtureData}
+                getXpts={getXpts}
+                isEdited={isEdited}
+              />
+            </div>
+
+            {/* Right: tabbed panel */}
+            <div className="flex flex-col border-t border-border/50 lg:border-t-0">
+              {/* Tab bar */}
+              <div className="flex border-b border-border">
+                {([
+                  ["transfers", `Transfers${gwTransferCount > 0 ? ` (${gwTransferCount})` : ""}`],
+                  ["market", "Market"],
+                  ["captain", "Captain"],
+                ] as [RightTab, string][]).map(([tab, label]) => (
+                  <button
+                    key={tab}
+                    onClick={() => setRightTab(tab)}
+                    className={cn(
+                      "flex-1 border-b-2 px-3 py-2.5 text-xs font-semibold transition",
+                      rightTab === tab
+                        ? "border-primary text-foreground"
+                        : "border-transparent text-muted-foreground hover:text-foreground",
+                    )}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Panel body */}
+              <div className="flex-1 overflow-hidden">
+                {rightTab === "transfers" && (
+                  <TransferList state={state} derived={derived} dispatch={dispatch} />
+                )}
+                {rightTab === "market" && (
+                  <TransferMarket
+                    state={state}
+                    derived={derived}
+                    dispatch={dispatch}
+                    getXpts={getXpts}
+                  />
+                )}
+                {rightTab === "captain" && (
+                  <CaptainModal
+                    state={state}
+                    derived={derived}
+                    dispatch={dispatch}
+                    getXpts={getXpts}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
         ) : null}
       </div>
     </div>
