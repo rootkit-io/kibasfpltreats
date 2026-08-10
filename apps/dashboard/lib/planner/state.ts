@@ -101,7 +101,7 @@ export type PlannerAction =
   | { type: "REMOVE_CHIP"; gw: number }
   | { type: "SET_CAPTAIN"; element: number; gw: number }
   | { type: "SET_VICE_CAPTAIN"; element: number; gw: number }
-  | { type: "CONFIRM_SUB"; fromElement: number; toElement: number; gw: number }
+  | { type: "CONFIRM_SUB"; fromElement: number; toElement: number; fromPos: number; toPos: number; gw: number }
   | { type: "SET_FT_OVERRIDE"; gw: number; ft: number }
   | { type: "UNDO" }
   | { type: "RESET_PLAN" }
@@ -363,21 +363,17 @@ export function plannerReducer(
 
     case "CONFIRM_SUB": {
       const gwKey = String(action.gw);
-      // Swap position slots between the two players
       const gwPlan = { ...(state.lineupPlan[gwKey] ?? {}) };
-      // We resolve current positions from the derived squad at call time;
-      // the component provides actual positions as fromElement/toElement positions.
-      // Here we just record the swap: the derived state will apply it.
-      // Positions are swapped in the component after confirming — we store
-      // the resulting position assignments directly.
-      // (The component dispatches with the resolved slot assignments already set.)
+      // Swap the position slots of the two players in the lineupPlan.
+      // fromPos and toPos come from the derived squad at dispatch time.
+      const fromPos = action.fromPos;
+      const toPos = action.toPos;
+      gwPlan[String(action.fromElement)] = toPos;
+      gwPlan[String(action.toElement)] = fromPos;
       return {
         ...state,
         history: pushHistory(state, "Substitution"),
-        lineupPlan: {
-          ...state.lineupPlan,
-          [gwKey]: gwPlan,
-        },
+        lineupPlan: { ...state.lineupPlan, [gwKey]: gwPlan },
         subMode: null,
         selectedCard: null,
       };
