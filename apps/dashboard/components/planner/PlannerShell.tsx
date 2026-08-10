@@ -3,16 +3,18 @@
 /**
  * PlannerShell — root client component for the KFT Transfer Planner.
  *
- * Phase 4: transfer market, transfer list, chip bar and captain modal
- * wired into a two-column layout (pitch left, right panel tabs).
+ * Phase 6: plan slots, PNG export, autofill, nav link all wired in.
  */
 
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import {
   ChevronLeft,
   ChevronRight,
+  Download,
+  FolderOpen,
   Loader2,
   RotateCcw,
+  Sparkles,
   Undo2,
   EyeOff,
   Eye,
@@ -21,14 +23,17 @@ import {
 import { cn } from "@/lib/utils";
 import { plannerReducer, initialPlannerState } from "@/lib/planner/state";
 import { derivePlanStateForGw } from "@/lib/planner/derive";
-import { CHIP_DISPLAY } from "@/lib/planner/types";
-import type { PlannerBootstrap, FixtureData } from "@/lib/planner/types";
-import { getXptsFromIndex, type XptsIndex } from "@/lib/planner/xpts";
+import { CHIP_DISPLAY, ELEMENT_TYPE_LABEL } from "@/lib/planner/types";
+import type { PlannerBootstrap, FixtureData, PlannerPick } from "@/lib/planner/types";
+import { getXptsFromIndex, extractGameweeks, type XptsIndex } from "@/lib/planner/xpts";
+import { autofill } from "@/lib/planner/autofill";
+import { exportSquadPng } from "@/lib/planner/export";
 import PlannerPitch from "@/components/planner/PlannerPitch";
 import TransferMarket from "@/components/planner/TransferMarket";
 import TransferList from "@/components/planner/TransferList";
 import ChipBar from "@/components/planner/ChipBar";
 import CaptainModal from "@/components/planner/CaptainModal";
+import PlanSlots from "@/components/planner/PlanSlots";
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -171,7 +176,7 @@ function ManagerForm({ onLoad, loading, error }: {
 
 // ── Right panel tab type ──────────────────────────────────────────────────────
 
-type RightTab = "transfers" | "market" | "captain";
+type RightTab = "transfers" | "market" | "captain" | "slots";
 
 // ── Main component ────────────────────────────────────────────────────────────
 
@@ -254,11 +259,116 @@ export default function PlannerShell({
       getXptsFromIndex(xptsIndex, element, gw),
     [xptsIndex],
   );
-  // isEdited stub — Phase 6 will wire scenario overrides
   const isEdited = useCallback((_element: number, _gw: number): boolean => false, []);
 
-  // Planned transfer count badge for the Transfers tab
+  // Planned transfer count badge
   const gwTransferCount = state.transfers.filter((t) => t.gw === state.planGw).length;
+
+  // ── Autofill ──────────────────────────────────────────────────────────────
+  const [autofillState, setAutofillState] = useState<"idle" | "running">("idle");
+  const [autofillProgress, setAutofillProgress] = useState("");
+  const autofillAbortRef = useRef<AbortController | null>(null);
+
+  const runAutofill = useCallback(async () => {
+    if (autofillState === "running") {
+      autofillAbortRef.current?.abort();
+      setAutofillState("idle");
+      setAutofillProgress("");
+      return;
+    }
+    const players = [...state.playerMap.values()];
+    if (!players.length) return;
+    const gameweeks = extractGameweeks(
+      // Create a minimal rows-like array from xptsIndex entries
+      [...xptsIndex.byPlayerGw.keys()].map((key) => {
+        const [, gwStr] = key.split(":");
+        return { gameweek_id: parseInt(gwStr, 10) } as { gameweek_id: number };
+      }),
+    );
+    const ctrl = new AbortController();
+    autofillAbortRef.current = ctrl;
+    setAutofillState("running");
+    setAutofillProgress("Starting…");
+
+    try {
+      const result = await autofill({
+        players,
+        xptsIndex,
+        gameweeks: gameweeks.slice(0, 5),
+        budget: 1000,
+        signal: ctrl.signal,
+        onProgress: (step, pct) => setAutofillProgress(`${step} (${pct}%)`),
+      });
+
+      if (ctrl.signal.aborted) return;
+
+      if (!result) {
+        setAutofillProgress("No valid squad found within £100m");
+        setTimeout(() => setAutofillProgress(""), 3000);
+        setAutofillState("idle");
+        return;
+      }
+
+      // Convert autofill result into PlannerPick array
+      // Order: GK×2, DEF×5, MID×5, FWD×3 → positions 1–15
+      const picks: PlannerPick[] = result.squad.map((player, i) => ({
+        element: player.id,
+        position: i + 1,
+        multiplier: 1,
+        isViceCaptain: false,
+        purchasePrice: player.now_cost,
+        sellingPrice: player.now_cost,
+      }));
+
+      // Set captain to slot 1 (best-scored player, since beam search ordered by score)
+      if (picks.length > 0) picks[0].multiplier = 2;
+      if (picks.length > 1) picks[1].isViceCaptain = true;
+
+      dispatch({
+        type: "LOAD_SUCCESS",
+        payload: {
+          bootstrap: { elements: players, teams: [...state.teamMap.values()], events: [], total_players: players.length },
+          picks: picks.map((p) => ({
+            element: p.element,
+            position: p.position,
+            multiplier: p.multiplier,
+            is_captain: p.multiplier >= 2,
+            is_vice_captain: p.isViceCaptain,
+            purchase_price: p.purchasePrice,
+            selling_price: p.sellingPrice,
+          })),
+          currentGw: state.currentGw,
+          planningStartGw: state.planningStartGw,
+          gwDeadlines: state.gwDeadlines,
+          bank: 1000 - result.totalCost,
+          freeTransfers: 1,
+          chipHistory: { wc: [], fh: [], bb: [], tc: [] },
+          currentActiveChip: null,
+          activeFreeHitGw: null,
+          preFreeHitPicks: null,
+          transfers: [],
+        },
+      });
+    } catch {
+      // aborted or failed — silently ignore
+    } finally {
+      setAutofillState("idle");
+      setAutofillProgress("");
+    }
+  }, [autofillState, state, xptsIndex, dispatch]);
+
+  // ── Export ────────────────────────────────────────────────────────────────
+  const [exporting, setExporting] = useState(false);
+
+  const handleExport = useCallback(async () => {
+    if (!derived || exporting) return;
+    setExporting(true);
+    try {
+      await exportSquadPng(state, derived, getXpts);
+    } finally {
+      setExporting(false);
+    }
+  }, [derived, exporting, state, getXpts]);
 
   // ── Render ────────────────────────────────────────────────────────────────
 
@@ -318,6 +428,34 @@ export default function PlannerShell({
               >
                 <RotateCcw className="h-3.5 w-3.5" />
               </button>
+
+              {/* Autofill */}
+              <button
+                onClick={runAutofill}
+                title={autofillState === "running" ? "Cancel autofill" : "Autofill best squad"}
+                className={cn(
+                  "inline-flex h-7 items-center gap-1.5 rounded border px-2 text-xs font-medium transition",
+                  autofillState === "running"
+                    ? "border-amber-400/40 text-amber-300 hover:border-amber-400/60"
+                    : "border-border text-muted-foreground hover:border-primary/50 hover:text-primary",
+                )}
+              >
+                {autofillState === "running"
+                  ? <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  : <Sparkles className="h-3.5 w-3.5" />}
+                {autofillState === "running" ? "Cancel" : "Autofill"}
+              </button>
+
+              {/* Export */}
+              <button
+                onClick={handleExport}
+                disabled={exporting || !derived}
+                title="Export squad as PNG"
+                className="inline-flex h-7 items-center gap-1.5 rounded border border-border px-2 text-xs text-muted-foreground transition hover:border-primary/50 hover:text-primary disabled:opacity-40"
+              >
+                {exporting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Download className="h-3.5 w-3.5" />}
+              </button>
+
               <button
                 onClick={() => dispatch({ type: "TOGGLE_HIDE_XPTS" })}
                 title={state.hideXpts ? "Show xPts" : "Hide xPts"}
@@ -384,6 +522,7 @@ export default function PlannerShell({
                   ["transfers", `Transfers${gwTransferCount > 0 ? ` (${gwTransferCount})` : ""}`],
                   ["market", "Market"],
                   ["captain", "Captain"],
+                  ["slots", "Slots"],
                 ] as [RightTab, string][]).map(([tab, label]) => (
                   <button
                     key={tab}
@@ -421,11 +560,21 @@ export default function PlannerShell({
                     getXpts={getXpts}
                   />
                 )}
+                {rightTab === "slots" && (
+                  <PlanSlots state={state} dispatch={dispatch} />
+                )}
               </div>
             </div>
           </div>
         ) : null}
       </div>
+
+      {/* Autofill progress toast */}
+      {autofillProgress && (
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 rounded border border-amber-400/30 bg-card px-4 py-2 font-mono text-xs text-amber-300 shadow-lg">
+          {autofillProgress}
+        </div>
+      )}
     </div>
   );
 }

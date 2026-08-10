@@ -105,6 +105,7 @@ export type PlannerAction =
   | { type: "SET_FT_OVERRIDE"; gw: number; ft: number }
   | { type: "UNDO" }
   | { type: "RESET_PLAN" }
+  | { type: "LOAD_PLAN_SLOT"; slot: import("./types").PlanSlot }
   | { type: "SELECT_CARD"; element: number | null }
   | { type: "ENTER_SUB_MODE"; element: number }
   | { type: "EXIT_SUB_MODE" }
@@ -422,6 +423,30 @@ export function plannerReducer(
         pendingTransferOut: null,
         activeModal: null,
       };
+
+    // ── Load plan slot ────────────────────────────────────────────────────────
+
+    case "LOAD_PLAN_SLOT": {
+      const s = action.slot;
+      return {
+        ...state,
+        origSquad: s.origSquad,
+        origBank: s.origBank,
+        origFreeTransfers: s.origFreeTransfers,
+        planGw: s.planGw,
+        transfers: s.transfers,
+        lineupPlan: s.lineupPlan,
+        captainPlan: s.captainPlan,
+        viceCaptainPlan: s.viceCaptainPlan,
+        chipPlan: s.chipPlan,
+        ftOverrides: s.ftOverrides,
+        history: [],
+        selectedCard: null,
+        subMode: null,
+        pendingTransferOut: null,
+        activeModal: null,
+      };
+    }
 
     // ── UI state ──────────────────────────────────────────────────────────────
 

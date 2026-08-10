@@ -145,6 +145,12 @@ export default async function DashboardPage() {
         </div>
         <div className="flex items-center gap-3">
           <a
+            href="/planner"
+            className="inline-flex items-center gap-1.5 rounded border border-border bg-card px-3 py-1.5 text-xs font-medium text-muted-foreground transition hover:border-primary/50 hover:text-foreground"
+          >
+            Planner
+          </a>
+          <a
             href="/profile"
             className="inline-flex items-center gap-1.5 rounded border border-border bg-card px-3 py-1.5 text-xs font-medium text-muted-foreground transition hover:border-primary/50 hover:text-foreground"
           >
