@@ -39,6 +39,7 @@ export const projectionRowSchema = z
     xg: num,
     xa: num,
     xpts: num,
+    defcon90: num,
     p_return: num,
     p_haul: num,
 

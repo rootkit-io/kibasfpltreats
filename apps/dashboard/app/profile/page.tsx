@@ -70,9 +70,21 @@ interface FplProfile {
   leagues: { classic: ClassicLeague[] };
 }
 
+interface FplTransfer {
+  event: number;
+  element_in: number;
+  element_in_name: string | null;
+  element_out: number;
+  element_out_name: string | null;
+  element_in_cost: number;
+  element_out_cost: number;
+  time: string;
+}
+
 interface ProfileData {
   profile: FplProfile;
   history: { current: GwHistory[]; past: PastSeason[]; chips: ChipPlay[] };
+  transfers: FplTransfer[];
   total_players: number | null;
 }
 
@@ -300,6 +312,147 @@ function CareerSection({ past }: { past: PastSeason[] }) {
           ))}
         </tbody>
       </table>
+    </div>
+  );
+}
+
+// ─── Insight Cards ────────────────────────────────────────────────────────────
+
+function InsightCards({ history, chips }: { history: GwHistory[]; chips: ChipPlay[] }) {
+  const chipLabelFull: Record<string, string> = {
+    wildcard: "Wildcard", freehit: "Free Hit", bboost: "Bench Boost",
+    "3xc": "Triple Captain", triplecaptain: "Triple Captain",
+    assistant_manager: "Asst. Manager", manager: "Asst. Manager",
+  };
+
+  const insights = useMemo(() => {
+    if (history.length < 2) return null;
+    let bestGain = { event: 0, diff: -Infinity };
+    let worstDrop = { event: 0, diff: Infinity };
+    for (let i = 1; i < history.length; i++) {
+      const diff = history[i - 1].overall_rank - history[i].overall_rank;
+      if (diff > bestGain.diff) bestGain = { event: history[i].event, diff };
+      if (diff < worstDrop.diff) worstDrop = { event: history[i].event, diff };
+    }
+    return { bestGain, worstDrop };
+  }, [history]);
+
+  return (
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+      {/* Best rank gain */}
+      <div className="border border-border bg-card px-4 py-3">
+        <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Best Rank Gain</p>
+        {insights && insights.bestGain.event > 0 ? (
+          <>
+            <p className="mt-1 font-mono text-2xl font-bold tabular-nums text-emerald-400">
+              GW{insights.bestGain.event}
+            </p>
+            <p className="mt-0.5 text-xs text-muted-foreground">
+              +{insights.bestGain.diff.toLocaleString()} places
+            </p>
+          </>
+        ) : (
+          <p className="mt-1 font-mono text-2xl font-bold text-muted-foreground">—</p>
+        )}
+      </div>
+
+      {/* Worst rank drop */}
+      <div className="border border-border bg-card px-4 py-3">
+        <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Worst Rank Drop</p>
+        {insights && insights.worstDrop.event > 0 ? (
+          <>
+            <p className="mt-1 font-mono text-2xl font-bold tabular-nums text-rose-400">
+              GW{insights.worstDrop.event}
+            </p>
+            <p className="mt-0.5 text-xs text-muted-foreground">
+              {insights.worstDrop.diff.toLocaleString()} places
+            </p>
+          </>
+        ) : (
+          <p className="mt-1 font-mono text-2xl font-bold text-muted-foreground">—</p>
+        )}
+      </div>
+
+      {/* Chips used */}
+      <div className="border border-border bg-card px-4 py-3">
+        <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Chips Used</p>
+        {chips.length === 0 ? (
+          <p className="mt-1 text-xs text-muted-foreground">No chips used yet</p>
+        ) : (
+          <div className="mt-1.5 flex flex-wrap gap-1.5">
+            {chips.map((chip, i) => {
+              const raw = String(chip.name ?? "").toLowerCase();
+              const label = chipLabelFull[raw] ?? raw.replace(/[_-]+/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+              return (
+                <span
+                  key={i}
+                  className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary"
+                >
+                  {label}
+                  {chip.event ? <span className="opacity-70">GW{chip.event}</span> : null}
+                </span>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── Transfer History ─────────────────────────────────────────────────────────
+
+function TransferHistory({ transfers }: { transfers: FplTransfer[] }) {
+  if (!transfers.length) return null;
+
+  // Group by event, most recent first
+  const byEvent = new Map<number, FplTransfer[]>();
+  for (const t of transfers) {
+    const bucket = byEvent.get(t.event);
+    if (bucket) bucket.push(t);
+    else byEvent.set(t.event, [t]);
+  }
+  const events = [...byEvent.keys()].sort((a, b) => b - a);
+
+  return (
+    <div className="border border-border bg-card">
+      <h3 className="border-b border-border px-4 py-2.5 text-sm font-semibold">
+        Transfer History
+        <span className="ml-2 font-mono text-xs font-normal text-muted-foreground">
+          {transfers.length} transfer{transfers.length !== 1 ? "s" : ""}
+        </span>
+      </h3>
+      <div className="divide-y divide-border/50">
+        {events.map((event) => {
+          const list = byEvent.get(event)!;
+          return (
+            <div key={event} className="px-4 py-2.5">
+              <p className="mb-1.5 font-mono text-[11px] font-bold text-muted-foreground">GW{event}</p>
+              <div className="flex flex-col gap-1.5">
+                {list.map((t, i) => (
+                  <div key={i} className="flex flex-wrap items-center gap-1.5 text-xs">
+                    <span className="inline-flex items-center gap-1 rounded bg-emerald-500/10 px-1.5 py-0.5 text-emerald-400">
+                      <span className="font-semibold">IN</span>
+                      {t.element_in_name ?? `#${t.element_in}`}
+                    </span>
+                    <span className="font-mono text-[10px] text-muted-foreground">
+                      £{(t.element_in_cost / 10).toFixed(1)}
+                    </span>
+                    <span className="text-muted-foreground/50">←</span>
+                    <span className="inline-flex items-center gap-1 rounded bg-rose-500/10 px-1.5 py-0.5 text-rose-400">
+                      <span className="font-semibold">OUT</span>
+                      {t.element_out_name ?? `#${t.element_out}`}
+                    </span>
+                    <span className="font-mono text-[10px] text-muted-foreground">
+                      £{(t.element_out_cost / 10).toFixed(1)}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -585,12 +738,22 @@ function ProfileInner() {
             </div>
           )}
 
+          {/* Insight cards + chip usage */}
+          {currentGw && currentGw.length > 0 && (
+            <InsightCards history={currentGw} chips={data.history.chips} />
+          )}
+
           {/* GW timeline */}
           {currentGw && currentGw.length > 0 && (
             <div className="border border-border bg-card px-4 py-3">
               <h3 className="mb-3 text-sm font-semibold">Gameweek Timeline</h3>
               <GwTimeline history={currentGw} managerId={managerId} />
             </div>
+          )}
+
+          {/* Transfer history */}
+          {data.transfers && data.transfers.length > 0 && (
+            <TransferHistory transfers={data.transfers} />
           )}
 
           {/* League standings */}

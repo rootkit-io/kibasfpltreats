@@ -14,11 +14,14 @@
 
 import { useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { BarChart3, CalendarDays, GitCompareArrows, Radar, Table2 } from "lucide-react";
+import { BarChart3, CalendarDays, ChartScatter, GitCompareArrows, Radar, Shield, Table2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import ProjectionsTable from "@/components/dashboard/ProjectionsTable";
 import RiskRewardScatter from "@/components/dashboard/RiskRewardScatter";
+import XgiScatterMap from "@/components/dashboard/XgiScatterMap";
+import DefconScatterMap from "@/components/dashboard/DefconScatterMap";
+import XptsComparePanel from "@/components/dashboard/XptsComparePanel";
 import BracketDistribution from "@/components/dashboard/BracketDistribution";
 import PlayerCompareModal from "@/components/dashboard/PlayerCompareModal";
 import XgiRadar from "@/components/dashboard/XgiRadar";
@@ -31,15 +34,18 @@ import {
   type SimulationRow,
 } from "@/lib/api/simulations";
 
-type View = "table" | "radar" | "risk" | "ticker" | "compare";
+type View = "table" | "radar" | "xgi_map" | "defcon_map" | "xpts_compare" | "risk" | "ticker" | "compare";
 
 /** `needs` gates tabs when the published run lacks simulation data. */
 const TABS: { key: View; label: string; icon: typeof Table2; needs?: "sim" }[] = [
   { key: "table", label: "Projections", icon: Table2 },
   { key: "radar", label: "xGI Radar", icon: Radar },
+  { key: "xgi_map", label: "xGI Map", icon: ChartScatter },
+  { key: "defcon_map", label: "Defensive Map", icon: Shield },
+  { key: "xpts_compare", label: "xPts Compare", icon: GitCompareArrows },
   { key: "risk", label: "Risk & Reward", icon: BarChart3, needs: "sim" },
   { key: "ticker", label: "Ticker", icon: CalendarDays },
-  { key: "compare", label: "Compare", icon: GitCompareArrows, needs: "sim" },
+  { key: "compare", label: "MC Compare", icon: BarChart3, needs: "sim" },
 ];
 
 export default function DashboardViews({
@@ -148,6 +154,18 @@ export default function DashboardViews({
           gameweek={radarGw ?? projectionGameweeks[0] ?? null}
           onGameweekChange={setRadarGw}
         />
+      )}
+
+      {view === "xgi_map" && (
+        <XgiScatterMap rows={rows} gameweeks={projectionGameweeks} />
+      )}
+
+      {view === "defcon_map" && (
+        <DefconScatterMap rows={rows} gameweeks={projectionGameweeks} />
+      )}
+
+      {view === "xpts_compare" && (
+        <XptsComparePanel rows={rows} gameweeks={projectionGameweeks} />
       )}
 
       {view === "ticker" && <FixtureTicker fixtures={fixtures} />}
