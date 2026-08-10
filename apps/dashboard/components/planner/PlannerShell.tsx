@@ -23,6 +23,7 @@ import { plannerReducer, initialPlannerState } from "@/lib/planner/state";
 import { derivePlanStateForGw } from "@/lib/planner/derive";
 import { CHIP_DISPLAY } from "@/lib/planner/types";
 import type { PlannerBootstrap, FixtureData } from "@/lib/planner/types";
+import { getXptsFromIndex, type XptsIndex } from "@/lib/planner/xpts";
 import PlannerPitch from "@/components/planner/PlannerPitch";
 import TransferMarket from "@/components/planner/TransferMarket";
 import TransferList from "@/components/planner/TransferList";
@@ -174,7 +175,15 @@ type RightTab = "transfers" | "market" | "captain";
 
 // ── Main component ────────────────────────────────────────────────────────────
 
-export default function PlannerShell({ initialManagerId }: { initialManagerId: number | null }) {
+export default function PlannerShell({
+  initialManagerId,
+  xptsIndex,
+  fixtureData,
+}: {
+  initialManagerId: number | null;
+  xptsIndex: XptsIndex;
+  fixtureData: FixtureData;
+}) {
   const [state, dispatch] = useReducer(plannerReducer, initialPlannerState());
   const loadedIdRef = useRef<number | null>(null);
   const [rightTab, setRightTab] = useState<RightTab>("transfers");
@@ -239,10 +248,14 @@ export default function PlannerShell({ initialManagerId }: { initialManagerId: n
   const gwIdx = gws.indexOf(state.planGw);
   const nextDeadlineMs = state.gwDeadlines[state.planGw] ?? null;
 
-  // xPts and fixture data — stubs until Phase 5 wires the CSV
-  const getXpts = useCallback((_element: number, _gw: number): number | null => null, []);
+  // Real xPts from server-fetched projection index
+  const getXpts = useCallback(
+    (element: number, gw: number): number | null =>
+      getXptsFromIndex(xptsIndex, element, gw),
+    [xptsIndex],
+  );
+  // isEdited stub — Phase 6 will wire scenario overrides
   const isEdited = useCallback((_element: number, _gw: number): boolean => false, []);
-  const fixtureData: FixtureData | null = null;
 
   // Planned transfer count badge for the Transfers tab
   const gwTransferCount = state.transfers.filter((t) => t.gw === state.planGw).length;
