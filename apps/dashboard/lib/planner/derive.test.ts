@@ -207,14 +207,14 @@ describe("derivePlanStateForGw — Wildcard", () => {
     expect(state7.squad.map((p) => p.element)).toContain(99);
   });
 
-  it("WC: FTs preserved + 1 next GW", () => {
+  it("WC: FTs preserved exactly — no +1 earned (matches KFT2627 original)", () => {
     const input = baseInput({
       freeTransfers: 2,
       chipPlan: { 6: "wc" },
       transfers: [transfer(6, 10, 99)],
     });
     const state7 = derivePlanStateForGw(7, input);
-    expect(state7.ft).toBe(3); // 2 + 1 (WC earns +1)
+    expect(state7.ft).toBe(2); // preserved, not 3
   });
 
   it("chip field is wc on the WC GW", () => {

@@ -90,14 +90,27 @@ describe("settleFreeTransferWeek — Wildcard", () => {
     expect(r.chargeableTransfers).toBe(0);
   });
 
-  it("WC: FTs preserved + 1 for next GW", () => {
+  it("WC: FTs preserved exactly — no +1 earned (matches KFT2627 original)", () => {
     const r = settleFreeTransferWeek({ openingFt: 2, transfersMade: 5, chip: "wc", openingUnlimited: false });
-    expect(r.nextFt).toBe(3);
+    expect(r.nextFt).toBe(2); // preserved, not 3
+  });
+
+  it("WC with 1 FT: preserved at 1, not incremented to 2", () => {
+    const r = settleFreeTransferWeek({ openingFt: 1, transfersMade: 11, chip: "wc", openingUnlimited: false });
+    expect(r.nextFt).toBe(1);
   });
 
   it("WC: FTs still capped at 5", () => {
     const r = settleFreeTransferWeek({ openingFt: 5, transfersMade: 2, chip: "wc", openingUnlimited: false });
     expect(r.nextFt).toBe(FREE_TRANSFER_CAP);
+  });
+
+  it("WC and FH behave identically for nextFt (both preserve opening)", () => {
+    const wc = settleFreeTransferWeek({ openingFt: 3, transfersMade: 7, chip: "wc", openingUnlimited: false });
+    const fh = settleFreeTransferWeek({ openingFt: 3, transfersMade: 7, chip: "fh", openingUnlimited: false });
+    expect(wc.nextFt).toBe(fh.nextFt);
+    expect(wc.hits).toBe(fh.hits);
+    expect(wc.chargeableTransfers).toBe(fh.chargeableTransfers);
   });
 });
 
@@ -173,11 +186,11 @@ describe("calculateFreeTransfersEnteringPlanningGw", () => {
     expect(calculateFreeTransfersEnteringPlanningGw(6, txByGw, emptyHistory, null)).toBe(FREE_TRANSFER_CAP);
   });
 
-  it("WC in GW3: preserves FTs + earns +1", () => {
+  it("WC in GW3: FTs preserved exactly — no +1 (matches KFT2627 original)", () => {
     const txByGw = { 2: 0, 3: 5 }; // 5 transfers on WC week
     const history = { ...emptyHistory, wc: [3] };
-    // enters GW2 with 1 FT, GW2: 0 tx → 2 FT, GW3 (WC): 2 preserved + 1 = 3
-    expect(calculateFreeTransfersEnteringPlanningGw(3, txByGw, history, null)).toBe(3);
+    // enters GW2 with 1 FT, GW2: 0 tx → 2 FT, GW3 (WC): 2 preserved (no +1) = 2
+    expect(calculateFreeTransfersEnteringPlanningGw(3, txByGw, history, null)).toBe(2);
   });
 
   it("FH in GW3: FTs preserved exactly (no +1)", () => {
@@ -192,10 +205,10 @@ describe("calculateFreeTransfersEnteringPlanningGw", () => {
     expect(calculateFreeTransfersEnteringPlanningGw(2, txByGw, emptyHistory, null)).toBe(1);
   });
 
-  it("currentActiveChip WC counts for the current locked GW", () => {
+  it("currentActiveChip WC counts for the current locked GW — FTs preserved (no +1)", () => {
     const txByGw = { 2: 10 };
-    // Active WC in GW2: 1 FT preserved + 1 = 2
+    // Active WC in GW2: enters GW2 with 1 FT, WC preserves it → 1
     const ft = calculateFreeTransfersEnteringPlanningGw(2, txByGw, emptyHistory, "wc");
-    expect(ft).toBe(2);
+    expect(ft).toBe(1);
   });
 });

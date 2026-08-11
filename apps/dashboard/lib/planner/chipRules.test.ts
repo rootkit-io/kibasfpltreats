@@ -60,6 +60,12 @@ describe("validateChipAssign", () => {
     expect((r as { ok: false; reason: string }).reason).toMatch(/GW1/);
   });
 
+  it("rejects WC in GW1 — initial transfers are unlimited", () => {
+    const r = validateChipAssign("wc", 1, empty, {}, 0);
+    expect(r.ok).toBe(false);
+    expect((r as { ok: false; reason: string }).reason).toMatch(/GW1/);
+  });
+
   it("rejects assigning chip when another chip is already planned for that GW", () => {
     const r = validateChipAssign("bb", 6, empty, { 6: "wc" }, 5);
     expect(r.ok).toBe(false);

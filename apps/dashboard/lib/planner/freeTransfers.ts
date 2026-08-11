@@ -21,10 +21,9 @@ export const FREE_TRANSFER_CAP = 5;
 
 export function clampFreeTransfers(value: number): number {
   const n = Number(value);
-  // Non-finite but valid numbers (Infinity, -Infinity) clamp to the range.
-  // Only NaN falls back to 0 before clamping.
+  // Only NaN falls back to 0 before clamping. No rounding — preserve exact values.
   const safe = Number.isNaN(n) ? 0 : n;
-  return Math.min(FREE_TRANSFER_CAP, Math.max(0, Math.round(safe)));
+  return Math.min(FREE_TRANSFER_CAP, Math.max(0, safe));
 }
 
 /**
@@ -58,14 +57,12 @@ export function settleFreeTransferWeek(input: FtWeekInput): FtWeekResult {
   const unlimited = openingUnlimited || chipUnlimited;
 
   if (unlimited) {
-    // Free Hit: FTs are unaffected — they carry to next GW unchanged.
-    // Wildcard: same; FTs preserved.
+    // Both WC and FH preserve the opening FT balance exactly — no +1 earned.
+    // Original KFT2627: return { ..., nextFt: opening, unlimited: true }
     return {
       hits: 0,
       chargeableTransfers: 0,
-      nextFt: chip === "fh"
-        ? clampFreeTransfers(opening)          // FH: preserve exact count
-        : clampFreeTransfers(opening + 1),     // WC: still earns +1 next GW
+      nextFt: clampFreeTransfers(opening),
     };
   }
 

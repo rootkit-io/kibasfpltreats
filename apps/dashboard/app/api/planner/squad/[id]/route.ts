@@ -194,6 +194,10 @@ export async function GET(
     let activeFreeHitGw: number | null = null;
     let preFreeHitPicks: FplPick[] | null = null;
 
+    // picksData is captured at outer scope so the FT supplement can read
+    // entry_history.event_transfers after the block.
+    let picksEventTransfers = 0;
+
     if (currentGw > 0) {
       const picksData = await fplFetch<{
         picks: FplPick[];
@@ -207,12 +211,24 @@ export async function GET(
 
       picks = picksData.picks ?? [];
       bankFromApi = picksData.entry_history?.bank ?? 0;
+      picksEventTransfers = Number(picksData.entry_history?.event_transfers ?? 0);
 
       const rawChip = picksData.active_chip;
       currentActiveChip = rawChip ? mapChipName(rawChip) : null;
 
-      // If active chip is Free Hit, the current API squad is temporary.
-      // We need the pre-FH squad so planning continues from the permanent squad.
+      // ── Fix 3: adjust bank for pending official transfers ─────────────────
+      // picksData.entry_history.bank reflects the squad as of currentGw. If the
+      // manager has committed future-GW transfers via the FPL app (pendingTx),
+      // those costs/proceeds are not yet reflected. Adjust the bank accordingly,
+      // matching KFT2627's loadPlanner() pendingTx bank correction.
+      const pendingTx = (transfers as FplTransferRecord[]).filter(
+        (t) => Number(t.event) > currentGw,
+      );
+      for (const tx of pendingTx) {
+        bankFromApi += (tx.element_out_cost ?? 0) - (tx.element_in_cost ?? 0);
+      }
+
+      // ── Live Free Hit detection ────────────────────────────────────────────
       if (currentActiveChip === "fh" && currentGw > 1) {
         activeFreeHitGw = currentGw;
         try {
@@ -234,19 +250,77 @@ export async function GET(
       if (code) chipHistory[code].push(chip.event);
     }
 
-    // ── Free transfer reconstruction ─────────────────────────────────────────
-    // Build txByGw from official transfer history (transfers newest-first)
+    // ── Fix 4: immediate post-Free-Hit detection ──────────────────────────────
+    // After an FH week ends and the next GW rolls in, active_chip is no longer
+    // "fh" but the locked picks are still the temporary FH squad. We detect this
+    // state and fetch the pre-FH permanent squad from GW-1 so future planning
+    // starts from the correct baseline.
+    // Matches KFT2627's isImmediatePostFreeHit detection in loadPlanner().
+    if (preFreeHitPicks === null && currentActiveChip !== "fh") {
+      const latestFhGw = chipHistory.fh.length
+        ? Math.max(...chipHistory.fh.map(Number))
+        : null;
+
+      if (latestFhGw !== null && latestFhGw === currentGw) {
+        // The most recent FH was played in the current (now finished) GW.
+        // Determine whether that event has already finished by checking whether
+        // the bootstrap reports a next event (meaning currentGw has locked).
+        const currentEvent = bootstrap.events.find((e) => e.id === currentGw);
+        const nextEvent = bootstrap.events.find((e) => e.is_next);
+        const currentEventFinished = !!(
+          currentEvent && (currentEvent.finished || nextEvent)
+        );
+
+        if (currentEventFinished) {
+          const revertSourceGw = latestFhGw - 1;
+          if (revertSourceGw > 0) {
+            try {
+              const revertData = await fplFetch<{ picks: FplPick[] }>(
+                `/entry/${managerId}/event/${revertSourceGw}/picks/`,
+              );
+              preFreeHitPicks = revertData.picks ?? null;
+              // Mark the FH GW so the client knows which squad is temporary.
+              activeFreeHitGw = latestFhGw;
+            } catch {
+              // Non-fatal: fall back to the API squad with a warning.
+              preFreeHitPicks = null;
+            }
+          }
+        }
+      }
+    }
+
+    // ── Fix 1 + 2: free transfer reconstruction ───────────────────────────────
+    // Build txByGw from the history endpoint (may lag for the current GW).
     const txByGw: Record<number, number> = {};
     for (const gw of historyData.current ?? []) {
       txByGw[gw.event] = gw.event_transfers;
     }
 
-    const freeTransfers = calculateFreeTransfersEnteringPlanningGw(
+    // Fix 1: supplement currentGw with picks.entry_history.event_transfers.
+    // The picks endpoint is always authoritative for the current locked GW;
+    // history.current can lag by several minutes after a transfer is made.
+    // Only override if the picks value is higher (never lower, to avoid
+    // replacing real history data with a stale 0).
+    if (currentGw > 0 && picksEventTransfers > (txByGw[currentGw] ?? 0)) {
+      txByGw[currentGw] = picksEventTransfers;
+    }
+
+    let freeTransfers = calculateFreeTransfersEnteringPlanningGw(
       currentGw,
       txByGw,
       chipHistory,
       currentActiveChip,
     );
+
+    // Fix 2: deduct transfers already committed via the FPL app for the
+    // planning GW. These consume FTs but haven't been walked by
+    // calculateFreeTransfersEnteringPlanningGw (which only walks completed GWs).
+    // Matches KFT2627's pendingForPlanGw deduction in loadPlanner().
+    const pendingForPlanGw = (transfers as FplTransferRecord[]).filter(
+      (t) => Number(t.event) > currentGw && Number(t.event) === planningStartGw,
+    );
+    freeTransfers = Math.max(0, freeTransfers - pendingForPlanGw.length);
 
     // ── Reconstruct purchase / selling prices ─────────────────────────────────
     const playerMap = new Map(

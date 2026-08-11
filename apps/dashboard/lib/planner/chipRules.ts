@@ -82,9 +82,9 @@ export function validateChipAssign(
     return { ok: false, reason: `GW${gw} is already completed.` };
   }
 
-  // Free Hit cannot be played in GW1.
-  if (chip === "fh" && gw === 1) {
-    return { ok: false, reason: "Free Hit cannot be used in GW1." };
+  // Free Hit and Wildcard cannot be played in GW1 (initial transfers are unlimited).
+  if ((chip === "fh" || chip === "wc") && gw === 1) {
+    return { ok: false, reason: `${chip === "wc" ? "Wildcard" : "Free Hit"} cannot be used in GW1 — initial transfers are unlimited.` };
   }
 
   // Only one chip per GW.
